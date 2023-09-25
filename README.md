@@ -17,13 +17,14 @@ Get Started
 Open command line and apply that steps:
 
 1. Step
- git clone https://github.com/mreorhan/Scrum-Task-Management-with-ReactJS-Express-Server/ scrumtaskmanagement
+ git clone branch sprint-v1
 
 2. Step
- cd scrumtaskmanagement
- npm install
- npm start
+ cd <project path>
+ npm run install
+ npm run start
  
+
 3. Step
  You can start working on any explorer window.
 ```
@@ -31,7 +32,7 @@ Open command line and apply that steps:
 
 HTTP Request
 -----------
-http://localhost:5000/tasks
+http://localhost:3001/tasks
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
