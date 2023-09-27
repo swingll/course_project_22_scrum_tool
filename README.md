@@ -17,7 +17,8 @@ Get Started
 Open command line and apply that steps:
 
 1. Step
- git clone branch sprint-v1
+ git clone 
+ use branch sprint-v1 or create new branch from sprint-v1 for sel-development
  install MongoDB
 
 2. Step
