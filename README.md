@@ -31,7 +31,6 @@ Open command line and apply that steps:
 
 HTTP Request
 -----------
-http://localhost:5000/tasks
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
