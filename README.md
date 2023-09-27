@@ -17,20 +17,21 @@ Get Started
 Open command line and apply that steps:
 
 1. Step
- git clone https://github.com/mreorhan/Scrum-Task-Management-with-ReactJS-Express-Server/ scrumtaskmanagement
+ git clone branch sprint-v1
+ install MongoDB
 
 2. Step
- cd scrumtaskmanagement
- npm install
- npm start
- 
-3. Step
- You can start working on any explorer window.
-```
+ open server\helper\db.js and eidt the connection to mongoDB if your mongoDB connection is non-local
+ cd <project path>
+ npm run install
+ npm run start  
 
+3. remark
+server api port: 3001
 
 HTTP Request
 -----------
+http://localhost:3000/
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
