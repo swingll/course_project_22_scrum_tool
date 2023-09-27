@@ -18,21 +18,20 @@ Open command line and apply that steps:
 
 1. Step
  git clone branch sprint-v1
+ install MongoDB
 
 2. Step
+ open server\helper\db.js and eidt the connection to mongoDB if your mongoDB connection is non-local
  cd <project path>
  npm run install
- npm run start
- 
+ npm run start  
 
-3. Step
- You can start working on any explorer window.
-```
-
+3. remark
+server api port: 3001
 
 HTTP Request
 -----------
-http://localhost:3001/tasks
+http://localhost:3000/
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
