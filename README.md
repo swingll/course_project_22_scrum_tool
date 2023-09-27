@@ -43,14 +43,6 @@ http://localhost:3000/
 | /users | `POST` | {'username':'emreorhan', 'name':'Emre', lastName:'Orhan', createdBy:ObjectId, profilePhoto:'emre.jpg' } | Create a new user. |
 | /story | `GET` | Empty | List all projects. |
   
-  Contributing
-------------
 
-See [Contributors](CONTRIBUTORS.md).
 
-[npm-image]: https://img.shields.io/npm/v/react-toastr.svg?style=flat-square
-[npm-url]: https://www.npmjs.org/package/react-toastr
 
-[npm-passing-image]: https://travis-ci.org/caolan/async.svg?branch=master
-[npm-passing-url]: https://travis-ci.org/caolan/async
-### [Online Demo](https://scrum-agile-task-manager.firebaseapp.com/)
