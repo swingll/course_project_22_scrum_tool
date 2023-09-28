@@ -33,6 +33,8 @@ Open command line and apply that steps:
 
 3. remark
 server api port: 3001
+Frontend: https://react.dev
+Backend: https://expressjs.com
 
 HTTP Request
 -----------
