@@ -19,6 +19,8 @@ Open command line and apply that steps:
 1. Step
  install node js 16
  #Alternative install nvm to manage node version
+ https://github.com/nvm-sh/nvm
+ https://github.com/coreybutler/nvm-windows
  git clone 
  use branch sprint-v1 or create new branch from sprint-v1 for sel-development
  install MongoDB
