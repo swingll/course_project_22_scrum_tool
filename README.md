@@ -25,7 +25,7 @@ Open command line and apply that steps:
 2. Step
  open server\helper\db.js and eidt the connection to mongoDB if your mongoDB connection is non-local
  cd <project path>
- npm run install
+ npm install
  npm run start  
 
 3. remark

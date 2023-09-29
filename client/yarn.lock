@@ -10883,6 +10883,11 @@
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
 
+"typescript@*":
+  "integrity" "sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-5.2.2.tgz"
+  "version" "5.2.2"
+
 "ua-parser-js@^0.7.9":
   "integrity" "sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA=="
   "resolved" "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.18.tgz"
