@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-mongoose.Promise = global.Promise;
+const db = require('../models/index.js');
 
 module.exports = () => {
 
@@ -11,15 +9,15 @@ module.exports = () => {
     const options = { useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true };
     
     // open MonogoDB connection
-    mongoose.connect(uri, options);
+    db.mongoose.connect(uri, options);
 
     // connection open listener
-    mongoose.connection.on('open', () => {
+    db.mongoose.connection.on('open', () => {
         console.log('Connection OK');
     });
 
     // connection error listener
-    mongoose.connection.on('error', (err) => {
+    db.mongoose.connection.on('error', (err) => {
         console.log('Connection Fail', err);
     });
 
