@@ -3,13 +3,14 @@ const db = require('../../models');
 const ROLES = ['admin', 'user', 'developer', 'reviewer'];
 const User = db.user;
 
-isUserExisted = (req, res) => {
+isUserExisted = (req, res, next) => {    
     // make sure username and email is not empty
     if (!req.body.username || !req.body.email) {
         res.status(500).send({ message: 'Username and email cannot be empty' });
         return;
     }
 
+    // check the email format
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)) {
         res.status(500).send({ message: 'Invalid email format' });
         return;
@@ -39,11 +40,13 @@ isUserExisted = (req, res) => {
                 res.status(400).send({ message: 'Email is already in use' });
                 return;
             }
+
+            next();
         });
     });
 };
   
-isRolesExisted = (req, res) => {
+isRolesExisted = (req, res, next) => {
     const roles = (req.body.roles && Array.isArray(req.body.roles) && req.body.roles.length > 1) ? req.body.roles : ['user'];
 
     for (let i = 0; i < roles.length; i++) {
@@ -52,6 +55,8 @@ isRolesExisted = (req, res) => {
             return;
         }
     }
+
+    next();
 };
 
 module.exports = { isUserExisted, isRolesExisted };

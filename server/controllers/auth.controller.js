@@ -6,8 +6,14 @@ const { jwt: { JWT_SECRET } } = require('../helpers/auth');
 const User = db.user;
 const Role = db.role;
 
-exports.signup = (req, res) => {
+exports.signup = (req, res) => {    
     // make sure username and email is not empty
+    if (!req.body.email && !req.body.username) {
+        res.status(500).send({ message: 'Email and username at least one of them cannot be empty' });
+        return;
+    }
+
+    // make sure password is not empty
     if (!req.body.password) {
         res.status(500).send({ message: 'Password cannot be empty' });
         return;

@@ -4,26 +4,10 @@ const controller = require('../controllers/auth.controller');
 var express = require('express');
 var router = express.Router();
 
-router.post('/signup', async (req, res) => {
-  // check is the user existed
-  await auth.isUserExisted(req, res);
+router.post('/signup', [auth.isUserExisted, auth.isRolesExisted, controller.signup]);
 
-  if (res.statusCode !== 200) return;
+router.post('/signin', [controller.signin]);
 
-  // check is the role existed
-  await auth.isRolesExisted(req, res);
-
-  if (res.statusCode !== 200) return;
-
-  controller.signup(req, res);
-});
-
-router.post('/signin', (req, res) => {
-  controller.signin(req, res);
-});
-
-router.post('/signout', (req, res) => {
-  controller.signout(req, res)
-});
+router.post('/signout', [controller.signout]);
 
 module.exports = router;
