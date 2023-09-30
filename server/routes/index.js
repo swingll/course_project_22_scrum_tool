@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Test MongoDB',details: 'To test, send post request with postman  to http://localhost:3000/users page.',author:'@mreorhan' });
+  res.render('index', {
+    title: 'CS5351 Group Project - 22Team',
+    details: `Scrum & Agile Task Management Tool Database (MonogoDB)`,
+    author: '@22Team'
+  });
 });
 
 module.exports = router;
