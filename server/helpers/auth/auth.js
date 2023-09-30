@@ -3,7 +3,8 @@ const db = require('../../models');
 const ROLES = ['admin', 'user', 'developer', 'reviewer'];
 const User = db.user;
 
-isUserExisted = (req, res, next) => {    
+isUserExisted = (req, res, next) => {
+    console.log(req)
     // make sure username and email is not empty
     if (!req.body.username || !req.body.email) {
         res.status(500).send({ message: 'Username and email cannot be empty' });

@@ -1,12 +1,12 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
-const db = require('../models');
 const { jwt: { JWT_SECRET } } = require('../helpers/auth');
+const db = require('../models');
 const User = db.user;
 const Role = db.role;
 
-exports.signup = (req, res) => {    
+exports.signup = (req, res) => {
     // make sure username and email is not empty
     if (!req.body.email && !req.body.username) {
         res.status(500).send({ message: 'Email and username at least one of them cannot be empty' });
@@ -26,24 +26,36 @@ exports.signup = (req, res) => {
     });
 
     user.save((err, user) => {
-        if (err) return;
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
 
         if (req.body.roles) {
             Role.find({
                 name: { $in: req.body.roles },
             }, (err, roles) => {
-                if (err)  return;
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
 
                 user.roles = roles.map((role) => role._id);
                 user.save((err) => {
-                    if (err) return;
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
 
                     res.send({ message: "User is registered successfully" });
                 });
             });
         } else {
             Role.findOne({ name: "user" }, (err, role) => {
-                if (err) return;
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
 
                 user.roles = [role._id];
                 user.save((err) => {
