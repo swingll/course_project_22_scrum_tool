@@ -3,7 +3,7 @@ const db = require('../../models');
 const ROLES = ['admin', 'user', 'developer', 'reviewer'];
 const User = db.user;
 
-isExistedUser = (req, res, next) => {
+isUserExisted = (req, res, next) => {
     // search username in db
     User.findOne({
         username: req.body.username
@@ -53,4 +53,4 @@ isExistedRoles = (req, res, next) => {
     next();
 };
 
-module.exports = { isExistedUser, isExistedUser };
+module.exports = { isUserExisted, isExistedRoles };
