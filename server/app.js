@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tasksRouter = require('./routes/tasks');
 var storiesRouter = require('./routes/story');
-const db = require('./helper/db')()
+const db = require('./helpers/db')()
 var app = express();
 
 // view engine setup
