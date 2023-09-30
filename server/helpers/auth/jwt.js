@@ -21,7 +21,14 @@ verifyToken = (req, res, next) => {
 
         req.userId = decoded.id;
         // req.session = { token };
-        next();
+
+        User.findById(req.userId).exec((err, user) => {
+          if (err) return res.status(500).send({ message: err });
+      
+          if (!user) return res.status(403).send({ message: 'Invalid Credential' });
+
+          next();
+        });
       });
   } else {
     return res.status(500).send({ message: 'No authorization included' });

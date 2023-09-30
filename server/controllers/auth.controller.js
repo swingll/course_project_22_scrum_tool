@@ -31,31 +31,16 @@ exports.signup = (req, res) => {
             return;
         }
 
-        if (req.body.roles) {
-            Role.find({
-                name: { $in: req.body.roles },
-            }, (err, roles) => {
+        Role.findOne({ name: "user" }, (err, role) => {
+            if (err) return res.status(500).send({ message: err });
+
+            user.roles = [role._id];
+            user.save((err) => {
                 if (err) return res.status(500).send({ message: err });
 
-                user.roles = roles.map((role) => role._id);
-                user.save((err) => {
-                    if (err) return res.status(500).send({ message: err });
-
-                    res.send({ message: "User is registered successfully" });
-                });
+                res.send({ message: "User is registered successfully" });
             });
-        } else {
-            Role.findOne({ name: "user" }, (err, role) => {
-                if (err) return res.status(500).send({ message: err });
-
-                user.roles = [role._id];
-                user.save((err) => {
-                    if (err) return res.status(500).send({ message: err });
-
-                    res.send({ message: "User is registered successfully" });
-                });
-            });
-        }
+        });
     });
 };
 

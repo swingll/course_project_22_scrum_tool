@@ -38,24 +38,19 @@ isUserExisted = (req, res, next) => {
 };
   
 isRolesExisted = (req, res, next) => {
-    const _roles = req.body.roles;
+    const _role = req.body.role;
 
-    if (!_roles || !Array.isArray(_roles) || _roles.length == 0)
+    if (!_role)
         return res.status(500).send({ message: 'Roles cannot be empty' });
 
-    Role.find()
-        .exec((err, roles) => {
-            if (err) return res.status(500).send({ message: err });
+    Role.find().exec((err, roles) => {
+        if (err) return res.status(500).send({ message: err });
 
-            const remain = _roles.filter(role => !roles.includes(role));
+        if (roles.includes(_role))
+            return res.status(404).send({ message: `Role ${remain.split(', ')} does not exist`});
 
-            if (remain.length > 0)
-                return res.status(404).send({ message: `Role ${remain.split(', ')} does not exist`});
-
-            next();
-        });
-
-    next();
+        next();
+    });
 };
 
 module.exports = { isUserExisted, isRolesExisted };
