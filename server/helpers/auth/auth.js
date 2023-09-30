@@ -40,7 +40,7 @@ isUserExisted = (req, res, next) => {
     });
 };
   
-isExistedRoles = (req, res, next) => {
+isRolesExisted = (req, res, next) => {
     if (req.body.roles) {
         for (let i = 0; i < req.body.roles.length; i++) {
             if (!ROLES.includes(req.body.roles[i])) {
@@ -53,4 +53,4 @@ isExistedRoles = (req, res, next) => {
     next();
 };
 
-module.exports = { isUserExisted, isExistedRoles };
+module.exports = { isUserExisted, isRolesExisted };
