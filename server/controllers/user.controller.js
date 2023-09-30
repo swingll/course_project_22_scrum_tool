@@ -6,30 +6,24 @@ const User = db.user;
 const Role = db.role;
 
 exports.users = (req, res) => {    
-    const users = User.find();
+    User.find().exec((err, user) => {
+        if (err) return res.status(500).send({ message: err });
+
+        res.json(user);
+    });
 };
 
 exports.edit = (req, res) => {
     // if password is empty
-    if (!req.body.password) {
-        res.status(500).send({ message: 'Password cannot be empty' });
-        return;
-    }
+    if (!req.body.password) return res.status(500).send({ message: 'Password cannot be empty' });
 
     User.findById(req.userId).exec((err, user) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        console.log(user.password)
+        if (err) return res.status(500).send({ message: err });
+
         user.password = bcrypt.hashSync(req.body.password, 8)
-        console.log(user.password)
 
         user.save((err) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
+            if (err) return res.status(500).send({ message: err });
 
             res.status(200).send({ message: 'Password have been changed' });
         });

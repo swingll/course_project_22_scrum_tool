@@ -35,34 +35,22 @@ exports.signup = (req, res) => {
             Role.find({
                 name: { $in: req.body.roles },
             }, (err, roles) => {
-                if (err) {
-                    res.status(500).send({ message: err });
-                    return;
-                }
+                if (err) return res.status(500).send({ message: err });
 
                 user.roles = roles.map((role) => role._id);
                 user.save((err) => {
-                    if (err) {
-                        res.status(500).send({ message: err });
-                        return;
-                    }
+                    if (err) return res.status(500).send({ message: err });
 
                     res.send({ message: "User is registered successfully" });
                 });
             });
         } else {
             Role.findOne({ name: "user" }, (err, role) => {
-                if (err) {
-                    res.status(500).send({ message: err });
-                    return;
-                }
+                if (err) return res.status(500).send({ message: err });
 
                 user.roles = [role._id];
                 user.save((err) => {
-                    if (err) {
-                        res.status(500).send({ message: err });
-                        return;
-                    }
+                    if (err) return res.status(500).send({ message: err });
 
                     res.send({ message: "User is registered successfully" });
                 });
@@ -73,16 +61,12 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     // make sure username and email is not empty
-    if (!req.body.email && !req.body.username) {
-        res.status(500).send({ message: 'Email and username at least one of them cannot be empty' });
-        return;
-    }
+    if (!req.body.email && !req.body.username)
+        return res.status(500).send({ message: 'Email and username at least one of them cannot be empty' });
 
     // make sure username and password is not empty
-    if (!req.body.password) {
-        res.status(500).send({ message: 'Password cannot be empty' });
-        return;
-    }
+    if (!req.body.password)
+        return res.status(500).send({ message: 'Password cannot be empty' });
 
     const query = req.body.email ? { email: req.body.email } : { username: req.body.username };
 
@@ -91,18 +75,16 @@ exports.signin = (req, res) => {
       .exec((err, user) => {
         if (err) return;
 
-        if (!user) {
+        if (!user)
             return res.status(404).send({ message: "User Not found." });
-        }
 
         var isValidPassword = bcrypt.compareSync(
             req.body.password,
             user.password
         );
 
-        if (!isValidPassword) {
+        if (!isValidPassword)
             return res.status(401).send({ message: "Invalid Password" });
-        }
 
         const token = jwt.sign({ id: user.id },
             JWT_SECRET,
@@ -114,9 +96,8 @@ exports.signin = (req, res) => {
 
         var authorities = [];
 
-        for (let i = 0; i < user.roles.length; i++) {
+        for (let i = 0; i < user.roles.length; i++)
             authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-        }
 
         req.session = { token };
 
