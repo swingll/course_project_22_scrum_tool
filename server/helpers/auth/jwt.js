@@ -3,14 +3,14 @@ const db = require('../../models');
 const User = db.user;
 const Role = db.role;
 
+const JWT_SECRET = process.env.JWT_SECRET || 'SrV7fUl8S3xqgsRjDGOtpGqn9pXgqZIGdwgCbP4uLFn3bjXGEJB2xD9JpzS1c9h';
+
 verifyToken = (req, res, next) => {
     let token = req.session.token;
 
     if (!token) return res.status(403).send({ message: 'No token provided!' });
 
-    const secret = process.env.JWT_SECRET || 'SrV7fUl8S3xqgsRjDGOtpGqn9pXgqZIGdwgCbP4uLFn3bjXGEJB2xD9JpzS1c9h';
-
-    jwt.verify( token, secret,
+    jwt.verify( token, JWT_SECRET,
         (err, decoded) => {
             if (err) return res.status(401).send({ message: 'Unauthorized' });
             req.userId = decoded.id;
@@ -72,4 +72,4 @@ isDeveloper = (req, res, next) => {
     });
 };
 
-module.exports = { verifyToken, isAdmin, isDeveloper };
+module.exports = { verifyToken, JWT_SECRET, isAdmin, isDeveloper };
