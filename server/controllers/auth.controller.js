@@ -54,15 +54,22 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    // make sure username and password is not empty
-    if (!req.body.username || !req.body.password) {
-        res.status(500).send({ message: 'Username and Password cannot be empty' });
+    // make sure username and email is not empty
+    if (!req.body.email && !req.body.username) {
+        res.status(500).send({ message: 'Email and username at least one of them cannot be empty' });
         return;
     }
 
-    User.findOne({
-        username: req.body.username,
-    }).populate("roles", "-__v")
+    // make sure username and password is not empty
+    if (!req.body.password) {
+        res.status(500).send({ message: 'Password cannot be empty' });
+        return;
+    }
+
+    const query = req.body.email ? { email: req.body.email } : { username: req.body.username };
+
+    User.findOne(query)
+      .populate("roles", "-__v")
       .exec((err, user) => {
         if (err) return;
 
