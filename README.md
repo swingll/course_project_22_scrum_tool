@@ -13,7 +13,7 @@ Get Started
 ```
 Open command line and apply that steps:
 
-1. Step
+1. Environment Setup
  install node js 16
  #Alternative install nvm to manage node version
  https://github.com/nvm-sh/nvm
@@ -22,13 +22,17 @@ Open command line and apply that steps:
  use branch sprint-v1 or create new branch from sprint-v1 for sel-development
  install MongoDB
 
-2. Step
- open server\helper\db.js and eidt the connection to mongoDB if your mongoDB connection is non-local
+2. Installation
  cd <project path>
  npm install
- npm run start  
 
-3. remark
+3. Project Setup
+ cd server && cp .env.example .env && cd ..
+
+4. Test Run
+ npm run start
+
+5. remark
 server api port: 3001
 Frontend: https://react.dev
 Backend: https://expressjs.com
