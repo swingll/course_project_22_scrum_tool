@@ -53,4 +53,4 @@ isExistedRoles = (req, res, next) => {
     next();
 };
 
-module.exports = { checkDuplicateUsernameOrEmail, checkRolesExisted };;
+module.exports = { isExistedUser, isExistedUser };
