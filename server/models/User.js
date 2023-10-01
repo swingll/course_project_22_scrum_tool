@@ -46,6 +46,18 @@ const UserSchema = new Schema({
         type: String,
         default: 'default.jpg'
     },
+
+    // Created At
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    // Updated At
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 })
 
 module.exports = mongoose.model('user',UserSchema);

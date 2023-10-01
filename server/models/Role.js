@@ -8,6 +8,18 @@ const RoleSchema = new Schema({
         required: true,
         unique: [ true, "Role name already exist" ]
     },
+    
+    // Created At
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    // Updated At
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 })
 
 module.exports = mongoose.model('role', RoleSchema);
