@@ -3,13 +3,15 @@ var bcrypt = require('bcryptjs');
 
 const db = require('../models');
 const User = db.user;
-const Role = db.role;
 
 exports.user = (req, res) => {
     const _id = req.query.id;
 
-    User.findOne({ _id }).exec((err, user) => {
+    User.findById(_id).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
+
+        if (!user)
+            return res.status(404).send({ message: 'User not found' });
 
         res.json(user);
     });
@@ -31,7 +33,11 @@ exports.edit = (req, res) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
 
-        user.password = bcrypt.hashSync(req.body.password, 8)
+        if (!user)
+            return res.status(404).send({ message: 'User not found' });
+
+        user.password = bcrypt.hashSync(req.body.password, 8);
+        user.updatedAt = Date.now();
 
         user.save((err) => {
             if (err) return res.status(500).send({ message: err });
@@ -44,7 +50,7 @@ exports.edit = (req, res) => {
 exports.delete = (req, res) => {
     const _id = req.params.id;
 
-    User.deleteOne({ _id }).exec((err, ret) => {
+    User.findByIdAndRemove(_id).exec((err, ret) => {
         if (err) return res.status(500).send({ message: err });
         
         return res.status(200).send({ message: `${ret.deletedCount} user have been deleted` });

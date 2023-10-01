@@ -33,7 +33,7 @@ const authRouter = require('./routes/auth');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
-app.use('/story', storiesRouter);
+app.use('/stories', storiesRouter);
 app.use('/auth', authRouter);
 
 // db

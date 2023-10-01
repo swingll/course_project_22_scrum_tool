@@ -1,33 +1,39 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const TaskSchema = new Schema({
 
+const TaskSchema = new Schema({
+    // task title
     title: {
         type: String,
         default: 'No Title'
     },
 
+    // task content
     content: {
         type: String,
         default: 'No Content'
     },
 
+    // the date of task
     date: {
         type: Date,
         default: Date.now
     },
 
+    // task contributors
     contributors: {
-        type: Schema.Types.ObjectId, //dont forget that!
+        type: [Schema.Types.ObjectId], //dont forget that!
         required: true
     },
 
+    // task status
     status: {
         type: Number,
         required: true
     },
 
-    dueDate: {
+    // due date
+    due: {
         type: Date,
         default: Date.now
     },
