@@ -1,4 +1,3 @@
-var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 const db = require('../models');

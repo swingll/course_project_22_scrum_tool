@@ -23,6 +23,7 @@ const TaskSchema = new Schema({
     // task contributors
     contributors: {
         type: [Schema.Types.ObjectId], //dont forget that!
+        ref: 'user',
         required: true
     },
 
@@ -46,6 +47,7 @@ const TaskSchema = new Schema({
     // Story ID
     story: {
         type: Schema.Types.ObjectId,
+        ref: 'story',
         required: true
     },
 

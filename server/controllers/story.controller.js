@@ -1,4 +1,3 @@
-var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 const db = require('../models');
@@ -6,9 +5,9 @@ const Story = db.story;
 const User = db.user;
 
 exports.story = (req, res) => {
-    const _id = req.query.id;
+    const _id = req.params.id;
 
-    Story.findById(_id).exec((err, story) => {
+    Story.findById(_id).populate('creator').exec((err, story) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!story)
@@ -19,7 +18,7 @@ exports.story = (req, res) => {
 };
 
 exports.stories = (req, res) => {
-    Story.find().exec((err, stories) => {
+    Story.find().populate('creator').exec((err, stories) => {
         if (err) return res.status(500).send({ message: err });
 
         res.json(stories);
@@ -27,20 +26,19 @@ exports.stories = (req, res) => {
 };
 
 exports.count = (req, res) => {
-    const promise = Story.aggregate([
+    Story.aggregate([
         {
             $group: {
                 _id: '$status',
                 count: { $sum: 1 }
             }
         }
-    ]);
+    ])
+        .exec((err, tasks) => {
+            if (err) return res.status(500).send({ message: err });
 
-    promise.then((count) => {
-        res.json(count)
-    }).catch((err) => {
-        res.json(err)
-    })
+            res.json(tasks);
+        });
 };
 
 exports.create = (req, res) => {
@@ -75,7 +73,7 @@ exports.edit = (req, res) => {
         if (!story)
             return res.status(404).send({ message: 'Story not found' });
 
-        story.title = bcrypt.hashSync(req.body.title, 8);
+        story.title = req.body.title;
         story.updatedAt = Date.now();
 
         story.save((err) => {

@@ -57,6 +57,7 @@ exports.signin = (req, res) => {
 
     User.findOne(query)
       .populate("roles", "-__v")
+      .select('+password')
       .exec((err, user) => {
         if (err) return;
 
