@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "dhtmlx-gantt": "^8.0.6",
     "jquery": "^3.3.1",
     "jquery-ui-dist": "^1.12.1",
     "moment": "^2.22.1",
@@ -24,7 +25,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
     "not dead",

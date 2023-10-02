@@ -1,6 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router'
 import App from './components/dashboard'
+import Timeline from './components/timeline';
 import About from './components/about';
 const IndexPage = () => {
 
@@ -13,6 +14,7 @@ const NotFoundPage = () => {
 export default(
     <Route>
         <Route path='/story/:id' exact component={App}/>
+        <Route path='/timeline' exact component={Timeline}/>
         <Route path='/about' exact component={About}/>
         <Route exact path="/" component={IndexPage} />
         <Route path='*' exact component={NotFoundPage}/>
