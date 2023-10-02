@@ -2,26 +2,15 @@ import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from '../components/about';
 import Dashboard from '../components/dashboard';
+import AuthPath from '../components/auth';
+import { useAxios } from './api';
+import { useSignedIn } from '../states/user/hooks';
 
 function Router() {
-  // TODO: initial API
-  // useApi();
+  // initial api
+  useAxios();
 
-  // const [fetchDashboard] = useFetchDashboard(false);
-
-  // const logged = useLoggedIn();
-
-
-  // React.useEffect(() => {
-  //   ping().then((res) => {
-  //     if (!res || !logged) return;
-  //     batch(() => {
-  //       fetchTypes();
-  //     })
-  //   });  
-  // }, [logged]);
-
-  // const props = { logged, collapsed };
+  const logged = useSignedIn();
 
   const IndexPage = () => {
     return <div>Welcome to Scrum Master<br /><a href="/story/1">Homepage</a></div>
@@ -35,9 +24,9 @@ function Router() {
     <BrowserRouter>
       <React.Suspense> {/* fallback={<Spinner />}> */}
         <Routes>
-          <Route path='/' element={<IndexPage />} />
+          <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />
 
-          <Route path='/story/:id' element={<Dashboard />} />
+          <Route path='/story/:id' element={logged ? <Dashboard /> : <AuthPath />} />
           <Route path='/about' element={<About />} />
 
           <Route path='*' element={<NotFoundPage />} />

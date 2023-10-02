@@ -32,6 +32,8 @@ span.menu-text {
 }
 .containerDashboard{
     padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 input::placeholder {
     color: #b8c9d3;
@@ -108,7 +110,6 @@ li .active:before {
     margin: -10px -15px!important;
 }
 .mainMenu {
-    width: 94%;
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
@@ -130,11 +131,12 @@ li .active:before {
     padding-bottom: 13px;
 }
 .profilewidget div {
-    display: inline-block;
+    display: flex;
 }
 .profilewidget {
-    display: inline-block;
-    width: 6%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
     text-align: right;
 }   
 .profilewidget div i {
