@@ -6,10 +6,13 @@ const TimelineSchema = new Schema({
         default:'No Content'
     },
     start_date:{
-        type:Date,
-        default:Date.now
+        type:String
+        
     },
     duration:{
+		type:Number
+    },
+    progress:{
 		type:Number
     },
     contributors:{
