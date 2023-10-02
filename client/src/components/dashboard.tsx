@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router';
 import { Story } from './story';
@@ -7,6 +8,8 @@ import Loader from './loader';
 import Header from './common/header';
 
 export function Dashboard(props: any) {
+  const { id } = useParams();
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [show, setShow] = React.useState<boolean>(false);
   const [tasks, setTasks] = React.useState<any>([]);
@@ -41,7 +44,7 @@ export function Dashboard(props: any) {
   }
 
   const getData = () => {
-    axios.get(`/tasks/${props.params.id}`)
+    axios.get(`/tasks/${id}`)
       .then((r) => {
         setTasks(r.data);
         setErr('');
@@ -96,7 +99,7 @@ export function Dashboard(props: any) {
       <div className="con">
         <Header />
         <aside>
-          <Story storyName={stories.filter((i: any) => i.storyId === parseInt(props.router.params.id))} storyType={props.params.id} tasks={tasks} loading={loading} />
+          <Story storyName={stories.filter((i: any) => i.storyId === parseInt(props.router.params.id))} storyType={id} tasks={tasks} loading={loading} />
         </aside>
 
       </div>

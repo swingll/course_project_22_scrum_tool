@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import Dashboard from './components/dashboard'
+import * as React from 'react';
+import Router from './services/routers';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-       <Dashboard/>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <Router />
+  )
 }
 
 export default App;
