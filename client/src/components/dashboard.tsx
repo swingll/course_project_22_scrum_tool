@@ -1,90 +1,83 @@
 import * as React from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router';
 import { Story } from './story';
 import AddStory from './forms/addStory';
 import Loader from './loader';
 import Header from './common/header';
+import { useFetchStories, useStories } from "../states/story/hooks";
 
-export function Dashboard(props: any) {
+export function Dashboard() {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [show, setShow] = React.useState<boolean>(false);
-  const [tasks, setTasks] = React.useState<any>([]);
-  const [stories, setStories] = React.useState<any>([]);
   const [err, setErr] = React.useState<string>('');
   const [err2, setErr2] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [loadingStory, setLoadingStory] = React.useState<boolean>(false);
+
+  const [tasks, setTasks] = React.useState<any[]>([]);
+  const [story, setStory] = React.useState<any>();
+
+  const [fetchStories] = useFetchStories();
+  const { stories, count } = useStories();
 
   React.useEffect(() => {
-    getStoryDetails();
-    getData();
-    setInterval(() => {
-      // this.getData();
-    }, 2000);
-  }, []) 
+    if (!id) {
+      navigate('/notfound');
+      return;
+    }
+    fetchStories();
+    // setInterval(() => {
+    // }, 5000);
+  }, []);
 
-  const getStoryDetails = () => {
-    axios.get(`/story`)
-      .then((r) => {
-        setStories(r.data);
-        setErr2('');
-      })
-      .then(() => {
-        setLoadingStory(false)
-      })
-      .catch((e) => {
-        setLoadingStory(false)
-        setErr2(e);
-      })
+  React.useEffect(() => {
+    if (!stories || count === 0) return;
 
-  }
+    const s = stories.find((story: any) => story._id === id);
 
-  const getData = () => {
-    axios.get(`/tasks/${id}`)
-      .then((r) => {
-        setTasks(r.data);
-        setErr('');
-      })
-      .then(() => {
-        setLoading(false)
-      })
-      .catch((e) => {
-        if (!e.response) {
-          setLoading(true)
-          setErr(e);
-        }
-        else {
-          setLoading(false)
-          setErr(e);
-        }
-      })
+    if (!s) {
+      // navigate('/notfound');
+      return;
+    }
 
+    setStory(s);
 
-  }
+    const { tasks: _tasks } = s;
+
+    if (!_tasks) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setTasks(_tasks);
+  }, [stories])
 
   let storyTable;
 
-  if (!loadingStory)
+  if (!loading) {
     storyTable = stories.map((story: any, index: number) => {
       return (
         <li key={index}>
-          <Link to={`/story/${story.storyId}`} activeClassName="active">
+          <Link to={`/story/${story._id}`} activeClassName="active">
             <i className="fas fa-list-alt"></i>
             <span className="menu-text">{story.title}</span>
           </Link>
         </li>
       )
     })
-  else
+  } else {
     storyTable = <li>
       <div className="loader">
         <Loader />
       </div>
     </li>
+  }
+
   return (
     <div>
       <div className="side">
@@ -99,9 +92,8 @@ export function Dashboard(props: any) {
       <div className="con">
         <Header />
         <aside>
-          <Story storyName={stories.filter((i: any) => i.storyId === parseInt(props.router.params.id))} storyType={id} tasks={tasks} loading={loading} />
+          <Story storyName={story ? [story] : []} storyType={id} tasks={tasks ?? []} loading={loading} />
         </aside>
-
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import Dashboard from '../components/dashboard';
 import AuthPath from '../components/auth';
 import { useAxios } from './api';
 import { useSignedIn } from '../states/user/hooks';
+import Loader from '../components/loader';
 
 function Router() {
   // initial api
@@ -17,12 +18,12 @@ function Router() {
   }
 
   const NotFoundPage = () => {
-    return <div><h2>Not Found</h2><br /><a href="/story/1">Homepage</a></div>
+    return <div><h2>Not Found</h2><br /><a href="/">Homepage</a></div>
   }
 
   return (
     <BrowserRouter>
-      <React.Suspense> {/* fallback={<Spinner />}> */}
+      <React.Suspense fallback={<Loader />}>
         <Routes>
           <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />
 

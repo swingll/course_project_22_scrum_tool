@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 import React from 'react'
 import user from './user/reducer';
+import story from './story/reducer';
 
 const PERSIST_WHITELIST: string[] = ['user']
 const PERSIST_BLACKLIST: string[] = []
@@ -20,6 +21,7 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     user,
+    story,
   }),
 )
 
