@@ -45,7 +45,7 @@ exports.count = (req, res) => {
 exports.create = (req, res) => {
     if (!req.body.title) return res.status(500).send({ message: 'Title cannot be empty' });
     if (!req.body.content) return res.status(500).send({ message: 'Content cannot be empty' });
-    if (!req.body.storyId) return res.status(500).send({ message: 'Story cannot be empty' });
+    if (!req.body.story) return res.status(500).send({ message: 'Story cannot be empty' });
 
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
@@ -53,7 +53,7 @@ exports.create = (req, res) => {
         if (!user)
             return res.status(404).send({ message: 'User not found' });
 
-        Story.findById(req.body.storyId).exec((err, story) => {
+        Story.findById(req.body.story).exec((err, story) => {
             if (err) return res.status(500).send({ message: err });
 
             if (!story)
@@ -71,6 +71,12 @@ exports.create = (req, res) => {
                 if (err) return res.status(500).send({ message: err });
     
                 res.json(task);
+            });
+
+            story.tasks.push(task._id)
+
+            story.save((err, task) => {
+                if (err) return res.status(500).send({ message: err });
             });
         });
     });
@@ -113,6 +119,8 @@ exports.delete = (req, res) => {
         if (task.creator != req.userId)
             return res.status(500).send({ message: 'Only the creator can delete the task' });
 
+        // TODO: delete task id from story
+        
         Task.findByIdAndRemove(_id).exec((err, ret) => {
             if (err) return res.status(500).send({ message: err });
 

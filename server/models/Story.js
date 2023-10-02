@@ -14,6 +14,13 @@ const StorySchema = new Schema({
         ref: 'user',
         required: true
     },
+
+    // Creator
+    tasks: {
+        type: [Schema.Types.ObjectId],
+        ref: 'task',
+        required: true
+    },
     
     // Created At
     createdAt: {
