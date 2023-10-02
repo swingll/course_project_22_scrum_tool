@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-
-const Task = require('../models/Task');
-
+const Timeline = require('../models/Timeline');
 
 router.post('/',(req,res,next)=>{
-  const task = new Task(req.body);
-  const promise = task.save();
+  const timeline = new Timeline(req.body);
+  const promise = timeline.save();
   promise.then((data)=>{
     res.json(data);
   }).catch((err)=>{
@@ -17,7 +15,7 @@ router.post('/',(req,res,next)=>{
 
 //Hangi statusta kaç tane task olduğunu gösterir
 router.get('/counter',(req,res)=>{
-  const promise = Task.aggregate([
+  const promise = Timeline.aggregate([
     {
       $group:{
         _id:'$status',
@@ -35,8 +33,9 @@ router.get('/counter',(req,res)=>{
 
 //taskları ve contributorsunu yazar
 router.get('/:id',(req,res)=>{
-  console.log("hhhhh");
-  const promise = Task.aggregate([
+  console.log("get timeline");
+  console.log(req.params.id);
+  const promise = Timeline.aggregate([
     {
       $match:{
         storyId:  parseInt(req.params.id)
@@ -59,13 +58,12 @@ router.get('/:id',(req,res)=>{
       $group:{
         _id:{
           _id:'$_id',
-          content:'$content',
-          title:'$title',
+          text:'$text',          
           status:'$status',
+          start_date:'$start_date',          
+          duration:'$duration',
+          createdBy:'$createdBy',
           date:'$date',
-          color:'$color',
-          dueDate:'$dueDate',
-          createdBy:'$createdBy'
         },
         contributors:{
         $push:'$contributors'
@@ -75,18 +73,18 @@ router.get('/:id',(req,res)=>{
     {
       $project:{
         _id:'$_id._id',
-        content:'$_id.content',
-        title:'$_id.title',
+        text:'$_id.text',        
         status:'$_id.status',
-        date:'$_id.date',
-        dueDate:'$_id.dueDate',
-        color:'$_id.color',
+        start_date:'$_id.start_date',
+        duration:'$_id.duration',        
         createdBy: '$_id.createdBy',
+        date:'$_id.date',
         contributors: '$contributors',
       }
     }
   ]);
   promise.then((data)=>{
+    console.log(data);
     res.json(data);
   }).catch((err)=>{
     res.json(err);
@@ -94,7 +92,7 @@ router.get('/:id',(req,res)=>{
 })
 //tek task yazar
 router.get('/task/:id',(req,res)=>{
-  const promise = Task.aggregate([
+  const promise = Timeline.aggregate([
     {
       $match:{
         _id:  parseInt(req.params.id)
@@ -117,12 +115,10 @@ router.get('/task/:id',(req,res)=>{
       $group:{
         _id:{
           _id:'$_id',
-          content:'$content',
-          title:'$title',
+          text:'$text',          
           status:'$status',
-          date:'$date',
-          color:'$color',
-          dueDate:'$dueDate',
+          start_date:'$start_date',          
+          duration:'$duration',
           createdBy:'$createdBy'
         },
         contributors:{
@@ -133,12 +129,10 @@ router.get('/task/:id',(req,res)=>{
     {
       $project:{
         _id:'$_id._id',
-        content:'$_id.content',
-        title:'$_id.title',
+        text:'$_id.text',        
         status:'$_id.status',
-        date:'$_id.date',
-        dueDate:'$_id.dueDate',
-        color:'$_id.color',
+        start_date:'$_id.start_date',
+        duration:'$_id.duration',        
         createdBy: '$_id.createdBy',
         contributors: '$contributors',
       }
@@ -152,7 +146,7 @@ router.get('/task/:id',(req,res)=>{
 })
 //todo
 router.put('/update/:id',(req,res)=>{
-  const promise = Task.findByIdAndUpdate(req.params.id,req.body);
+  const promise = Timeline.findByIdAndUpdate(req.params.id,req.body);
   promise.then((data)=>{
     res.json(data);
   }).catch((err)=>{
@@ -162,7 +156,7 @@ router.put('/update/:id',(req,res)=>{
 
 //Task silme
 router.delete('/delete/:id',(req,res)=>{
-  const promise = Task.findByIdAndRemove(req.params.id)
+  const promise = Timeline.findByIdAndRemove(req.params.id)
   promise.then((count)=>{
     if(count==null)
       res.json({status:'0'})//zaten silinmiş ise 0
