@@ -31,6 +31,7 @@ export function Dashboard() {
     fetchStories();
     // setInterval(() => {
     // }, 5000);
+    console.log('I am here')
   }, []);
 
   React.useEffect(() => {
@@ -61,7 +62,7 @@ export function Dashboard() {
     storyTable = stories.map((story: any, index: number) => {
       return (
         <li key={index}>
-          <Link to={`/story/${story._id}`} >
+          <Link reloadDocument to={`/story/${story._id}`}>
             <i className="fas fa-list-alt"></i>
             <span className="menu-text">{story.title}</span>
           </Link>
