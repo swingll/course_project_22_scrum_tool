@@ -25,22 +25,6 @@ exports.stories = (req, res) => {
     });
 };
 
-exports.count = (req, res) => {
-    Story.aggregate([
-        {
-            $group: {
-                _id: '$status',
-                count: { $sum: 1 }
-            }
-        }
-    ])
-        .exec((err, tasks) => {
-            if (err) return res.status(500).send({ message: err });
-
-            res.json(tasks);
-        });
-};
-
 exports.create = (req, res) => {
     if (!req.body.title) return res.status(500).send({ message: 'Title cannot be empty' });
 

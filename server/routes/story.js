@@ -16,9 +16,6 @@ router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);
 // edit story by id (developer)
 router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);
 
-// count stories (developer)
-router.get('/count', [jwt.verifyToken, jwt.isDeveloper, controller.count]);
-
 // delete story by id (developer)
 router.delete('delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
 

@@ -16,9 +16,6 @@ router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);
 // edit task by id (developer)
 router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);
 
-// count tasks (developer)
-router.get('/count', [jwt.verifyToken, jwt.isDeveloper, controller.count]);
-
 // delete task by id (developer)
 router.delete('/delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
 

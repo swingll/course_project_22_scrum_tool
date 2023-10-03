@@ -26,22 +26,6 @@ exports.tasks = (req, res) => {
     });
 };
 
-exports.count = (req, res) => {
-    Task.aggregate([
-        {
-          $group: {
-            _id: '$status',
-            count: { $sum: 1 }
-          }
-        }
-      ])
-      .exec((err, tasks) => {
-        if (err) return res.status(500).send({ message: err });
-      
-        res.json(tasks);
-      });
-};
-
 exports.create = (req, res) => {
     if (!req.body.title) return res.status(500).send({ message: 'Title cannot be empty' });
     if (!req.body.content) return res.status(500).send({ message: 'Content cannot be empty' });
