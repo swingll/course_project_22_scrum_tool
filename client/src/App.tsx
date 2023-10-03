@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Router from './services/routers';
+import Routers from './services/routers';
 
 function App() {
   return (
-    <Router />
+    <Routers />
   )
 }
 

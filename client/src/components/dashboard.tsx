@@ -1,7 +1,5 @@
 import * as React from "react";
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Story } from './story';
 import AddStory from './forms/addStory';
 import Loader from './loader';
@@ -63,7 +61,7 @@ export function Dashboard() {
     storyTable = stories.map((story: any, index: number) => {
       return (
         <li key={index}>
-          <Link to={`/story/${story._id}`} activeClassName="active">
+          <Link to={`/story/${story._id}`} >
             <i className="fas fa-list-alt"></i>
             <span className="menu-text">{story.title}</span>
           </Link>

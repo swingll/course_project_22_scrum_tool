@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Router, Route, Routes } from 'react-router-dom';
 import About from '../components/about';
 import Dashboard from '../components/dashboard';
 import AuthPath from '../components/auth';
@@ -8,7 +8,7 @@ import { useAxios } from './api';
 import { useSignedIn } from '../states/user/hooks';
 import Loader from '../components/loader';
 
-function Router() {
+function Routers() {
   // initial api
   useAxios();
 
@@ -40,4 +40,4 @@ function Router() {
 }
 
 
-export default Router;
+export default Routers;
