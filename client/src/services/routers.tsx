@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from '../components/about';
 import Dashboard from '../components/dashboard';
 import AuthPath from '../components/auth';
+import Timeline from '../components/timeline';
 import { useAxios } from './api';
 import { useSignedIn } from '../states/user/hooks';
 import Loader from '../components/loader';
@@ -27,6 +28,7 @@ function Router() {
         <Routes>
           <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />
 
+          <Route path='/timeline' exact component={logged ? <Timeline /> : <AuthPath />}/>
           <Route path='/story/:id' element={logged ? <Dashboard /> : <AuthPath />} />
           <Route path='/about' element={<About />} />
 
