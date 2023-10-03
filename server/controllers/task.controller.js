@@ -68,19 +68,18 @@ exports.create = (req, res) => {
 
 exports.edit = (req, res) => {
     // if title is empty
-    if (!req.body.title) return res.status(500).send({ message: 'Title cannot be empty' });
-    if (!req.body.content) return res.status(500).send({ message: 'Content cannot be empty' });
-    if (!req.body.storyId) return res.status(500).send({ message: 'Story cannot be empty' });
+    if (!req.body) return res.status(500).send({ message: 'Body cannot be empty' });
 
-    Task.findById(req.body.title).exec((err, task) => {
+    Task.findById(req.body.id).exec((err, task) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!task)
             return res.status(404).send({ message: 'Task not found' });
 
-        task.title = req.body.title;
-        task.content = req.body.content;
-        task.storyId = req.body.storyId;
+        task.title = req.body.title ?? task.title;
+        task.content = req.body.content ?? task.content;
+        task.story = req.body.story ?? task.story;
+        task.status = req.body.status ?? task.status;
         task.updatedAt = Date.now();
 
         task.save((err) => {

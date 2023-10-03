@@ -4,33 +4,47 @@ import ModalExampleDimmer from './modal';
 import $ from 'jquery';
 import 'jquery-ui-dist/jquery-ui';
 import Loader from './loader';
-import { useDeleteTask } from "../states/task/hooks";
+import { useDeleteTask, useUpdateTask } from "../states/task/hooks";
 import { useFetchStories } from "../states/story/hooks";
 
 export function Task({ tasks, loading, filter }: any) {
 
-  // const componentWillReceiveProps = () => {
-  //   $(".mcell-task").draggable({
-  //     appendTo: "body",
-  //     cursor: "move",
-  //     helper: 'clone',
-  //     revert: "invalid"
-  //   });
+  React.useEffect(() => {
+    $(".mcell-task").draggable({
+      appendTo: "body",
+      cursor: "move",
+      helper: 'clone',
+      revert: "invalid"
+    });
 
-  //   $(".mcell").droppable({
-  //     tolerance: "intersect",
-  //     accept: ".mcell-task",
-  //     activeClass: "ui-state-default",
-  //     hoverClass: "ui-state-hover",
-  //     drop: function (event, ui) {
-  //       $(this).append($(ui.draggable));
-  //       console.log($(this).find("li").attr('id'))
-  //     }
-  //   });
-  // }
+    $(".mcell").droppable({
+      tolerance: "intersect",
+      accept: ".mcell-task",
+      activeClass: "ui-state-default",
+      hoverClass: "ui-state-hover",
+      drop: function (event, ui) {
+        $(this).append($(ui.draggable));
+        const id = $(this).find("li").attr('id')
+        const status = $(this).find('.mcell-title').find('i').attr('id').substring(8, 9)
+        onDrop(id, Number(status));
+      }
+    });
+  }, [])
 
   const [fetchStories] = useFetchStories();
   const [removeTask] = useDeleteTask();
+  const [updateTask] = useUpdateTask();
+
+  const onDrop = (id: string, status: number) => {
+    updateTask({ id, status })
+      .then((res) => {
+        
+      }).catch((err) => {
+        
+      }).finally(() => {
+        
+      })
+  }
 
   const onDelete = (id: string) => {
     removeTask(id)
