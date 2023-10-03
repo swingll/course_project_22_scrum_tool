@@ -30,7 +30,8 @@ const TaskSchema = new Schema({
     // task status
     status: {
         type: Number,
-        required: true
+        required: true,
+        default: 1
     },
 
     // due date
