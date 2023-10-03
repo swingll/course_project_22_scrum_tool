@@ -12,7 +12,7 @@ export function AddStory(props: any) {
   const [createStories] = useCreateStory();
 
   const handleClick = (event: any) => {
-    setErr(err);
+    setErr('');
 
     if (!title) return;
 

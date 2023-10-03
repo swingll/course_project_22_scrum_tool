@@ -1,12 +1,13 @@
 import * as React from "react";
 import moment from 'moment';
 import ModalExampleDimmer from './modal';
-import axios from 'axios';
 import $ from 'jquery';
 import 'jquery-ui-dist/jquery-ui';
 import Loader from './loader';
+import { useDeleteTask } from "../states/task/hooks";
+import { useFetchStories } from "../states/story/hooks";
 
-export function Task(props: any) {
+export function Task({ tasks, loading, filter }: any) {
 
   // const componentWillReceiveProps = () => {
   //   $(".mcell-task").draggable({
@@ -28,22 +29,20 @@ export function Task(props: any) {
   //   });
   // }
 
-  const api = (id: string) => {
-    axios.delete('/tasks/delete/' + id)
-      .then(function (response) {
-        if (response.status === 1)
-          alert("ok")
-        console.log(response);
-      })
-      .then(() => {
+  const [fetchStories] = useFetchStories();
+  const [removeTask] = useDeleteTask();
 
+  const onDelete = (id: string) => {
+    removeTask(id)
+      .then((res) => {
+        
+      }).catch((err) => {
+        
+      }).finally(() => {
+        fetchStories(); // refresh stories
       })
-      .catch(function (error) {
-        console.log(error);
-      });
-
   }
-  const { tasks, loading, filter } = props;
+
   let content;
   if (loading) {
     content = <div className="loader">
@@ -52,23 +51,23 @@ export function Task(props: any) {
   }
   else {
     content =
-      tasks.filter((i: any) => i.status === Number(filter))
-        .map((i: any, index: number) => {
+      tasks.filter((task: any) => task.status === Number(filter))
+        .map((task: any, index: number) => {
           return (
-            <li id={i._id} className="mcell-task" key={index}>
+            <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
-                <span>{i.title}</span>
-                <i id="delete" className="fas fa-times" onClick={() => api(i._id)}></i>
+                <span>{task.title}</span>
+                <i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>
               </span>
-              <span className="task-details">{i.content}</span>
+              <span className="task-details">{task.content}</span>
               <div>
-                <span className="task-due">{moment(i.dueDate).format("DD.MM.YYYY")}</span>
+                <span className="task-due">{moment(task.dueDate).format("DD.MM.YYYY")}</span>
                 <span className="task-contributors">
-                  <img alt={i.contributors[0].name + ' ' + i.contributors[0].lastName} title={i.contributors[0].name + ' ' + i.contributors[0].lastName} src={'/assets/img/' + i.contributors[0].profilePhoto} />
+                  <img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />
                 </span>
               </div>
-              <div className={i.color} />
-              <ModalExampleDimmer propContent={i} classType="btnDashboard" />
+              <div className={task.color} />
+              <ModalExampleDimmer propContent={task} classType="btnDashboard" />
             </li>
           )
         })

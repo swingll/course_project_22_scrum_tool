@@ -29,9 +29,7 @@ export function Dashboard() {
       return;
     }
     fetchStories();
-    // setInterval(() => {
-    // }, 5000);
-    console.log('I am here')
+    // setInterval(() => { }, 5000);
   }, []);
 
   React.useEffect(() => {
@@ -91,7 +89,7 @@ export function Dashboard() {
       <div className="con">
         <Header />
         <aside>
-          <Story storyName={story ? [story] : []} storyType={id} tasks={tasks ?? []} loading={loading} />
+          {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
         </aside>
       </div>
     </div>

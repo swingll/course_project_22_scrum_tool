@@ -5,6 +5,7 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import React from 'react'
 import user from './user/reducer';
 import story from './story/reducer';
+import task from './task/reducer';
 
 const PERSIST_WHITELIST: string[] = ['user']
 const PERSIST_BLACKLIST: string[] = []
@@ -22,6 +23,7 @@ const persistedReducer = persistReducer(
   combineReducers({
     user,
     story,
+    task,
   }),
 )
 
