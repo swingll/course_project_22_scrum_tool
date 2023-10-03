@@ -100,8 +100,8 @@ exports.delete = (req, res) => {
         if (!task)
             return res.status(404).send({ message: 'Task not found' });
 
-        if (task.creator != req.userId)
-            return res.status(500).send({ message: 'Only the creator can delete the task' });
+        if (!task.contributors.includes(req.userId))
+            return res.status(500).send({ message: 'Only contributors can delete the task' });
 
         // TODO: delete task id from story
         
