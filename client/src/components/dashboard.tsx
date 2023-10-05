@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import {useParams, useNavigate, Link, useLocation} from 'react-router-dom';
 import { Story } from './story';
 import AddStory from './forms/addStory';
 import Loader from './loader';
@@ -11,6 +11,7 @@ export function Dashboard() {
   const { id } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation()
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [show, setShow] = React.useState<boolean>(false);
@@ -45,6 +46,7 @@ export function Dashboard() {
       return;
     }
 
+    setLoading(true)
     setStory(s);
 
     const { tasks: _tasks } = s;
@@ -55,7 +57,9 @@ export function Dashboard() {
     }
 
     setTasks(_tasks);
-  }, [stories])
+    setLoading(false)
+  }, [stories,location])
+
 
   let storyTable;
 

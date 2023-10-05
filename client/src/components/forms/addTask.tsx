@@ -37,10 +37,10 @@ export function AddTask({ storyId, status, className }: any) {
 
     if (!title) return;
     if (!content) return;
-    if (!status) return;
+    // if (!status) return;
     if (!dueDate) return;
-    if (!color) return;
-    if (!storyId) return;
+    // if (!color) return;
+    // if (!storyId) return;
 
     const data = {
       title,
