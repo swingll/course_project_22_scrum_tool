@@ -11,15 +11,16 @@ class Timeline extends Component{
     this.state = {
       open: false,
       show: true,
-      timeDetails:  {
-        data: [
-            { id: 1, text: 'Task #1', start_date: '2019-04-15', duration: 3, progress: 0.6 },
-            { id: 2, text: 'Task #2', start_date: '2019-04-18', duration: 3, progress: 0.4 }
-        ],
-        links: [
-            { id: 1, source: 1, target: 2, type: '0' }
-        ]
-    },
+      timeDetails:'',
+    //   timeDetails:  {
+    //     data: [
+    //         { id: 1, text: 'Task #1', start_date: '2023-10-14', duration: 3, progress: 0.6 },
+    //         { id: 2, text: 'Task #2', start_date: '2023-10-18', duration: 3, progress: 0.4 }
+    //     ],
+    //     links: [
+    //         { id: 1, source: 1, target: 2, type: '0' }
+    //     ]
+    // },
       tasks:[],
       stories:[],
       err:'',
@@ -43,39 +44,10 @@ class Timeline extends Component{
   }
 
   getTimelineDetails = () => {
-//     axios.get(`/time`)
-//     .then((r)=> {
-        this.setState({
-            timeDetails:  {
-                data: [
-                    { id: 1, text: 'Task #1', start_date: '2019-04-15', duration: 3, progress: 0.6 },
-                    { id: 2, text: 'Task #2', start_date: '2019-04-18', duration: 3, progress: 0.4 }
-                ],
-                links: [
-                    { id: 1, source: 1, target: 2, type: '0' }
-                ]
-            }
-                   })
-//     })
-//     .then(()=>{
-//       this.setState({
-//         loadingStory:false
-//     })
-//   })
-//     .catch((e)=>{
-//         this.setState({
-//           loadingStory:false,
-//           err2: e
-//         })
-//     })
-   
-  }
-
-  getStoryDetails = () => {
-    axios.get(`/story`)
+    axios.get(`/timeline/1`)
     .then((r)=> {
         this.setState({
-            stories: r.data,
+          timeDetails: r.data,
             err2:''
         })
     })
@@ -94,7 +66,7 @@ class Timeline extends Component{
   }
  
     render(){      
-      let {stories,loadingStory} = this.state;
+      // let {stories,loadingStory} = this.state;
       let storyTable;
     //   if(!loadingStory)
     //   storyTable = stories.map((story,index)=>{

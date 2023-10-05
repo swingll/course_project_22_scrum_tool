@@ -5,7 +5,7 @@
   "scripts": {
     "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
     "install": "(cd client && npm i) && (cd server && npm i)",
-    "start": "concurrently \"cd client && PORT=3000 npm start\" \"cd server && PORT=3001 npm start\"",
+    "start": "concurrently \"cd client && set PORT=3000 && npm start\" \"cd server && set PORT=3001 && npm start\"",
     "start:prod": "cd server && npm start:prod"
   },
   "dependencies": {
