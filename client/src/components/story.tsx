@@ -1,12 +1,14 @@
 import * as React from 'react';
 import Task from './task'
 import Tooltips from './tooltip'
+import {Button} from "reactstrap";
 
 export function Story({ story, tasks, loading }: any) {
   return (
     <div className='container'>
       <div className='space'>
         <h2 className='story'>{story ? story.title : 'Loading...'}</h2>
+        <Button variant={"secondary"}>Delete Story</Button>
       </div>
       <div className='row'>
         <div className='col-sm mcell mcolor1'>

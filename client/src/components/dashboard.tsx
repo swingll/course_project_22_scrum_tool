@@ -6,6 +6,7 @@ import Loader from './loader';
 import Header from './common/header';
 import { useFetchStories, useStories } from "../states/story/hooks";
 import {useAuthorize} from "../states/permission/hooks";
+import {useRef} from "react";
 
 export function Dashboard() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export function Dashboard() {
   const [show, setShow] = React.useState<boolean>(false);
   const [err, setErr] = React.useState<string>('');
   const [err2, setErr2] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   const [tasks, setTasks] = React.useState<any[]>([]);
   const [story, setStory] = React.useState<any>();
@@ -25,15 +26,20 @@ export function Dashboard() {
   const [fetchStories] = useFetchStories();
   const { stories, count } = useStories();
   const addButtonShow = useAuthorize("story","C")
-
+  const init = useRef(false)
   React.useEffect(() => {
-    console.log("???")
-    if (!id) {
-      navigate('/notfound');
-      return;
+    // if not do this the callback function may be called twice during first time rendering
+    if(!init.current){
+      init.current = true;
+      if (!id) {
+        navigate('/notfound');
+        return;
+      }
+      setLoading(true)
+      //
+      fetchStories().then(()=>{setLoading(false)}).finally()
     }
-    setLoading(true)
-    fetchStories().finally(()=>setLoading(false))
+
 
     // setInterval(() => { }, 5000);
   }, []);
