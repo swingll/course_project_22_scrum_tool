@@ -45,3 +45,11 @@ export function useSignin(): [(token: string) => void, (profile: any) => void] {
   
     return [setToken, setProfile]
 }
+
+export function useUserProfile(){
+    try{
+        return useSelector<AppState, AppState['user']>((state)=>state.user).profile
+    }catch (e){
+        return null
+    }
+}

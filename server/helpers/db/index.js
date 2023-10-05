@@ -3,7 +3,7 @@ const db = require('../../models');
 module.exports = () => {
 
     // initial connection uri, defual localhost if not set in .env
-    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+    const uri = process.env.MONGODB_URI || 'mongodb://jira:132@45.32.89.193:27017/jira';
 
     // initial connection options
     const options = { useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true };
