@@ -5,7 +5,7 @@ const db = {};
 
 db.mongoose = mongoose;
 
-db.project = require('./Project');
+// db.project = require('./Project');
 db.role = require('./Role');
 db.story = require('./Story');
 db.task = require('./Task');

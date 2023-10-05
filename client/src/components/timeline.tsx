@@ -100,7 +100,7 @@ class Timeline extends Component{
               <div className="con">
                 <Header/>
                 <div className="gantt-container">                  
-                    <Gantt tasks={this.state.timeDetails}/>
+                    {/* <Gantt tasks={this.state.timeDetails}/> */}
                 </div>
 
               </div>

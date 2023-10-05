@@ -12,7 +12,8 @@ function Routers() {
   // initial api
   useAxios();
 
-  const logged = useSignedIn();
+  // const logged = useSignedIn();
+  const logged = true;
 
   const IndexPage = () => {
     return <div>Welcome to Scrum Master<br /><a href="/story/1">Homepage</a></div>
