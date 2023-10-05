@@ -50,7 +50,7 @@ export function Dashboard() {
     const s = stories.find((story: any) => story._id === id);
 
     if (!s) {
-      // navigate('/notfound');
+      navigate(`/story/${stories[0]._id}`);
       return;
     }
 
@@ -106,7 +106,7 @@ export function Dashboard() {
       <div className="con">
         <Header />
         <aside>
-          {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
+          {story && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
         </aside>
       </div>
     </div>

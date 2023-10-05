@@ -20,8 +20,6 @@ export function AddStory(props: any) {
   const handleClick = (event: any) => {
     setErr('');
 
-    if (!title) return;
-
     setLoading(true);
     
     createStories({ title })
@@ -30,8 +28,7 @@ export function AddStory(props: any) {
         setTitle('');
         (()=>navigateRef.current(`/story/${data._id}`))()
       }).catch((err) => {
-        console.log(err)
-        setErr(err);
+        setErr(err.response.data.message);
       }).finally(() => {
 
         fetchStories().finally(()=>setLoading(false)) // refresh stories
