@@ -24,6 +24,9 @@ export function useFetchStories(init?: boolean) {
   const fetch = useCallback(() => {
     if (logged) {
       dispatch(fetchStories({ logged }) as unknown as AnyAction)
+      return Promise.resolve()
+    }else{
+      return Promise.reject()
     }
   }, [dispatch, logged]);
 

@@ -13,6 +13,9 @@ ul {
     list-style-type: none;
     
 }
+a{
+    -webkit-user-drag: none;
+}
 /*
 new style
 */
@@ -60,6 +63,7 @@ input[type=date], input[type=datetime-local], input[type=month], input[type=time
     background: #fff;
     min-width: 184px;
     box-shadow: -3px 0px 14px #535353;
+    overflow: auto;
 }
 .side-menu{
     list-style-type: none;

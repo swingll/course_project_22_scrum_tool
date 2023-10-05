@@ -32,7 +32,9 @@ export function Dashboard() {
       navigate('/notfound');
       return;
     }
-    fetchStories();
+    setLoading(true)
+    fetchStories().finally(()=>setLoading(false))
+
     // setInterval(() => { }, 5000);
   }, []);
 
@@ -46,7 +48,6 @@ export function Dashboard() {
       return;
     }
 
-    setLoading(true)
     setStory(s);
 
     const { tasks: _tasks } = s;
@@ -57,7 +58,6 @@ export function Dashboard() {
     }
 
     setTasks(_tasks);
-    setLoading(false)
   }, [stories,location])
 
 
@@ -91,10 +91,11 @@ export function Dashboard() {
     <div>
       <div className="side">
         <span className="logo">Scrum Beta</span>
+        {addButton()}
         <ul className="side-menu">
           {storyTable}
         </ul>
-        {addButton()}
+
       </div>
       <div className="con">
         <Header />
