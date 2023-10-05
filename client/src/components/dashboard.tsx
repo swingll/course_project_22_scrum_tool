@@ -5,6 +5,7 @@ import AddStory from './forms/addStory';
 import Loader from './loader';
 import Header from './common/header';
 import { useFetchStories, useStories } from "../states/story/hooks";
+import {useAuthorize} from "../states/permission/hooks";
 
 export function Dashboard() {
   const { id } = useParams();
@@ -22,8 +23,10 @@ export function Dashboard() {
 
   const [fetchStories] = useFetchStories();
   const { stories, count } = useStories();
+  const addButtonShow = useAuthorize("story","C")
 
   React.useEffect(() => {
+    console.log("???")
     if (!id) {
       navigate('/notfound');
       return;
@@ -60,7 +63,7 @@ export function Dashboard() {
     storyTable = stories.map((story: any, index: number) => {
       return (
         <li key={index}>
-          <Link reloadDocument to={`/story/${story._id}`}>
+          <Link to={`/story/${story._id}`}>
             <i className="fas fa-list-alt"></i>
             <span className="menu-text">{story.title}</span>
           </Link>
@@ -74,6 +77,11 @@ export function Dashboard() {
       </div>
     </li>
   }
+  let addButton = ():React.JSX.Element=>{
+    return addButtonShow? (<div className="otherMenu">
+      <AddStory />
+    </div>):(<></>)
+  }
 
   return (
     <div>
@@ -82,9 +90,7 @@ export function Dashboard() {
         <ul className="side-menu">
           {storyTable}
         </ul>
-        <div className="otherMenu">
-          <AddStory />
-        </div>
+        {addButton()}
       </div>
       <div className="con">
         <Header />

@@ -4,9 +4,9 @@ import {AppState} from "../index";
 
 let checkAuthorize = (roles,domain,permission):boolean=>{
     try{
-        let permissions = useSelector<AppState,AppState['permission']>(state=>state.permission)
+        let {permissions} = useSelector<AppState,AppState['permission']>(state=>state.permission)
         for(let role of roles){
-            if(permission[role].includes(permission.charAt(0)) || permission[role].includes(permission)){
+            if(permissions[role][domain].includes(permission.charAt(0)) || permissions[role][domain].includes(permission)){
                 return true
             }
         }
@@ -22,6 +22,7 @@ export let useAuthorize = (domain,permission):boolean=>{
         _roles = ["default"]
     }else{
         const profile = useUserProfile()
+
         if(profile && profile.roles){
             _roles = [...profile.roles,"ROLE_USER"]
         }else{

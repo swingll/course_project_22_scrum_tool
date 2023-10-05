@@ -1,5 +1,5 @@
 export default {
- permission:{
+ permissions:{
    "ROLE_ADMIN":{
      user:"CRUD",
      task:"CRUD",

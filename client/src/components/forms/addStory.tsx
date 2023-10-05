@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
 import { useCreateStory, useFetchStories } from "../../states/story/hooks";
+import {useNavigate} from "react-router-dom";
+import {useRef} from "react";
+
 
 export function AddStory(props: any) {
   const [modal, setModal] = React.useState<boolean>(false);
@@ -10,7 +13,10 @@ export function AddStory(props: any) {
 
   const [fetchStories] = useFetchStories();
   const [createStories] = useCreateStory();
-
+  const navigateRef = useRef((_)=>{})
+  const navigate = useNavigate()
+  // @ts-ignore
+  navigateRef.current = navigate
   const handleClick = (event: any) => {
     setErr('');
 
@@ -19,8 +25,9 @@ export function AddStory(props: any) {
     setLoading(true);
     
     createStories({ title })
-      .then(() => {
+      .then(({data}) => {
         setModal(false);
+        (()=>navigateRef.current(`/story/${data._id}`))()
       }).catch((err) => {
         setErr(err);
       }).finally(() => {
