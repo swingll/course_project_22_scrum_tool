@@ -21,17 +21,20 @@ export function AddStory(props: any) {
     setErr('');
 
     setLoading(true);
-    
+    let _id = `999`
     createStories({ title })
       .then(({data}) => {
         setModal(false);
         setTitle('');
-        (()=>navigateRef.current(`/story/${data._id}`))()
+        _id = data._id
       }).catch((err) => {
         setErr(err.response.data.message);
       }).finally(() => {
 
-        fetchStories().finally(()=>setLoading(false)) // refresh stories
+        fetchStories().finally(()=> {
+          props.setFutureId(_id)
+          setLoading(false)
+        }) // refresh stories
       })
   }
   const errorMsg = err?<Alert variant={"warning"}>{err}</Alert>:<></>

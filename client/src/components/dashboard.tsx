@@ -6,7 +6,7 @@ import Loader from './loader';
 import Header from './common/header';
 import { useFetchStories, useStories } from "../states/story/hooks";
 import {useAuthorize} from "../states/permission/hooks";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 export function Dashboard() {
   const { id } = useParams();
@@ -22,9 +22,11 @@ export function Dashboard() {
 
   const [tasks, setTasks] = React.useState<any[]>([]);
   const [story, setStory] = React.useState<any>();
+  const [futureId,setFutureId] = useState(id)
 
   const [fetchStories] = useFetchStories();
   const { stories, count } = useStories();
+
   const addButtonShow = useAuthorize("story","C")
   const init = useRef(false)
   React.useEffect(() => {
@@ -46,9 +48,35 @@ export function Dashboard() {
 
   React.useEffect(() => {
     if (!stories || count === 0) return;
+    if(futureId !== id){
+      navigate(`/story/${futureId}`)
+      setLoading(false)
+      return
+    }
+    const s = stories.find((story: any) => story._id === id);
+    if (!s) {
+      navigate(`/story/${stories[0]._id}`);
+      setLoading(false)
+      return;
+    }
+
+    setStory(s);
+
+    const { tasks: _tasks } = s;
+
+    if (!_tasks) {
+      // navigate('/notfound');
+      setLoading(false)
+      return;
+    }
+
+    setTasks(_tasks);
+    setLoading(false)
+  }, [stories])
+  React.useEffect(() => {
+    if (!stories || count === 0) return;
 
     const s = stories.find((story: any) => story._id === id);
-
     if (!s) {
       navigate(`/story/${stories[0]._id}`);
       return;
@@ -64,7 +92,7 @@ export function Dashboard() {
     }
 
     setTasks(_tasks);
-  }, [stories,location])
+  }, [id])
 
 
   let storyTable;
@@ -89,7 +117,7 @@ export function Dashboard() {
   }
   let addButton = ():React.JSX.Element=>{
     return addButtonShow? (<div className="otherMenu">
-      <AddStory />
+      <AddStory setFutureId={setFutureId}/>
     </div>):(<></>)
   }
 

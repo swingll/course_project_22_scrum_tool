@@ -32,6 +32,8 @@ span.menu-text {
     position: relative;
     left: 184px;
     width: calc(100% - 184px);
+    height: 100vh;
+    overflow: auto;
 }
 .containerDashboard{
     padding-top: 10px;

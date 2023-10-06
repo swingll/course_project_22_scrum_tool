@@ -6,9 +6,9 @@ import 'jquery-ui-dist/jquery-ui';
 import Loader from './loader';
 import { useDeleteTask, useUpdateTask } from "../states/task/hooks";
 import { useFetchStories } from "../states/story/hooks";
+import {useState} from "react";
 
-export function Task({ tasks, loading, filter }: any) {
-
+export function Task({ tasks,  filter,loading:loadingOver}: any) {
   React.useEffect(() => {
     $(".mcell-task").draggable({
       appendTo: "body",
@@ -30,23 +30,28 @@ export function Task({ tasks, loading, filter }: any) {
       }
     });
   }, [])
+  React.useEffect(()=>{
+    setLoading(false)
+  },[tasks])
 
   const [fetchStories] = useFetchStories();
   const [removeTask] = useDeleteTask();
   const [updateTask] = useUpdateTask();
+  const [loading,setLoading] = useState<boolean>()
 
   const onDrop = (id: string, status: number) => {
     updateTask({ id, status })
       .then((res) => {
-        
+        setLoading(true)
       }).catch((err) => {
         
       }).finally(() => {
-        
+        fetchStories()
       })
   }
 
   const onDelete = (id: string) => {
+    setLoading(true)
     removeTask(id)
       .then((res) => {
         
@@ -56,9 +61,10 @@ export function Task({ tasks, loading, filter }: any) {
         fetchStories(); // refresh stories
       })
   }
-
+  let photo
   let content;
-  if (loading) {
+  if (loading || loadingOver) {
+    photo = <></>
     content = <div className="loader">
       <Loader />
     </div>;
@@ -67,6 +73,7 @@ export function Task({ tasks, loading, filter }: any) {
     content =
       tasks.filter((task: any) => task.status === Number(filter))
         .map((task: any, index: number) => {
+          photo = (task.contributors[0] && task.contributors[0].profilePhoto)?(<img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />):<></>
           return (
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
@@ -77,7 +84,7 @@ export function Task({ tasks, loading, filter }: any) {
               <div>
                 <span className="task-due">{moment(task.dueDate).format("DD.MM.YYYY")}</span>
                 <span className="task-contributors">
-                  <img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />
+                  {photo}
                 </span>
               </div>
               <div className={task.color} />
@@ -85,6 +92,7 @@ export function Task({ tasks, loading, filter }: any) {
             </li>
           )
         })
+
   }
   return (
     <div className="process">{content}</div>

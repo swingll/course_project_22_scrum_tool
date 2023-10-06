@@ -4,14 +4,13 @@ import moment from 'moment'
 import { useCreateTask } from "../../states/task/hooks";
 import { useFetchStories } from "../../states/story/hooks";
 
-export function AddTask({ storyId, status, className }: any) {
+export function AddTask({ storyId, status, className,loading,setLoading }: any) {
   const [modal, setModal] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
   const [contributors, setContributors] = React.useState<string>('');
   const [dueDate, setDueDate] = React.useState<string>('');
   const [color, setColor] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
   const [users, setUsers] = React.useState<any>([]); // TODO: fetch users
   const [err, setErr] = React.useState<string>('');
 
@@ -58,10 +57,10 @@ export function AddTask({ storyId, status, className }: any) {
       .then((res) => {
         console.log(res)
         setModal(false);
+        setLoading(true)
       }).catch((err) => {
         setErr(err);
       }).finally(() => {
-        setLoading(false);
         fetchStories(); // refresh stories
       })
   }

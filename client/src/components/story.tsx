@@ -21,18 +21,16 @@ export function Story({story, tasks, loading,setLoading}: any) {
             setLoading(true)
             await removeStory(story["_id"])
             cancelDelete()
-            console.log("???????????????")
             await fetchStories()
             navigate('/story/999')
         }catch(e:any){
             if(e instanceof AxiosError){
                 setErr(e.response?e.response.data.message:'???')
+
             }else if(typeof e === 'string'){
                 setErr(e)
             }
-        }finally{
             setLoading(false)
-
         }
 
 
@@ -66,32 +64,32 @@ export function Story({story, tasks, loading,setLoading}: any) {
                         <div className='mcell-title story'>
                             <b className='fas fa-lightbulb'/> Backlog
                             <Tooltips id='1' storyId={story?._id}
-                                      content='You can do what you want to do with this column' placement='top'/>
+                                      content='You can do what you want to do with this column' placement='top' loading={loading} setLoading={setLoading}/>
                         </div>
-                        <Task tasks={tasks} loading={loading} filter='1'/>
+                        <Task tasks={tasks} setLoading={setLoading} loading={loading} filter='1'/>
                     </div>
                     <div className='col-sm mcell mcolor2'>
                         <div className='mcell-title story'>
                             <b className='fas fa-bars'/> TODO
                             <Tooltips id='2' storyId={story?._id}
-                                      content='You can do what you want to do with this column' placement='top'/>
+                                      content='You can do what you want to do with this column' placement='top' setLoading={setLoading} loading={loading}/>
                         </div>
-                        <Task tasks={tasks} loading={loading} filter='2'/>
+                        <Task tasks={tasks} setLoading={setLoading} loading={loading} filter='2'/>
                     </div>
 
                     <div className='col-sm mcell mcolor3'>
                         <div className='mcell-title story'>
                             <b className='fas fa-spinner'></b> In Progress
                             <Tooltips id='3' storyId={story?._id}
-                                      content='You can do what you want to do with this column' placement='top'/></div>
-                        <Task tasks={tasks} loading={loading} filter='3'/>
+                                      content='You can do what you want to do with this column' placement='top' setLoading={setLoading} loading={loading}/></div>
+                        <Task tasks={tasks} setLoading={setLoading} loading={loading} filter='3'/>
                     </div>
                     <div className='col-sm mcell mcolor4'>
                         <div className='mcell-title story'>
                             <b className='fas fa-check'/> Done
                             <Tooltips id='4' storyId={story?._id}
-                                      content='You can do what you want to do with this column' placement='top'/></div>
-                        <Task tasks={tasks} loading={loading} filter='4'/>
+                                      content='You can do what you want to do with this column' placement='top' setLoading={setLoading} loading={loading}/></div>
+                        <Task tasks={tasks} setLoading={setLoading} loading={loading} filter='4'/>
                     </div>
                 </div>
             </div>

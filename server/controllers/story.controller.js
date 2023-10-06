@@ -3,6 +3,7 @@ var bcrypt = require('bcryptjs');
 const db = require('../models');
 const Story = db.story;
 const User = db.user;
+const Task = db.task;
 
 exports.story = (req, res) => {
     const _id = req.params.id;
@@ -80,13 +81,16 @@ exports.delete = (req, res) => {
         if (story.creator != req.userId)
             return res.status(500).send({ message: 'Only the creator can delete the story' });
 
-        // TODO: delete related tasks
-
-        Story.findByIdAndRemove(_id).exec((err, ret) => {
+        Task.deleteMany({_id:{$in:story.tasks}},err=>{
             if (err) return res.status(500).send({ message: err });
+            Story.findByIdAndRemove(_id).exec((err, ret) => {
+                if (err) return res.status(500).send({ message: err });
 
-            return res.status(200).send({ message: `${ret.deletedCount} story have been deleted` });
-        });
+                return res.status(200).send({ message: `${ret.deletedCount} story have been deleted` });
+            });
+        })
+
+
     });
 };
 

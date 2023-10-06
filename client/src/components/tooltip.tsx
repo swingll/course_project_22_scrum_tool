@@ -2,7 +2,7 @@ import * as React from "react";
 import { Tooltip } from 'reactstrap';
 import AddTask from './forms/addTask';
 
-export function Tooltips({ id, storyId, placement, content }: any) {
+export function Tooltips({ id, storyId, placement, content,loading, setLoading}: any) {
   const [tooltipOpen, setTooltipOpen] = React.useState<boolean>(false);
 
   return (
@@ -12,7 +12,7 @@ export function Tooltips({ id, storyId, placement, content }: any) {
         {content}
       </Tooltip>
       
-      <AddTask storyId={storyId} status={id}/>
+      <AddTask loading={loading} setLoading={setLoading} storyId={storyId} status={id}/>
     </span>
   );
 }
