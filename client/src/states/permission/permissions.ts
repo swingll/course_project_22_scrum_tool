@@ -1,3 +1,4 @@
+//postfix: S: self,1:one
 export default {
  permissions:{
    "ROLE_ADMIN":{
@@ -5,10 +6,10 @@ export default {
      task:"CRUD",
      story:"CRUD"
    },
-   "ROLE_DEVELOPMENT":{
+   "ROLE_DEVELOPER":{
      story:"CRUD",
      task:"CRUD",
-     user:['R1','US']
+     user:['R','US']
    },
 
    "ROLE_USER":{
