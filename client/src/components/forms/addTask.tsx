@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Alert} from 'reactstrap';
 import moment from 'moment'
 import { useCreateTask } from "../../states/task/hooks";
 import { useFetchStories } from "../../states/story/hooks";
@@ -33,13 +33,17 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
 
   const handleClick = (event: any) => {
     setErr('');
+    let generateErr = (str,choose=false)=>{throw new Error(`Please ${choose?"choose":"input"} ${str}!`)}
+    try{
+      if (!title) generateErr('title');
+      if (!content) generateErr('content',)
+      if (!color) generateErr('color',true)
+      if (!dueDate) generateErr('dueDate',true)
+    }catch(e:any){
+      setErr(e.message)
+      return;
+    }
 
-    if (!title) return;
-    if (!content) return;
-    // if (!status) return;
-    if (!dueDate) return;
-    // if (!color) return;
-    // if (!storyId) return;
 
     const data = {
       title,
@@ -67,6 +71,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
 
   const toggle = () => {
     setModal(!modal)
+    setErr('')
   }
 
   let userContent;
@@ -86,6 +91,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
           Create a New Task to {changeColumnTitle(status)}
         </ModalHeader>
         <ModalBody>
+          {err?<Alert>{err}</Alert>:<></>}
           <FormGroup>
             <Label for="title">Task Title(*):</Label>
             <Input type="text" name="title" id="taskTitle" onChange={(e) => setTitle(e.target.value)} />
@@ -97,14 +103,14 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
           <FormGroup>
             <Label for="contributors">Assign to:</Label>
             <Input type="select" name="contributors" id="contributors" onChange={(e) => setContributors(e.target.value)}>
-              <option value="">Choose:</option>
+              <option value="" disabled>Choose:</option>
               {userContent}
             </Input>
           </FormGroup>
           <FormGroup>
             <Label for="color">Task Color:</Label>
             <Input type="select" name="color" id="color" onChange={(e) => setColor(e.target.value)}>
-              <option value="">Choose:</option>
+              <option value="" disabled>Choose:</option>
               <option value="colorBlue">Red</option>
               <option value="colorGreen">Green</option>
               <option value="colorGrey">Grey</option>

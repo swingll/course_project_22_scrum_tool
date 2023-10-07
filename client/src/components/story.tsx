@@ -13,7 +13,6 @@ import {TaskInfo} from "./taskInfo";
 export function Story({story, tasks, loading,setLoading}: any) {
     const [isDeleting, setDeleting] = React.useState<boolean>(false)
     const [err,setErr] = React.useState<string>('')
-    const [taskList,_] = React.useState()
     const deletePermission = useAuthorize("story", "D")
     const [removeStory] = useDeleteStory()
     const [fetchStories] = useFetchStories(false)
