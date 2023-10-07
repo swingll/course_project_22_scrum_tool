@@ -65,7 +65,7 @@ isDeveloper = (req, res, next) => {
     }, (err, roles) => {
       if (err) return res.status(500).send({ message: err });
 
-      if (roles.find(role => (role.name == 'development' || role.name == 'admin'))) return next();
+      if (roles.find(role => (role.name == 'developer' || role.name == 'admin'))) return next();
 
       return res.status(403).send({ message: 'Require Developer Role' });
     });
