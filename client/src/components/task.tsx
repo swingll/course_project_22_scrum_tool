@@ -7,6 +7,7 @@ import Loader from './loader';
 import { useDeleteTask, useUpdateTask } from "../states/task/hooks";
 import { useFetchStories } from "../states/story/hooks";
 import {useState} from "react";
+import {useAuthorize} from "../states/permission/hooks";
 
 export function Task({ tasks,  filter,loading:loadingOver}: any) {
   React.useEffect(() => {
@@ -78,7 +79,7 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
                 <span>{task.title}</span>
-                <i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>
+                {useAuthorize("task","D")?<i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>:<></>}
               </span>
               <span className="task-details">{task.content}</span>
               <div>

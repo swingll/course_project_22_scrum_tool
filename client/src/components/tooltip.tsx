@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Tooltip } from 'reactstrap';
 import AddTask from './forms/addTask';
+import {useAuthorize} from "../states/permission/hooks";
 
 export function Tooltips({ id, storyId, placement, content,loading, setLoading}: any) {
   const [tooltipOpen, setTooltipOpen] = React.useState<boolean>(false);
@@ -11,8 +12,8 @@ export function Tooltips({ id, storyId, placement, content,loading, setLoading}:
       <Tooltip placement={placement} isOpen={tooltipOpen} target={'Tooltip-' + id} toggle={() => setTooltipOpen(!tooltipOpen)}>
         {content}
       </Tooltip>
-      
-      <AddTask loading={loading} setLoading={setLoading} storyId={storyId} status={id}/>
+
+        {useAuthorize("task","C")?<AddTask loading={loading} setLoading={setLoading} storyId={storyId} status={id}/>:<></>}
     </span>
   );
 }
