@@ -34,12 +34,14 @@ const usersRouter = require('./routes/users');
 const tasksRouter = require('./routes/tasks');
 const storiesRouter = require('./routes/story');
 const authRouter = require('./routes/auth');
+const timelineRouter = require('./routes/timeline');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
 app.use('/stories', storiesRouter);
 app.use('/auth', authRouter);
+app.use('/timelines', timelineRouter);
 
 // db
 const db = require('./helpers/db')();

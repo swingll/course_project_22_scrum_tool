@@ -44,7 +44,7 @@ class Timeline extends Component{
   }
 
   getTimelineDetails = () => {
-    axios.get(`/timeline/1`)
+    axios.get(`/timelines/find/1`)
     .then((r)=> {
         this.setState({
           timeDetails: r.data,

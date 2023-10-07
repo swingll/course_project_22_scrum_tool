@@ -12,8 +12,8 @@ function Routers() {
   // initial api
   useAxios();
 
-  // const logged = useSignedIn();
-  const logged = true;
+  const logged = useSignedIn();
+  // const logged = true;
 
   const IndexPage = () => {
     return <div>Welcome to Scrum Master<br /><a href="/story/1">Homepage</a></div>
@@ -30,7 +30,7 @@ function Routers() {
           <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />
 
           <Route path='/timeline' element={logged ? <Timeline /> : <AuthPath />}/>
-          <Route path='/story/:id' element={logged ? <Dashboard /> : <AuthPath />} />
+          <Route path='/stories/find/:id' element={logged ? <Dashboard /> : <AuthPath />} />
           <Route path='/about' element={<About />} />
 
           <Route path='*' element={<NotFoundPage />} />

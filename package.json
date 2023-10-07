@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
-    "install": "(cd client && yarn install) && (cd server && yarn install)",
-    "start": "concurrently \"cd client && set PORT=3000 && yarn start\" \"cd server && set PORT=3001 && yarn start\"",
+    "install": "(cd client && npm install) && (cd server && npm install)",
+    "start": "concurrently \"cd client && set PORT=3000 && npm start\" \"cd server && set PORT=3001 && npm start\"",
     "start:prod": "cd server && npm start:prod"
   },
   "dependencies": {
