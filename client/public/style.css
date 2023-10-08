@@ -22,6 +22,13 @@ new style
 .btn-close{
     display:none;
 }
+.user-refresh{
+    margin-left: 10px;
+
+}
+.user-refresh:active{
+    color: blue;
+}
 span.menu-text {
     display: inline-block;
     vertical-align: top;
