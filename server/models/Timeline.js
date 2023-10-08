@@ -23,13 +23,15 @@ const TimelineSchema = new Schema({
         type:Number,
         required:true
     },
-    createdBy:{
-        type:Schema.Types.ObjectId,
-        required:true
-    },
-    storyId:{
-        type:Number,
-        required:true
+    // createdBy:{
+    //     type:Schema.Types.ObjectId,
+    //     required:true
+    // },
+    // Story ID
+    story: {
+        type: Schema.Types.ObjectId,
+        ref: 'story',
+        required: true
     },
     date:{
         type:Date,
