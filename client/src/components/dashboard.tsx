@@ -7,6 +7,7 @@ import Header from './common/header';
 import { useFetchStories, useStories } from "../states/story/hooks";
 import {useAuthorize} from "../states/permission/hooks";
 import {useRef, useState} from "react";
+import {useFetchUsers} from "../states/user/hooks";
 
 export function Dashboard() {
   const { id } = useParams();
@@ -25,6 +26,7 @@ export function Dashboard() {
   const [futureId,setFutureId] = useState(id)
 
   const [fetchStories] = useFetchStories();
+  const [fetchUsers] = useFetchUsers();
   const { stories, count } = useStories();
 
   const addButtonShow = useAuthorize("story","C")
@@ -40,6 +42,7 @@ export function Dashboard() {
       setLoading(true)
       //
       fetchStories().then(()=>{setLoading(false)}).finally()
+      fetchUsers()
     }
 
 

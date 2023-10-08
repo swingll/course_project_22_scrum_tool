@@ -3,6 +3,7 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, La
 import moment from 'moment'
 import { useCreateTask } from "../../states/task/hooks";
 import { useFetchStories } from "../../states/story/hooks";
+import {useFetchUsers, useUsers} from "../../states/user/hooks";
 
 export function AddTask({ storyId, status, className,loading,setLoading }: any) {
   const [modal, setModal] = React.useState<boolean>(false);
@@ -11,11 +12,11 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
   const [contributors, setContributors] = React.useState<string>('');
   const [dueDate, setDueDate] = React.useState<string>('');
   const [color, setColor] = React.useState<string>('');
-  const [users, setUsers] = React.useState<any>([]); // TODO: fetch users
   const [err, setErr] = React.useState<string>('');
 
   const [createTask] = useCreateTask();
   const [fetchStories] = useFetchStories();
+  const users = useUsers() // TODO: fetch users
 
   React.useEffect(() => {
     moment.locale('hk');
