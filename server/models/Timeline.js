@@ -23,6 +23,10 @@ const TimelineSchema = new Schema({
         type:Number,
         required:true
     },
+    id:{
+        type:Number,
+        required:true
+    },
     // createdBy:{
     //     type:Schema.Types.ObjectId,
     //     required:true

@@ -78,7 +78,7 @@ export function Dashboard() {
   return (
     <div>
       <div className="side">
-        <span className="logo">Scrum Beta</span>
+        <span className="logo">Scrum Tools</span>
         <ul className="side-menu">
           {storyTable}
         </ul>
@@ -88,6 +88,7 @@ export function Dashboard() {
       </div>
       <div className="con">
         <Header />
+        <>123</>
         <aside>
           {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
         </aside>

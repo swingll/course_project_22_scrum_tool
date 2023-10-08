@@ -18,7 +18,7 @@ exports.timeline = (req, res) => {
 };
 
 exports.timelines = (req, res) => {
-    User.find().exec((err, timelines) => {
+    Timeline.find().populate('contributors').exec((err, timelines) => {
         if (err) return res.status(500).send({ message: err });
 
         res.json(timelines);
