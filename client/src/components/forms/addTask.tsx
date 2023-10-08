@@ -36,7 +36,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
     let generateErr = (str,choose=false)=>{throw new Error(`Please ${choose?"choose":"input"} ${str}!`)}
     try{
       if (!title) generateErr('title');
-      if (!content) generateErr('content',)
+      if (!content) generateErr('details',)
       if (!color) generateErr('color',true)
       if (!dueDate) generateErr('dueDate',true)
     }catch(e:any){
@@ -63,7 +63,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
         setModal(false);
         setLoading(true)
       }).catch((err) => {
-        setErr(err);
+        setErr(err); // TODO: [robust] - make sure "err" is a string
       }).finally(() => {
         fetchStories(); // refresh stories
       })
@@ -75,8 +75,8 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
   }
 
   let userContent;
-  if (!users)
-    userContent = <option value=''>Loading...</option>
+  if (!users || !users.length)
+    userContent = <option value='' disabled>Loading...</option>
   else {
     userContent = users.map((user: any, index: number) => (
       <option key={index} value={user._id}>{user.name + ' ' + user.lastName}</option>
@@ -93,32 +93,31 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
         <ModalBody>
           {err?<Alert>{err}</Alert>:<></>}
           <FormGroup>
-            <Label for="title">Task Title(*):</Label>
+            <Label for="title">Task Title(*):&nbsp;</Label>
             <Input type="text" name="title" id="taskTitle" onChange={(e) => setTitle(e.target.value)} />
           </FormGroup>
           <FormGroup>
-            <Label for="content">Task Details:</Label>
+            <Label for="content">Task Details:&nbsp;</Label>
             <Input type="textarea" name="content" id="content" onChange={(e) => setContent(e.target.value)} />
           </FormGroup>
           <FormGroup>
-            <Label for="contributors">Assign to:</Label>
+            <Label for="contributors">Assign to:&nbsp;</Label>
             <Input type="select" name="contributors" id="contributors" onChange={(e) => setContributors(e.target.value)}>
-              <option value="" disabled>Choose:</option>
+              <option value="" selected>Choose</option>
               {userContent}
             </Input>
           </FormGroup>
           <FormGroup>
-            <Label for="color">Task Color:</Label>
+            <Label for="color">Task Color:&nbsp;</Label>
             <Input type="select" name="color" id="color" onChange={(e) => setColor(e.target.value)}>
-              <option value="" disabled>Choose:</option>
-              <option value="colorBlue">Red</option>
+              <option value="colorRed">Red</option>
               <option value="colorGreen">Green</option>
               <option value="colorGrey">Grey</option>
             </Input>
           </FormGroup>
           <hr />
           <i className="fas fa-calendar-alt"></i> Created Date: {moment().format('L, h:mm:ss')} <br />
-          <i className="fas fa-clock"></i> Due Date: <Input name="dueDate" id="dueDate" type="date" onChange={(e) => setDueDate(e.target.value)} /> 
+          <i className="fas fa-clock"></i> Due Date: <Input name="dueDate" id="dueDate" type="date" onChange={(e) => setDueDate(e.target.value)} />
         </ModalBody>
         <ModalFooter>
           <Button color="primary" disabled={loading} onClick={(e) => handleClick(e)}><i className="fas fa-plus-circle"></i> Add</Button>

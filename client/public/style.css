@@ -19,7 +19,9 @@ a{
 /*
 new style
 */
-
+.btn-close{
+    display:none;
+}
 span.menu-text {
     display: inline-block;
     vertical-align: top;
