@@ -63,7 +63,7 @@ export function Story({story, tasks, loading,setLoading}: any) {
                     {deleteButton}
                 </div>
                 <div className='row'>
-                    {[...Array(4)].map((_,i)=><TaskInfo {...{index:i,story,tasks,loading,setLoading}}></TaskInfo>)}
+                    {[...Array(4)].map((_,i)=><TaskInfo  key={`${i}keyInfo`}{...{index:i,story,tasks,loading,setLoading}}></TaskInfo>)}
                 </div>
             </div>
         </>

@@ -63,7 +63,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
         setModal(false);
         setLoading(true)
       }).catch((err) => {
-        setErr(err); // TODO: [robust] - make sure "err" is a string
+        setErr(err);
       }).finally(() => {
         fetchStories(); // refresh stories
       })
@@ -76,7 +76,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
 
   let userContent;
   if (!users || !users.length)
-    userContent = <option value='' disabled>Loading...</option>
+    userContent = <option value=''>Loading...</option>
   else {
     userContent = users.map((user: any, index: number) => (
       <option key={index} value={user._id}>{user.name + ' ' + user.lastName}</option>
@@ -103,7 +103,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
           <FormGroup>
             <Label for="contributors">Assign to:&nbsp;</Label>
             <Input type="select" name="contributors" id="contributors" onChange={(e) => setContributors(e.target.value)}>
-              <option value="" selected>Choose</option>
+              {(users && users.length)?<option value="">Choose</option>:<></>}
               {userContent}
             </Input>
           </FormGroup>
