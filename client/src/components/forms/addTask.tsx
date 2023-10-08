@@ -52,6 +52,7 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
       if (!content) generateErr('details',)
       if (!color) generateErr('color',true)
       if (!dueDate) generateErr('dueDate',true)
+      if (!contributors) generateErr('user to assign',true)
     }catch(e:any){
       setErr(e.message)
       return;

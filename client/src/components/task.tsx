@@ -39,6 +39,7 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
   const [removeTask] = useDeleteTask();
   const [updateTask] = useUpdateTask();
   const [loading,setLoading] = useState<boolean>()
+  const taskDPermission = useAuthorize("task","D")
 
   const onDrop = (id: string, status: number) => {
     updateTask({ id, status })
@@ -79,7 +80,7 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
                 <span>{task.title}</span>
-                {useAuthorize("task","D")?<i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>:<></>}
+                {taskDPermission?<i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>:<></>}
               </span>
               <span className="task-details">{task.content}</span>
               <div>
