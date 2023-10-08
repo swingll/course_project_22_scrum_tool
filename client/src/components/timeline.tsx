@@ -1,111 +1,98 @@
-import React,{Component} from 'react'
-import axios from 'axios'
-// import {Link} from 'react-router'
-import Loader from './loader'
-import Header from './common/header'
-import Gantt from './Gantt';
+import * as React from "react";
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Story } from './story';
+import AddStory from './forms/addStory';
+import Loader from './loader';
+import Header from './common/header';
+import { useFetchStories, useStories } from "../states/story/hooks";
 
-class Timeline extends Component{
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      open: false,
-      show: true,
-      timeDetails:'',
-    //   timeDetails:  {
-    //     data: [
-    //         { id: 1, text: 'Task #1', start_date: '2023-10-14', duration: 3, progress: 0.6 },
-    //         { id: 2, text: 'Task #2', start_date: '2023-10-18', duration: 3, progress: 0.4 }
-    //     ],
-    //     links: [
-    //         { id: 1, source: 1, target: 2, type: '0' }
-    //     ]
-    // },
-      tasks:[],
-      stories:[],
-      err:'',
-      err2:'',
-      loading:true,
-      loadingStory:true
-    };
-    
-    this.getTimelineDetails = this.getTimelineDetails.bind(this)
-  }
-  
+export function Timeline() {
+  const { id } = useParams();
 
+  const navigate = useNavigate();
 
-  componentDidMount = ()=>{
-    // this.getStoryDetails();
-    // this.getData();
-    this.getTimelineDetails();
-    setInterval(() => {
-      // this.getData();
-  }, 2000);
-  }
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [show, setShow] = React.useState<boolean>(false);
+  const [err, setErr] = React.useState<string>('');
+  const [err2, setErr2] = React.useState<string>('');
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  getTimelineDetails = () => {
-    axios.get(`/timelines/find/1`)
-    .then((r)=> {
-        this.setState({
-          timeDetails: r.data,
-            err2:''
-        })
-    })
-    .then(()=>{
-      this.setState({
-        loadingStory:false
-    })
-  })
-    .catch((e)=>{
-        this.setState({
-          loadingStory:false,
-          err2: e
-        })
-    })
-   
-  }
- 
-    render(){      
-      // let {stories,loadingStory} = this.state;
-      let storyTable;
-    //   if(!loadingStory)
-    //   storyTable = stories.map((story,index)=>{
-    //     return(
-    //       <li key={index}>
-    //         <Link to={`/story/${story.storyId}`} activeClassName="active">
-    //           <i className="fas fa-list-alt"></i>
-    //           <span className="menu-text">{story.title}</span>
-    //         </Link>
-    //       </li>
-    //     )
-    //   })
-    //   else
-      storyTable = <li>
-        <div className="loader">
-         <Loader/>
-          </div>
-      </li>
-        return(
-            <div>
-              <div className="side">
-                <span className="logo">Scrum Beta</span>
-                <ul className="side-menu">
-                  {storyTable}
-                </ul>
-                <div className="otherMenu">
-                  TO DO GO BACK?
-                </div>
-               
-              </div>
-              <div className="con">
-                <Header/>
-                <div className="gantt-container">                  
-                    {/* <Gantt tasks={this.state.timeDetails}/> */}
-                </div>
+  const [tasks, setTasks] = React.useState<any[]>([]);
+  const [story, setStory] = React.useState<any>();
 
-              </div>
-            </div>
-        )
+  const [fetchStories] = useFetchStories();
+  const { stories, count } = useStories();
+
+  React.useEffect(() => {
+    if (!id) {
+      navigate('/notfound');
+      return;
     }
+    fetchStories();
+    // setInterval(() => { }, 5000);
+  }, []);
+
+  React.useEffect(() => {
+    if (!stories || count === 0) return;
+
+    const s = stories.find((story: any) => story._id === id);
+
+    if (!s) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setStory(s);
+
+    const { tasks: _tasks } = s;
+
+    if (!_tasks) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setTasks(_tasks);
+  }, [stories])
+
+  let storyTable;
+
+  if (!loading) {
+    storyTable = stories.map((story: any, index: number) => {
+      return (
+        <li key={index}>
+          <Link reloadDocument to={`/story/${story._id}`}>
+            <i className="fas fa-list-alt"></i>
+            <span className="menu-text">{story.title}</span>
+          </Link>
+        </li>
+      )
+    })
+  } else {
+    storyTable = <li>
+      <div className="loader">
+        <Loader />
+      </div>
+    </li>
+  }
+
+  return (
+    <div>
+      <div className="side">
+        <span className="logo">Scrum Beta</span>
+        <ul className="side-menu">
+          {storyTable}
+        </ul>
+        <div className="otherMenu">
+          <AddStory />
+        </div>
+      </div>
+      <div className="con">
+        <Header />
+        <aside>
+          {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
+        </aside>
+      </div>
+    </div>
+  )
 }
 export default Timeline

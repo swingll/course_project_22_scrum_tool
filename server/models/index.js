@@ -10,5 +10,6 @@ db.role = require('./Role');
 db.story = require('./Story');
 db.task = require('./Task');
 db.user = require('./User');
+db.timeline = require('./Timeline');
 
 module.exports = db;

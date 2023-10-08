@@ -37,9 +37,6 @@ server api port: 3001
 Frontend: https://react.dev
 Backend: https://expressjs.com
 
-Window VS code use Yarn:
-Set-ExecutionPolicy -Scope CurrentUser Unrestricted
-
 HTTP Request
 -----------
 http://localhost:3000/
