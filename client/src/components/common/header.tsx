@@ -25,6 +25,7 @@ function Header() {
           <ul>
             <Link to="/story/1"><li><i className="fas fa-folder-open"></i><span className="mainMenuText">Board</span></li></Link>
             <Link to="/timeline/1"><li><i className="fas fa-thumbs-up"/><span className="mainMenuText">Timeline</span></li></Link>
+            <a rel="noopener noreferrer" target="_blank" href="/timeline/1"><li><i className="fas fa-code-branch" /><span className="mainMenuText">Timeline 2</span></li></a>
             {/* <a rel="noopener noreferrer" target="_blank" href="https://github.com/mreorhan/Scrum-Task-Management-with-ReactJS-Express-Server"><li><i className="fas fa-code-branch" /><span className="mainMenuText">Fork Me on Github</span></li></a> */}
           </ul>
         </div>
