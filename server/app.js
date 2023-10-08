@@ -37,6 +37,8 @@ const tasksRouter = require('./routes/tasks');
 const storiesRouter = require('./routes/story');
 const authRouter = require('./routes/auth');
 const timelinesRouter = require('./routes/timeline');
+const tlinedetailsRouter = require('./routes/tlinedetail');
+const tlinelinksRouter = require('./routes/tlinelink');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -44,6 +46,8 @@ app.use('/tasks', tasksRouter);
 app.use('/stories', storiesRouter);
 app.use('/auth', authRouter);
 app.use('/timelines', timelinesRouter);
+app.use('/tlinedetails', tlinedetailsRouter);
+app.use('/tlinelinks', tlinelinksRouter);
 
 // db
 const db = require('./helpers/db')();

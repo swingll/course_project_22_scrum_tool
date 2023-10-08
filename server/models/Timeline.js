@@ -1,22 +1,9 @@
 const mongoose =require('mongoose');
 const Schema = mongoose.Schema;
-const TimelineSchema = new Schema({    
-    text:{
-        type:String,
-        default:'No Content'
-    },
-    start_date:{
-        type:String
-        
-    },
-    duration:{
-		type:Number
-    },
-    progress:{
-		type:Number
-    },
+const TimelineSchema = new Schema({   
     contributors:{
         type:Schema.Types.ObjectId, //dont forget that!
+        ref: 'user',
         required:true
     },
     status:{
@@ -27,14 +14,19 @@ const TimelineSchema = new Schema({
         type:Number,
         required:true
     },
-    // createdBy:{
-    //     type:Schema.Types.ObjectId,
-    //     required:true
-    // },
-    // Story ID
     story: {
         type: Schema.Types.ObjectId,
         ref: 'story',
+        required: true
+    },
+    tlinedetails: {
+        type: [Schema.Types.ObjectId],
+        ref: 'tlinedetail',
+        required: true
+    },
+    tlinelinks: {
+        type: [Schema.Types.ObjectId],
+        ref: 'tlineLink',
         required: true
     },
     date:{

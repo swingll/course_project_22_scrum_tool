@@ -22,7 +22,7 @@ const StorySchema = new Schema({
         required: true
     },
     
-    // Creator
+    // timeline
     timelines: {
         type: [Schema.Types.ObjectId],
         ref: 'timeline',

@@ -2,26 +2,26 @@ var bcrypt = require('bcryptjs');
 
 const db = require('../models');
 const User = db.user;
-const Timeline = db.timeline;
+const TlineLink = db.tlinelink;
 
-exports.timeline = (req, res) => {
+exports.tlinelink = (req, res) => {
     const _id = req.params.id;
 
-    Timeline.findById(_id).populate(['contributors', 'tlinedetails', 'tlinelinks','story']).exec((err, timeline) => {
+    TlineLink.findById(_id).exec((err, tlinelink) => {
         if (err) return res.status(500).send({ message: err });
 
-        if (!timeline)
-            return res.status(404).send({ message: 'timeline not found' });
+        if (!tlinelink)
+            return res.status(404).send({ message: 'timelineLink not found' });
 
-        res.json(timeline);
+        res.json(tlinelink);
     });
 };
 
-exports.timelines = (req, res) => {
-    Timeline.find().populate(['contributors', 'tlinedetail', 'tlinelinks','story']).exec((err, timelines) => {
+exports.tlinelinks = (req, res) => {
+    TlineLink.find().exec((err, tlinelinks) => {
         if (err) return res.status(500).send({ message: err });
 
-        res.json(timelines);
+        res.json(tlinelinks);
     });
 };
 
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
         if (!user)
             return res.status(404).send({ message: 'User not found' });
 
-        Timeline.findById(req.body.story).exec((err, story) => {
+            TlineLink.findById(req.body.story).exec((err, story) => {
             if (err) return res.status(500).send({ message: err });
 
             if (!story)
@@ -71,7 +71,7 @@ exports.edit = (req, res) => {
     // if password is empty
     if (!req.body.password) return res.status(500).send({ message: 'Password cannot be empty' });
 
-    Timeline.findById(req.userId).exec((err, user) => {
+    TlineLink.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!user)
@@ -91,7 +91,7 @@ exports.edit = (req, res) => {
 exports.delete = (req, res) => {
     const _id = req.params.id;
 
-    User.findByIdAndRemove(_id).exec((err, ret) => {
+    TlineLink.findByIdAndRemove(_id).exec((err, ret) => {
         if (err) return res.status(500).send({ message: err });
         
         return res.status(200).send({ message: `${ret.deletedCount} user have been deleted` });

@@ -11,5 +11,7 @@ db.story = require('./Story');
 db.task = require('./Task');
 db.user = require('./User');
 db.timeline = require('./Timeline');
+db.tlinedetail = require('./Tlinedetail');
+db.tlineLink = require('./Tlinelink');
 
 module.exports = db;

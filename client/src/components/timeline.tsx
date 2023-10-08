@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Loader from './loader';
-import Header from './common/header';
 import Gantt from './Gantt';
 import { useFetchTimelines, useTimelines } from "../states/timeline/hooks";
-import MessageArea from './MessageArea';
+import { useFetchTlinedetails, useTlinedetails } from "../states/tlinedetail/hooks";
+import MessageArea from './MessageArea/MessageArea';
 import Toolbar from './Toolbar/Toolbar';
 
 const data = {
   data: [
-    { id: 1, text: 'Task #1', start_date: '2020-02-12', duration: 3, progress: 0.6 },
-    { id: 2, text: 'Task #2', start_date: '2020-02-16', duration: 3, progress: 0.4 },
+    { id: 1, text: 'Task #1', start_date: '2020-02-12', duration: 3, progress: 0.6, timeId:"123", contributors :""},
+    { id: 2, text: 'Task #2', start_date: '2020-02-16', duration: 3, progress: 0.4, timeId:"123", contributors :""},
   ],
   links: [
     { id: 1, source: 1, target: 2, type: '0' },
@@ -46,9 +45,12 @@ export function Timeline() {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [timeline, setTimeline] = React.useState<any[]>([]);
+  const [timelineDetail, setTimelineDetail] = React.useState<any[]>([]);
+  const [timelineLink, setTimelineLink] = React.useState<any[]>([]);
   // const [story, setStory] = React.useState<any>();
 
   const [fetchTimelines] = useFetchTimelines();
+  const [fetchTlinedetails] = useFetchTlinedetails();
   const { timelines, count } = useTimelines();
   const [gantTimelines, setGantTimelines] = React.useState<TimelineData>();
   // const [data, setData] = React.useState<TimelineData>();
@@ -83,44 +85,39 @@ export function Timeline() {
       return;
     }
     fetchTimelines();
+    fetchTlinedetails();
     // setInterval(() => { }, 5000);
   }, []);
 
   React.useEffect(() => {
     if (!timelines || count === 0) return;
 
-    // const t = timelines.find((timeline: any) => timeline._id === id);
+    const tl = timelines.find((timeline: any) => timeline._id === id);
 
-    // if (!t) {
-    //   // navigate('/notfound');
-    //   return;
-    // }
-    // setData({
-    //   ...data,
-    //   data: [
-    //     { id: 1, text: 'Task #1', start_date: '2019-04-15', duration: 3, progress: 0.6 },
-    //   ]
-    // });
-    console.log("timelines", timelines)
-    // timelines.map((t, index) => {
-    //   setData({
-    //     ...data,
-    //     data: [
-    //       {
-    //         id: index,
-    //         text: t.text,
-    //         start_date: t.start_date,
-    //         duration: t.duration,
-    //         progress: t.progress
-    //       }
-    //     ]
-    //   });
-    // })
-    // console.log("data", data)
-    // const dataT = { data: data }
-    // setGantTimelines(data);
-    // setGantTimelines(newSetOfArray);
-    console.log("gantTimelines", gantTimelines)
+    if (!tl) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setTimeline(tl);
+
+    const { timelineDetail: _timelineDetail } = tl;
+
+    const { timelineLink: _timelineLink } = tl;
+
+    if (!_timelineDetail) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setTimelineDetail(_timelineDetail);
+
+    if (!_timelineLink) {
+      // navigate('/notfound');
+      return;
+    }
+
+    setTimelineLink(_timelineLink);
 
   }, [timelines])
 
@@ -137,7 +134,7 @@ export function Timeline() {
         {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
         <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} />
       </div>
-      {/* <MessageArea messages={messages} /> */}
+      <MessageArea messages={messages} />
       <>{console.log({ messages })}</>
     </div>
 

@@ -30,7 +30,7 @@ export function useFetchTimelines(init?: boolean) {
   return [fetch];
 }
 
-export function useFetchStory(): [(id: string) => Promise<any>] {
+export function useFetchTimeline(): [(id: string) => Promise<any>] {
   const fetchTimeline = useCallback((id: string) => {
     return getTimeline(id);
   }, []);
