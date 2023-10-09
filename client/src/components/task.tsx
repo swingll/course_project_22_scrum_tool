@@ -35,7 +35,6 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
         }else{
           onDrop(id, Number(status));
         }
-
       }
     });
     setLoadingOver(false)
