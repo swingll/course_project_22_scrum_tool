@@ -204,7 +204,9 @@ li .active:before {
 }
 
 .space{
-    margin: 15px 0 20px
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0 20px;
 }
 .customAddTask {
     top: -22.5px;
