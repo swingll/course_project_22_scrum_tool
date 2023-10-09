@@ -19,6 +19,26 @@ a{
 /*
 new style
 */
+#delete{
+    position: relative;
+    display: block;
+}
+#delete:hover::after{
+    border: 1px solid rgba(123,123,123,0.2);
+    color: rgba(123,123,123,0.5);
+    content: 'dblclick';
+    position: absolute;
+    text-align: center;
+    width: 56px;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    z-index: 999;
+    height: 25px;
+    margin-left: 5px;
+    line-height: 25px;
+    top: 0px;
+}
 .btn-close{
     display:none;
 }
@@ -259,7 +279,7 @@ li .active:before {
     display: grid;
 }
 .ui-draggable{
-    width: 308px;
+    width: 256px;
 }
 .ui-droppable-hover{
     background: #ebeff3;

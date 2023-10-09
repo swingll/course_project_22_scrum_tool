@@ -80,7 +80,7 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
                 <span>{task.title}</span>
-                {taskDPermission?<i id="delete" className="fas fa-times" onClick={() => onDelete(task._id)}></i>:<></>}
+                {taskDPermission?<i id="delete" title="double click" className="fas fa-times" onDoubleClick={() => onDelete(task._id)}></i>:<></>}
               </span>
               <span className="task-details">{task.content}</span>
               <div>

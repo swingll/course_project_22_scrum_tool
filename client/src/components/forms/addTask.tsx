@@ -28,6 +28,12 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
   React.useEffect(() => {
     moment.locale('hk');
     changeColumnTitle(0)
+    return ()=>{
+      if(rotateInteval){
+        clearInterval(rotateInteval.current)
+        rotateInteval.current = undefined
+      }
+    }
   }, [])
   React.useEffect(()=>{
     setUserLoading(false)
@@ -73,7 +79,6 @@ export function AddTask({ storyId, status, className,loading,setLoading }: any) 
 
     createTask(data)
       .then((res) => {
-        console.log(res)
         setModal(false);
         setLoading(true)
       }).catch((err) => {
