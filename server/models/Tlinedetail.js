@@ -6,8 +6,7 @@ const TlinedetailSchema = new Schema({
         default:'No Content'
     },
     start_date:{
-        type:String
-        
+        type:String        
     },
     duration:{
 		type:Number

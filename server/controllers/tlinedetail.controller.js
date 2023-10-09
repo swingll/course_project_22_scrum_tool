@@ -11,7 +11,7 @@ exports.tlinedetail = (req, res) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!tlinedetail)
-            return res.status(404).send({ message: 'timelineDetail not found' });
+            return res.status(404).send({ message: 'timeline detail not found' });
 
         res.json(tlinedetail);
     });

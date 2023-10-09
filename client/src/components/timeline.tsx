@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Gantt from './Gantt';
 import { useFetchTimelines, useTimelines } from "../states/timeline/hooks";
@@ -53,9 +53,11 @@ export function Timeline() {
   const [fetchTlinedetails] = useFetchTlinedetails();
   const { timelines, count } = useTimelines();
   const [gantTimelines, setGantTimelines] = React.useState<TimelineData>();
-  // const [data, setData] = React.useState<TimelineData>();
-  // const [timelineData, setTimelineData] = React.useState<>([])
-  ;
+  const [data1, setData1] = useState({
+    data: [],
+    links: [],
+  });
+  
   const [currentZoom, setCurrentZoom] = useState('Days');
   const [messages, setMessages] = useState<{ message: string }[]>([]);
 
@@ -79,45 +81,55 @@ export function Timeline() {
     setCurrentZoom(zoom);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // console.log("here!!!!");
     if (!id) {
       navigate('/notfound');
       return;
+    }else{
+      fetchTimelines();
     }
-    fetchTimelines();
-    fetchTlinedetails();
+   
+    // fetchTlinedetails();
     // setInterval(() => { }, 5000);
   }, []);
 
   React.useEffect(() => {
     if (!timelines || count === 0) return;
+       
+    if(id === '1'){//TODO
+      setTimeline(timelines[0]);
+    }else{
+      const tl = timelines.find((timeline: any) => timeline._id === id);
+      if (!tl) {
+        // navigate('/notfound');
+        return;
+      }
+  
+      setTimeline(tl);
 
-    const tl = timelines.find((timeline: any) => timeline._id === id);
-
-    if (!tl) {
-      // navigate('/notfound');
-      return;
+      console.log("here!!!! timeline", timeline);
+      const { timelineDetail: _timelineDetail } = tl;
+  
+      const { timelineLink: _timelineLink } = tl;
+  
+      if (!_timelineDetail) {
+        // navigate('/notfound');
+        return;
+      }
+  
+      setTimelineDetail(_timelineDetail);
+  
+      if (!_timelineLink) {
+        // navigate('/notfound');
+        return;
+      }
+  
+      setTimelineLink(_timelineLink);
     }
+    
+    console.log("here!!!! timeline timeline", timeline);     
 
-    setTimeline(tl);
-
-    const { timelineDetail: _timelineDetail } = tl;
-
-    const { timelineLink: _timelineLink } = tl;
-
-    if (!_timelineDetail) {
-      // navigate('/notfound');
-      return;
-    }
-
-    setTimelineDetail(_timelineDetail);
-
-    if (!_timelineLink) {
-      // navigate('/notfound');
-      return;
-    }
-
-    setTimelineLink(_timelineLink);
 
   }, [timelines])
 

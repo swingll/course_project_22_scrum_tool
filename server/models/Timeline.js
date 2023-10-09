@@ -2,7 +2,7 @@ const mongoose =require('mongoose');
 const Schema = mongoose.Schema;
 const TimelineSchema = new Schema({   
     contributors:{
-        type:Schema.Types.ObjectId, //dont forget that!
+        type:[Schema.Types.ObjectId], //dont forget that!
         ref: 'user',
         required:true
     },
@@ -26,7 +26,7 @@ const TimelineSchema = new Schema({
     },
     tlinelinks: {
         type: [Schema.Types.ObjectId],
-        ref: 'tlineLink',
+        ref: 'tlinelink',
         required: true
     },
     date:{

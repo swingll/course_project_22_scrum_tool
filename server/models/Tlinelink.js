@@ -1,6 +1,6 @@
 const mongoose =require('mongoose');
 const Schema = mongoose.Schema;
-const TlineLinkSchema = new Schema({    
+const TlinelinkSchema = new Schema({    
     id:{
         type:Number,
         required:true
@@ -38,4 +38,4 @@ const TlineLinkSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('tlineLink',TlineLinkSchema);
+module.exports = mongoose.model('tlinelink',TlinelinkSchema);
