@@ -30,7 +30,12 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
         // $(this).append($(ui.draggable));
         const id:string = ui.draggable[0].getAttribute('id')??''
         const status = $(this).find('.mcell-title').find('i').attr('id').substring(8, 9)
-        onDrop(id, Number(status));
+        if(status === ui.draggable[0].getAttribute('about')){
+          return;
+        }else{
+          onDrop(id, Number(status));
+        }
+
       }
     });
     setLoadingOver(false)
@@ -80,7 +85,7 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
         .map((task: any, index: number) => {
           photo = (task.contributors[0] && task.contributors[0].profilePhoto)?(<img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />):<></>
           return (
-            <li id={task._id} className="mcell-task" key={index}>
+            <li id={task._id} about={task.status} className="mcell-task" key={index}>
               <span className="task-name">
                 <span>{task.title}</span>
                 {taskDPermission?<i id="delete" title="double click" className="fas fa-times" onDoubleClick={() => onDelete(task._id)}></i>:<></>}
