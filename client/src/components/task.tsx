@@ -6,14 +6,11 @@ import 'jquery-ui-dist/jquery-ui';
 import Loader from './loader';
 import { useDeleteTask, useUpdateTask } from "../states/task/hooks";
 import { useFetchStories } from "../states/story/hooks";
-import {useState} from "react";
-import {useAuthorize} from "../states/permission/hooks";
+import { useState } from "react";
+import { useAuthorize } from "../states/permission/hooks";
 
-export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingOver}: any) {
+export function Task({ tasks, filter, loading: loadingOver, setLoading: setLoadingOver }: any) {
   React.useEffect(() => {
-
-  }, [])
-  React.useEffect(()=>{
     $(".mcell-task").draggable({
       appendTo: "body",
       cursor: "move",
@@ -28,24 +25,24 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
       hoverClass: "ui-state-hover",
       drop: function (event, ui) {
         // $(this).append($(ui.draggable));
-        const id:string = ui.draggable[0].getAttribute('id')??''
+        const id: string = ui.draggable[0].getAttribute('id') ?? ''
         const status = $(this).find('.mcell-title').find('i').attr('id').substring(8, 9)
-        if(status === ui.draggable[0].getAttribute('about')){
+        if (status === ui.draggable[0].getAttribute('about')) {
           return;
-        }else{
+        } else {
           onDrop(id, Number(status));
         }
       }
     });
     setLoadingOver(false)
     setLoading(false)
-  },[tasks])
+  }, [tasks])
 
   const [fetchStories] = useFetchStories();
   const [removeTask] = useDeleteTask();
   const [updateTask] = useUpdateTask();
-  const [loading,setLoading] = useState<boolean>()
-  const taskDPermission = useAuthorize("task","D")
+  const [loading, setLoading] = useState<boolean>()
+  const taskDPermission = useAuthorize("task", "D")
 
   const onDrop = (id: string, status: number) => {
     setLoadingOver(true)
@@ -63,9 +60,9 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
     setLoading(true)
     removeTask(id)
       .then((res) => {
-        
+
       }).catch((err) => {
-        
+
       }).finally(() => {
         fetchStories(); // refresh stories
       })
@@ -82,12 +79,12 @@ export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingO
     content =
       tasks.filter((task: any) => task.status === Number(filter))
         .map((task: any, index: number) => {
-          photo = (task.contributors[0] && task.contributors[0].profilePhoto)?(<img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />):<></>
+          photo = (task.contributors[0] && task.contributors[0].profilePhoto) ? (<img alt={task.contributors[0].name + ' ' + task.contributors[0].lastName} title={task.contributors[0].name + ' ' + task.contributors[0].lastName} src={'/assets/img/' + task.contributors[0].profilePhoto} />) : <></>
           return (
             <li id={task._id} about={task.status} className="mcell-task" key={index}>
               <span className="task-name">
                 <span>{task.title}</span>
-                {taskDPermission?<i id="delete" title="double click" className="fas fa-times" onDoubleClick={() => onDelete(task._id)}></i>:<></>}
+                {taskDPermission ? <i id="delete" title="double click" className="fas fa-times" onDoubleClick={() => onDelete(task._id)}></i> : <></>}
               </span>
               <span className="task-details">{task.content}</span>
               <div>

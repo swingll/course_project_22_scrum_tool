@@ -3,7 +3,7 @@ import { Tooltip } from 'reactstrap';
 import AddTask from './forms/addTask';
 import {useAuthorize} from "../states/permission/hooks";
 
-export function Tooltips({ id, storyId, placement, content,loading, setLoading}: any) {
+export function Tooltips({ id, story, placement, content,loading, setLoading}: any) {
   const [tooltipOpen, setTooltipOpen] = React.useState<boolean>(false);
 
   return (
@@ -13,7 +13,7 @@ export function Tooltips({ id, storyId, placement, content,loading, setLoading}:
         {content}
       </Tooltip>
 
-        {useAuthorize("task","C")?<AddTask loading={loading} setLoading={setLoading} storyId={storyId} status={id}/>:<></>}
+        {useAuthorize("task","C")?<AddTask loading={loading} setLoading={setLoading} storyId={story?._id} members={[...story?.members, story?.creator]} status={id}/>:<></>}
     </span>
   );
 }

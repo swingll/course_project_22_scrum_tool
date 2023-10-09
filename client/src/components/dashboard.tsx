@@ -1,13 +1,13 @@
 import * as React from "react";
-import {useParams, useNavigate, Link, useLocation} from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Story } from './story';
 import AddStory from './forms/addStory';
 import Loader from './loader';
 import Header from './common/header';
 import { useFetchStories, useStories } from "../states/story/hooks";
-import {useAuthorize} from "../states/permission/hooks";
-import {useRef, useState} from "react";
-import {useFetchUsers} from "../states/user/hooks";
+import { useAuthorize } from "../states/permission/hooks";
+import { useRef, useState } from "react";
+import { useFetchUsers } from "../states/user/hooks";
 
 export function Dashboard() {
   const { id } = useParams();
@@ -23,17 +23,17 @@ export function Dashboard() {
 
   const [tasks, setTasks] = React.useState<any[]>([]);
   const [story, setStory] = React.useState<any>();
-  const [futureId,setFutureId] = useState(id)
+  const [futureId, setFutureId] = useState(id)
 
   const [fetchStories] = useFetchStories();
   const [fetchUsers] = useFetchUsers();
   const { stories, count } = useStories();
 
-  const addButtonShow = useAuthorize("story","C")
+  const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
   React.useEffect(() => {
     // if not do this the callback function may be called twice during first time rendering
-    if(!init.current){
+    if (!init.current) {
       init.current = true;
       if (!id) {
         navigate('/notfound');
@@ -41,17 +41,16 @@ export function Dashboard() {
       }
       setLoading(true)
       //
-      fetchStories().then(()=>{setLoading(false)}).finally()
+      fetchStories().then(() => { setLoading(false) }).finally()
       fetchUsers()
     }
-
 
     // setInterval(() => { }, 5000);
   }, []);
 
   React.useEffect(() => {
     if (!stories || count === 0) return;
-    if(futureId !== id){
+    if (futureId !== id) {
       navigate(`/story/${futureId}`)
       setLoading(false)
       return
@@ -118,10 +117,10 @@ export function Dashboard() {
       </div>
     </li>
   }
-  let addButton = ():React.JSX.Element=>{
-    return addButtonShow? (<div className="otherMenu">
-      <AddStory setFutureId={setFutureId}/>
-    </div>):(<></>)
+  let addButton = (): React.JSX.Element => {
+    return addButtonShow ? (<div className="otherMenu">
+      <AddStory setFutureId={setFutureId} />
+    </div>) : (<></>)
   }
 
   return (

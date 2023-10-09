@@ -30,7 +30,7 @@ function Header() {
           </ul>
         </div>
         <div className="profilewidget">
-          <AddUser />
+          {/* <AddUser /> // TODO: create user by admin */}
           <a onClick={() => csignout()}>Logout</a>
         </div>
       </div>
