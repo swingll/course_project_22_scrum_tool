@@ -85,7 +85,7 @@ exports.edit = (req, res) => {
         task.save((err) => {
             if (err) return res.status(500).send({ message: err });
 
-            res.status(200).send({ message: 'Title have been changed' });
+            res.status(200).send({ message: 'Task have been changed' });
         });
     });
 };

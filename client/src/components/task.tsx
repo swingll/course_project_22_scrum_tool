@@ -9,8 +9,11 @@ import { useFetchStories } from "../states/story/hooks";
 import {useState} from "react";
 import {useAuthorize} from "../states/permission/hooks";
 
-export function Task({ tasks,  filter,loading:loadingOver}: any) {
+export function Task({ tasks,  filter,loading:loadingOver,setLoading:setLoadingOver}: any) {
   React.useEffect(() => {
+
+  }, [])
+  React.useEffect(()=>{
     $(".mcell-task").draggable({
       appendTo: "body",
       cursor: "move",
@@ -24,14 +27,13 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       drop: function (event, ui) {
-        $(this).append($(ui.draggable));
-        const id = $(this).find("li").attr('id')
+        // $(this).append($(ui.draggable));
+        const id:string = ui.draggable[0].getAttribute('id')??''
         const status = $(this).find('.mcell-title').find('i').attr('id').substring(8, 9)
         onDrop(id, Number(status));
       }
     });
-  }, [])
-  React.useEffect(()=>{
+    setLoadingOver(false)
     setLoading(false)
   },[tasks])
 
@@ -42,11 +44,12 @@ export function Task({ tasks,  filter,loading:loadingOver}: any) {
   const taskDPermission = useAuthorize("task","D")
 
   const onDrop = (id: string, status: number) => {
+    setLoadingOver(true)
     updateTask({ id, status })
       .then((res) => {
-        setLoading(true)
+
       }).catch((err) => {
-        
+        alert(err)
       }).finally(() => {
         fetchStories()
       })
