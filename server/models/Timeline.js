@@ -22,12 +22,12 @@ const TimelineSchema = new Schema({
     timelinedetails: {
         type: [Schema.Types.ObjectId],
         ref: 'timelinedetail',
-        required: true
+        //required: true
     },
     timelinelinks: {
         type: [Schema.Types.ObjectId],
         ref: 'timelinelink',
-        required: true
+        //required: true
     },
     date:{
         type:Date,

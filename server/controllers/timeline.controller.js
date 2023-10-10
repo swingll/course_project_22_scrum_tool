@@ -42,26 +42,19 @@ exports.create = (req, res) => {
                 return res.status(404).send({ message: 'Story not found' });
             
             const timeline = new Timeline({
-                text: req.body.text,
-                start_date: req.body.start_date,
-                duration: req.body.duration,
-                progress: req.body.progress,
                 contributors: [user._id],
                 status: req.body.status || 1,
                 story: story._id,
+                timelinedetails: [],
+                timelinelinks: [],
             });
-    
+
             timeline.save((err, timeline) => {
                 if (err) return res.status(500).send({ message: err });
     
                 res.json(timeline);
             });
 
-            // story.tasks.push(task._id)
-
-            // story.save((err, task) => {
-            //     if (err) return res.status(500).send({ message: err });
-            // });
         });
     });
 };

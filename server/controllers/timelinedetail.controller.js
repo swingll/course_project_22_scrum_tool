@@ -2,6 +2,7 @@ var bcrypt = require('bcryptjs');
 
 const db = require('../models');
 const User = db.user;
+const Timeline = db.timeline;
 const Timelinedetail = db.timelinedetail;
 
 exports.timelinedetail = (req, res) => {
@@ -25,46 +26,46 @@ exports.timelinedetails = (req, res) => {
     });
 };
 
-// exports.create = (req, res) => {
-//     if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
-//     if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
+exports.create = (req, res) => {
+    if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
+    if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
 
-//     User.findById(req.userId).exec((err, user) => {
-//         if (err) return res.status(500).send({ message: err });
+    User.findById(req.userId).exec((err, user) => {
+        if (err) return res.status(500).send({ message: err });
 
-//         if (!user)
-//             return res.status(404).send({ message: 'User not found' });
+        if (!user)
+            return res.status(404).send({ message: 'User not found' });
 
-//         Timelinedetail.findById(req.body.story).exec((err, story) => {
-//             if (err) return res.status(500).send({ message: err });
+        Timelinedetail.findById(req.body.story).exec((err, story) => {
+            if (err) return res.status(500).send({ message: err });
 
-//             if (!story)
-//                 return res.status(404).send({ message: 'Story not found' });
+            if (!story)
+                return res.status(404).send({ message: 'Story not found' });
             
-//             const timeline = new Timeline({
-//                 text: req.body.text,
-//                 start_date: req.body.start_date,
-//                 duration: req.body.duration,
-//                 progress: req.body.progress,
-//                 contributors: [user._id],
-//                 status: req.body.status || 1,
-//                 story: story._id,
-//             });
+            const timelinedetail = new Timelinedetail({
+                id:3,
+                text: req.body.text,
+                start_date: req.body.start_date,
+                duration: req.body.duration,
+                progress: req.body.progress,
+                contributors: [user._id],
+                status: req.body.status || 1,
+                story: story._id,
+            });
+            timelinedetail.save((err, timelinedetail) => {
+                if (err) return res.status(500).send({ message: err });
     
-//             timeline.save((err, timeline) => {
-//                 if (err) return res.status(500).send({ message: err });
-    
-//                 res.json(timeline);
-//             });
+                res.json(timeline);
+            });
 
-//             // story.tasks.push(task._id)
+            Timeline.timelinedetails.push(timelinedetails._id)
 
-//             // story.save((err, task) => {
-//             //     if (err) return res.status(500).send({ message: err });
-//             // });
-//         });
-//     });
-// };
+            Timeline.save((err, timelinedetails) => {
+                if (err) return res.status(500).send({ message: err });
+            });
+        });
+    });
+};
 
 // exports.edit = (req, res) => {
 

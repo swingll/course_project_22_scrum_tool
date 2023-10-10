@@ -3,19 +3,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Moment from 'moment';
 import Gantt from './Gantt/Gantt';
 import { useFetchTimelines, useTimelines, useFetchTimeline } from "../states/timeline/hooks";
-// import { useFetchTimelinedetails, useTimelinedetails } from "../states/timelinedetail/hooks";
+import { useCreateTimelinedetail} from "../states/timelinedetail/hooks";
+
 import MessageArea from './MessageArea/MessageArea';
 import Toolbar from './Toolbar/Toolbar';
-
-// const data = {
-//   data: [
-//     { id: 1, text: 'Task #1', start_date: "2020-02-12", duration: 3, progress: 0.6, timeId:"123", contributors :""},
-//     { id: 2, text: 'Task #2', start_date: "2020-02-16", duration: 3, progress: 0.4, timeId:"123", contributors :""},
-//   ],
-//   links: [
-//     { id: 1, source: 1, target: 2, type: '0' },
-//   ],
-// };
 
 export function Timeline() {
   interface Data {
@@ -58,20 +49,14 @@ export function Timeline() {
   }
 
   const { id } = useParams();
-
   const navigate = useNavigate();
-
-
-  const [timeline, setTimeline] = React.useState<any[]>([]);
-  // const [timelineDetail, setTimelineDetail] = React.useState<any[]>([]);
-  // const [timelineLink, setTimelineLink] = React.useState<any[]>([]);
-  // const [story, setStory] = React.useState<any>();
-
   const [fetchTimelines] = useFetchTimelines();
   const [fetchTimeline] = useFetchTimeline();
-  // const [fetchTimelinedetails] = useFetchTimelinedetails();
   const { timelines, count } = useTimelines();
-  const [timelineData, setTimelineData] = useState<{ data: any[]; links: any[] }>({
+  const [timeline, setTimeline] = React.useState<any[]>([]);
+  const [timelineData, setTimelineData] = useState<TimelineData>();
+
+  const [timelineDatas, setTimelineDatas] = useState<{ data: any[]; links: any[] }>({
     data: [],
     links: [],
   });
@@ -92,6 +77,9 @@ export function Timeline() {
     console.log("action", action);
     console.log("item", item);
     console.log("id", id);
+    // useCreateTimelinedetail
+    // const tmp = {id:1696942534488, duration: item.duration, parent: parent, progress:progress};
+    // setTimelineData(...);
     let text = item && item.text ? ` (${item.text})` : '';
     let message = `${type} ${action}: ${id} ${text}`;
     if (type === 'link' && action !== 'delete') {
@@ -111,10 +99,12 @@ export function Timeline() {
     }else{
       const daa = fetchTimelines();
       // console.log(daa);
-      // const da = fetchTimeline('652250087eb001c14029dfaa');
-      // console.log(da);
+      const da = fetchTimeline('652250087eb001c14029dfaa')
+      da.then((res)=>{
+        console.log(res.data);
+      });
+      console.log(da);
     }   
-    // fetchTimelinedetails();
     // setInterval(() => { }, 5000);
   }, []);
 
@@ -175,7 +165,7 @@ export function Timeline() {
       linkTmp.push(tmp);
     });
     // console.log("here!!!! datatmp", datatmp);
-    setTimelineData({...timelineData, data: dataTmp, links:linkTmp})
+    setTimelineDatas({...timelineDatas, data: dataTmp, links:linkTmp})
   }, [timelines])
 
 
@@ -189,7 +179,7 @@ export function Timeline() {
       </div>
       <div className="gantt-container">
         {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
-        {timelineData && timelineData.data?.length > 0 && <Gantt tasks={timelineData} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
+        {timelineDatas && timelineDatas.data?.length > 0 && <Gantt tasks={timelineDatas} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
       </div>
       <MessageArea messages={messages} />
       {/* <>{console.log({ messages })}</> */}

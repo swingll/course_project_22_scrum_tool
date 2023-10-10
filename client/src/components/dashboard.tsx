@@ -28,6 +28,7 @@ export function Dashboard() {
       navigate('/notfound');
       return;
     }
+    console.log(1222222);
     fetchStories();
     // setInterval(() => { }, 5000);
   }, []);
@@ -88,7 +89,6 @@ export function Dashboard() {
       </div>
       <div className="con">
         <Header />
-        <>123</>
         <aside>
           {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
         </aside>
