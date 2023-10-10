@@ -11,7 +11,7 @@ router.get('/find', [jwt.verifyToken, controller.timelinedetails]);
 router.get('/find/:id', [jwt.verifyToken, controller.timelinedetail]);
 
 // create task (developer)
-// router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);
+router.post('/create', [jwt.verifyToken, controller.create]);
 
 // // edit task by id (developer)
 // router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);

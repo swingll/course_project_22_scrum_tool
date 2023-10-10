@@ -52,6 +52,7 @@ export function Timeline() {
   const navigate = useNavigate();
   const [fetchTimelines] = useFetchTimelines();
   const [fetchTimeline] = useFetchTimeline();
+  const [createTimelinedetail] = useCreateTimelinedetail();
   const { timelines, count } = useTimelines();
   const [timeline, setTimeline] = React.useState<any[]>([]);
   const [timelineData, setTimelineData] = useState<TimelineData>();
@@ -78,8 +79,9 @@ export function Timeline() {
     console.log("item", item);
     console.log("id", id);
     // useCreateTimelinedetail
-    // const tmp = {id:1696942534488, duration: item.duration, parent: parent, progress:progress};
+    const tmp = {id:id, duration: item.duration, parent: item.parent, progress:item.progress, start_date: item.start_date, text:item.text, timeline:"652250087eb001c14029dfaa"};
     // setTimelineData(...);
+    createTimelinedetail(tmp);
     let text = item && item.text ? ` (${item.text})` : '';
     let message = `${type} ${action}: ${id} ${text}`;
     if (type === 'link' && action !== 'delete') {

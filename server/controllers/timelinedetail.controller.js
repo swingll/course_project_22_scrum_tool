@@ -27,6 +27,7 @@ exports.timelinedetails = (req, res) => {
 };
 
 exports.create = (req, res) => {
+    console.log("@@@@@@@@@@@@@@@@@@@@@");
     if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
     if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
 
@@ -36,34 +37,35 @@ exports.create = (req, res) => {
         if (!user)
             return res.status(404).send({ message: 'User not found' });
 
-        Timelinedetail.findById(req.body.story).exec((err, story) => {
-            if (err) return res.status(500).send({ message: err });
+        // Timelinedetail.findById(req.body.story).exec((err, story) => {
+            // if (err) return res.status(500).send({ message: err });
 
-            if (!story)
-                return res.status(404).send({ message: 'Story not found' });
+            // if (!story)
+            //     return res.status(404).send({ message: 'Story not found' });
             
             const timelinedetail = new Timelinedetail({
-                id:3,
+                id:req.body.id,
                 text: req.body.text,
+                parent: req.body.parent,
                 start_date: req.body.start_date,
                 duration: req.body.duration,
                 progress: req.body.progress,
                 contributors: [user._id],
                 status: req.body.status || 1,
-                story: story._id,
+                timeline: req.body.timeline,
             });
             timelinedetail.save((err, timelinedetail) => {
                 if (err) return res.status(500).send({ message: err });
     
-                res.json(timeline);
+                res.json(timelinedetail);
             });
 
-            Timeline.timelinedetails.push(timelinedetails._id)
+            // Timeline.Timelinedetail.push(timelinedetails._id)
 
-            Timeline.save((err, timelinedetails) => {
-                if (err) return res.status(500).send({ message: err });
-            });
-        });
+            // Timeline.save((err, timelinedetails) => {
+            //     if (err) return res.status(500).send({ message: err });
+            // });
+        // });
     });
 };
 
