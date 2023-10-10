@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const { jwt } = require('../helpers/auth');
-const controller = require('../controllers/tlinelink.controller');
+const controller = require('../controllers/timelinedetail.controller');
 
 // get all tasks
-router.get('/find', [jwt.verifyToken, controller.tlinelink]);
+router.get('/find', [jwt.verifyToken, controller.timelinedetails]);
 
 // get task by id
-router.get('/find/:id', [jwt.verifyToken, controller.tlinelinks]);
+router.get('/find/:id', [jwt.verifyToken, controller.timelinedetail]);
 
 // create task (developer)
 // router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);

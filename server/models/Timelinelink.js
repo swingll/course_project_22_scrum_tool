@@ -1,17 +1,17 @@
 const mongoose =require('mongoose');
 const Schema = mongoose.Schema;
-const TlinedetailSchema = new Schema({    
-    text:{
-        type:String,
-        default:'No Content'
+const TimelinelinkSchema = new Schema({    
+    id:{
+        type:Number,
+        required:true
     },
-    start_date:{
-        type:String        
-    },
-    duration:{
+    source:{
 		type:Number
     },
-    progress:{
+    target:{
+		type:Number
+    },
+    type:{
 		type:Number
     },
     contributors:{
@@ -19,10 +19,6 @@ const TlinedetailSchema = new Schema({
         required:true
     },
     status:{
-        type:Number,
-        required:true
-    },
-    id:{
         type:Number,
         required:true
     },
@@ -42,4 +38,4 @@ const TlinedetailSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('tlinedetail',TlinedetailSchema);
+module.exports = mongoose.model('timelinelink',TimelinelinkSchema);

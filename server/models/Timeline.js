@@ -19,14 +19,14 @@ const TimelineSchema = new Schema({
         ref: 'story',
         required: true
     },
-    tlinedetails: {
+    timelinedetails: {
         type: [Schema.Types.ObjectId],
-        ref: 'tlinedetail',
+        ref: 'timelinedetail',
         required: true
     },
-    tlinelinks: {
+    timelinelinks: {
         type: [Schema.Types.ObjectId],
-        ref: 'tlinelink',
+        ref: 'timelinelink',
         required: true
     },
     date:{

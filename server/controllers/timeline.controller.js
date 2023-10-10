@@ -7,7 +7,7 @@ const Timeline = db.timeline;
 exports.timeline = (req, res) => {
     const _id = req.params.id;
 
-    Timeline.findById(_id).populate(['contributors', 'tlinedetails', 'tlinelinks','story']).exec((err, timeline) => {
+    Timeline.findById(_id).populate(['contributors', 'timelinedetails', 'timelinelinks','story']).exec((err, timeline) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!timeline)
@@ -18,7 +18,7 @@ exports.timeline = (req, res) => {
 };
 
 exports.timelines = (req, res) => {
-    Timeline.find().populate(['contributors', 'tlinedetails', 'tlinelinks','story']).exec((err, timelines) => {
+    Timeline.find().populate(['contributors', 'timelinedetails', 'timelinelinks','story']).exec((err, timelines) => {
         if (err) return res.status(500).send({ message: err });
 
         res.json(timelines);

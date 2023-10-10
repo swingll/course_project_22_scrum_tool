@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Gantt from './Gantt';
-import { useFetchTimelines, useTimelines } from "../states/timeline/hooks";
-import { useFetchTlinedetails, useTlinedetails } from "../states/tlinedetail/hooks";
+import Moment from 'moment';
+import Gantt from './Gantt/Gantt';
+import { useFetchTimelines, useTimelines, useFetchTimeline } from "../states/timeline/hooks";
+// import { useFetchTimelinedetails, useTimelinedetails } from "../states/timelinedetail/hooks";
 import MessageArea from './MessageArea/MessageArea';
 import Toolbar from './Toolbar/Toolbar';
 
-const data = {
-  data: [
-    { id: 1, text: 'Task #1', start_date: '2020-02-12', duration: 3, progress: 0.6, timeId:"123", contributors :""},
-    { id: 2, text: 'Task #2', start_date: '2020-02-16', duration: 3, progress: 0.4, timeId:"123", contributors :""},
-  ],
-  links: [
-    { id: 1, source: 1, target: 2, type: '0' },
-  ],
-};
+// const data = {
+//   data: [
+//     { id: 1, text: 'Task #1', start_date: "2020-02-12", duration: 3, progress: 0.6, timeId:"123", contributors :""},
+//     { id: 2, text: 'Task #2', start_date: "2020-02-16", duration: 3, progress: 0.4, timeId:"123", contributors :""},
+//   ],
+//   links: [
+//     { id: 1, source: 1, target: 2, type: '0' },
+//   ],
+// };
 
 export function Timeline() {
   interface Data {
@@ -24,36 +25,53 @@ export function Timeline() {
     duration: any
     progress: any
   }
-  interface TimelineData {
-    data: [{
+  
+  // interface TimelineData {
+  //   contributors:[{
+  //     roles:string,
+  //   }]
+  //   data: [{
+  //     id: number
+  //     text: any
+  //     start_date: any
+  //     duration: any
+  //     progress: any
+  //   },]
+  // }
+
+  interface TimelineData {  
+    contributors:any[]
       id: number
       text: any
       start_date: any
       duration: any
       progress: any
-    },]
+  
+  }
+
+  interface TimelineLink {  
+      id: number
+      source: number
+      target: number
+      type: String
+  
   }
 
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [show, setShow] = React.useState<boolean>(false);
-  const [err, setErr] = React.useState<string>('');
-  const [err2, setErr2] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   const [timeline, setTimeline] = React.useState<any[]>([]);
-  const [timelineDetail, setTimelineDetail] = React.useState<any[]>([]);
-  const [timelineLink, setTimelineLink] = React.useState<any[]>([]);
+  // const [timelineDetail, setTimelineDetail] = React.useState<any[]>([]);
+  // const [timelineLink, setTimelineLink] = React.useState<any[]>([]);
   // const [story, setStory] = React.useState<any>();
 
   const [fetchTimelines] = useFetchTimelines();
-  const [fetchTlinedetails] = useFetchTlinedetails();
+  const [fetchTimeline] = useFetchTimeline();
+  // const [fetchTimelinedetails] = useFetchTimelinedetails();
   const { timelines, count } = useTimelines();
-  const [gantTimelines, setGantTimelines] = React.useState<TimelineData>();
-  const [data1, setData1] = useState({
+  const [timelineData, setTimelineData] = useState<{ data: any[]; links: any[] }>({
     data: [],
     links: [],
   });
@@ -70,6 +88,10 @@ export function Timeline() {
   };
 
   const logDataUpdate = (type: string, action: string, item: any, id: string): void => {
+    console.log("type", type);
+    console.log("action", action);
+    console.log("item", item);
+    console.log("id", id);
     let text = item && item.text ? ` (${item.text})` : '';
     let message = `${type} ${action}: ${id} ${text}`;
     if (type === 'link' && action !== 'delete') {
@@ -87,10 +109,12 @@ export function Timeline() {
       navigate('/notfound');
       return;
     }else{
-      fetchTimelines();
-    }
-   
-    // fetchTlinedetails();
+      const daa = fetchTimelines();
+      // console.log(daa);
+      // const da = fetchTimeline('652250087eb001c14029dfaa');
+      // console.log(da);
+    }   
+    // fetchTimelinedetails();
     // setInterval(() => { }, 5000);
   }, []);
 
@@ -108,29 +132,50 @@ export function Timeline() {
   
       setTimeline(tl);
 
-      console.log("here!!!! timeline", timeline);
-      const { timelineDetail: _timelineDetail } = tl;
+     
+      // const { timelineDetail: _timelineDetail } = tl;
   
-      const { timelineLink: _timelineLink } = tl;
+      // const { timelineLink: _timelineLink } = tl;
   
-      if (!_timelineDetail) {
-        // navigate('/notfound');
-        return;
-      }
+      // if (!_timelineDetail) {
+      //   // navigate('/notfound');
+      //   return;
+      // }
+      //   setTimelineDetail(_timelineDetail);
   
-      setTimelineDetail(_timelineDetail);
-  
-      if (!_timelineLink) {
-        // navigate('/notfound');
-        return;
-      }
-  
-      setTimelineLink(_timelineLink);
+      // if (!_timelineLink) {
+      //   // navigate('/notfound');
+      //   return;
+      // }
+      //   setTimelineLink(_timelineLink);
     }
     
-    console.log("here!!!! timeline timeline", timeline);     
-
-
+    // console.log("here!!!! timelines timelines", timelines);     
+    // console.log("here!!!! timeline", timelines['timelinedetails']);
+    // console.log("here!!!! timeline",timelines[0]);
+   
+    // var datatmp = timelines[0]['timelinedetails'];
+    var dataTmp : TimelineData[]= [];
+    timelines[0]['timelinedetails'].forEach(element => {  
+      var tmp:TimelineData =  { id: -1, text: '', start_date: "", duration: 3, progress: 0.6, contributors :[]};  
+      tmp['id'] =element['id'];
+      tmp['start_date'] =Moment(new Date(element['start_date'])).format("YYYY-MM-DD hh:mm:ss");;
+      tmp['text'] =element['text'];
+      tmp['duration'] =element['duration'];
+      tmp['progress'] =element['progress'];
+      dataTmp.push(tmp);
+    });
+    var linkTmp : TimelineLink[]= []; 
+    timelines[0]['timelinelinks'].forEach(element => {
+      var tmp:TimelineLink =  { id: -1, source: -1, target: -1, type: '0' };      
+      tmp['id'] =element['id'];
+      tmp['source'] =element['source'];
+      tmp['target'] =element['target'];
+      tmp['type'] =element['type'];
+      linkTmp.push(tmp);
+    });
+    // console.log("here!!!! datatmp", datatmp);
+    setTimelineData({...timelineData, data: dataTmp, links:linkTmp})
   }, [timelines])
 
 
@@ -144,10 +189,10 @@ export function Timeline() {
       </div>
       <div className="gantt-container">
         {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
-        <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} />
+        {timelineData && timelineData.data?.length > 0 && <Gantt tasks={timelineData} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
       </div>
       <MessageArea messages={messages} />
-      <>{console.log({ messages })}</>
+      {/* <>{console.log({ messages })}</> */}
     </div>
 
 
