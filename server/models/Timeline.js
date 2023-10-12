@@ -10,10 +10,10 @@ const TimelineSchema = new Schema({
         type:Number,
         required:true
     },
-    id:{
-        type:Number,
-        required:true
-    },
+    // id:{
+    //     type:Number,
+    //     required:true
+    // },
     story: {
         type: Schema.Types.ObjectId,
         ref: 'story',
