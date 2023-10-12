@@ -13,8 +13,8 @@ router.get('/find/:id', [jwt.verifyToken, controller.timelinedetail]);
 // create task (developer)
 router.post('/create', [jwt.verifyToken, controller.create]);
 
-// // edit task by id (developer)
-// router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);
+// edit task by id (developer)
+router.put('/edit/:id', [jwt.verifyToken, controller.edit]);
 
 // // delete task by id (developer)
 // router.delete('/delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);

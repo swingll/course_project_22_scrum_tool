@@ -27,7 +27,7 @@ exports.timelinedetails = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    console.log("@@@@@@@@@@@@@@@@@@@@@");
+    console.log("Timeline detail create start.");
     if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
     if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
 
@@ -59,8 +59,7 @@ exports.create = (req, res) => {
 
                     res.json(timelinedetail);
                 });
-                console.log("do 2");
-                console.log("timeline", timeline);
+
                 timeline.timelinedetails.push(timelinedetail._id)
 
                 timeline.save((err, timelinedetail) => {
@@ -68,29 +67,54 @@ exports.create = (req, res) => {
                 });
         });
     });
+    console.log("Timeline detail create end.");
 };
 
-// exports.edit = (req, res) => {
+exports.edit = (req, res) => {
 
-//     // if password is empty
-//     if (!req.body.password) return res.status(500).send({ message: 'Password cannot be empty' });
+    console.log("Timeline detail edit start.");
+    if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
+    if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
+    if (!req.body.start_date) return res.status(500).send({ message: 'Start Date cannot be empty' });
 
-//     Timeline.findById(req.userId).exec((err, user) => {
-//         if (err) return res.status(500).send({ message: err });
+    User.findById(req.userId).exec((err, user) => {
+        if (err) return res.status(500).send({ message: err });
 
-//         if (!user)
-//             return res.status(404).send({ message: 'User not found' });
+        if (!user)
+            return res.status(404).send({ message: 'User not found' });
 
-//         user.password = bcrypt.hashSync(req.body.password, 8);
-//         user.updatedAt = Date.now();
+            Timeline.findById(req.body.timeline).exec((err, timeline) => {
+                if (err) return res.status(500).send({ message: err });
 
-//         user.save((err) => {
-//             if (err) return res.status(500).send({ message: err });
+                if (!timeline)
+                    return res.status(404).send({ message: 'Timeline not found' });
+                
+                Timelinedetail.findById(req.body._id).exec((err, timelinedetail) => {
+                    if (err) return res.status(500).send({ message: err });
 
-//             res.status(200).send({ message: 'Password have been changed' });
-//         });
-//     });
-// };
+                    if (!timelinedetail)
+                        return res.status(404).send({ message: 'Timeline detail not found' });
+                    
+
+                    console.log(timelinedetail);
+                    timelinedetail.text = req.body.text ?? timelinedetail.text;
+                    timelinedetail.duration = req.body.duration ?? timelinedetail.duration;
+                    timelinedetail.start_date = req.body.start_date ?? timelinedetail.start_date;
+                    timelinedetail.contributors.push(user._id);
+                    timelinedetail.updatedAt = Date.now();
+
+                    timelinedetail.save((err, timelinedetail) => {
+                        if (err) return res.status(500).send({ message: err });
+    
+                        res.json(timelinedetail);
+                    });    
+                   
+                });
+                
+        });
+    });
+    console.log("Timeline detail edit end.");      
+};
 
 // exports.delete = (req, res) => {
 //     const _id = req.params.id;

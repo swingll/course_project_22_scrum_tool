@@ -15,7 +15,7 @@ const TimelinedetailSchema = new Schema({
 		type:Number
     },
     contributors:{
-        type:Schema.Types.ObjectId, //dont forget that!
+        type:[Schema.Types.ObjectId], //dont forget that!
         required:true
     },
     status:{
@@ -40,7 +40,7 @@ const TimelinedetailSchema = new Schema({
         ref: 'timeline',
         required: true
     },
-    date:{
+    updatedAt:{
         type:Date,
         default:Date.now
     }
