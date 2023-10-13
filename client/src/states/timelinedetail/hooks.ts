@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import { AppState, useAppDispatch } from "..";
 import { useSignedIn } from "../user/hooks";
 import { fetchTimelinedetails } from "./actions";
-import { TimelinedetailsState } from "./reducer";
+import { TimelinedetailState } from "./reducer";
 import { deleteTimelinedetail, getTimelinedetail, newTimelinedetail, setTimelinedetail } from "./service";
 
-export function useTimelinedetails(): TimelinedetailsState {
+export function useTimelinedetails(): TimelinedetailState {
   return useSelector<AppState, AppState['timelinedetail']>((state) => state.timelinedetail);
 }
 

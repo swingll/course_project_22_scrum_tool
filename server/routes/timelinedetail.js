@@ -16,7 +16,7 @@ router.post('/create', [jwt.verifyToken, controller.create]);
 // edit task by id (developer)
 router.put('/edit/:id', [jwt.verifyToken, controller.edit]);
 
-// // delete task by id (developer)
-// router.delete('/delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
+// delete task by id (developer)
+router.delete('/delete/:id', [jwt.verifyToken, controller.delete]);
 
 module.exports = router;

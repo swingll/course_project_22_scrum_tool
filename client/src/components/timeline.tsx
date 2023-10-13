@@ -3,7 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Moment from 'moment';
 import Gantt from './Gantt/Gantt';
 import { useFetchTimelines, useTimelines, useFetchTimeline } from "../states/timeline/hooks";
-import { useCreateTimelinedetail, useUpdateTimelinedetail } from "../states/timelinedetail/hooks";
+import { useCreateTimelinedetail, useUpdateTimelinedetail, useDeleteTimelinedetail } from "../states/timelinedetail/hooks";
+import { useCreateTimelinelink, useUpdateTimelinelink, useDeleteTimelinelink } from "../states/timelinelink/hooks";
 
 import MessageArea from './MessageArea/MessageArea';
 import Toolbar from './Toolbar/Toolbar';
@@ -23,7 +24,7 @@ export function Timeline() {
   }
 
   interface TimelineData {
-    _id: String
+    _id: string
     contributors: any[]
     id: number
     text: any
@@ -35,11 +36,11 @@ export function Timeline() {
   }
 
   interface TimelineLink {
-    _id: String
+    _id: string
     id: number
     source: number
     target: number
-    type: String
+    type: string
 
   }
 
@@ -49,6 +50,11 @@ export function Timeline() {
   const [fetchTimeline] = useFetchTimeline();
   const [createTimelinedetail] = useCreateTimelinedetail();
   const [updateTimelinedetail] = useUpdateTimelinedetail();
+  const [deleteTimelinedetail] = useDeleteTimelinedetail();
+  
+  const [createTimelinelink] = useCreateTimelinelink();
+  const [updateTimelinelink] = useUpdateTimelinelink();
+  const [deleteTimelinelink] = useDeleteTimelinelink();
   const { timelines, count } = useTimelines();
   const [timeline, setTimeline] = React.useState<Timeline>();
   const [timelineData, setTimelineData] = useState<TimelineData>();
@@ -75,15 +81,33 @@ export function Timeline() {
     console.log("item", item);
     console.log("id", id);
     // console.log("timeline", timeline);
-    const tl = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
-    console.log("tl", tl);
+   
     // useCreateTimelinedetail
-    const tmp = { _id: tl?._id, id: id, duration: item.duration, parent: item.parent, progress: item.progress, start_date: item.start_date, text: item.text, timeline: "652250087eb001c14029dfaa" };
     // setTimelineData(...);
-    if(action === 'create')
-      createTimelinedetail(tmp);
-    if(action === 'update')
-      updateTimelinedetail(tmp);
+    if(type === 'task'){
+      const tldetail = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
+      console.log("tldetail", tldetail);
+      const tmp = { _id: tldetail?._id, id: id, duration: item.duration, parent: item.parent, progress: item.progress, start_date: item.start_date, text: item.text, timeline: timeline?._id };
+      if(action === 'create'){
+        createTimelinedetail(tmp);
+      }else if(action === 'update'){
+        updateTimelinedetail(tmp);
+      }else if(action === 'delete' && tldetail?._id){
+        deleteTimelinedetail(tldetail?._id);
+      }      
+    }else if(type === 'link'){
+      const tllink = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
+      console.log("tllink", tllink);
+      const tmp = { _id: tllink?._id, id: id, source: parseInt(item.source), target: parseInt(item.target), type: parseInt(item.type), timeline: timeline?._id };
+      if(action === 'create'){
+        createTimelinelink(tmp);
+      }else if(action === 'update'){
+        updateTimelinelink(tmp);
+      }else if(action === 'delete' && tllink?._id){
+        deleteTimelinelink(tllink?._id);
+      }   
+    } 
+
     let text = item && item.text ? ` (${item.text})` : '';
     let message = `${type} ${action}: ${id} ${text}`;
     if (type === 'link' && action !== 'delete') {
@@ -157,7 +181,6 @@ export function Timeline() {
 
 
   return (
-
 
     <div>
       <div className="zoom-bar">

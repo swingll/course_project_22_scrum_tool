@@ -1,23 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { clearTimelinedetails, fetchTimelinedetails } from './actions'
 
-export interface TimelinedetailsState {
+export interface TimelinedetailState {
     timelinedetails: Array<any>
     count: number
     loading?: boolean
 }
 
-export const initialTimelinedetailsState: TimelinedetailsState = {
+export const initialTimelinedetailState: TimelinedetailState = {
     timelinedetails: [],
     count: 0,
     loading: false
 }
 
-export default createReducer(initialTimelinedetailsState, (builder) =>
+export default createReducer(initialTimelinedetailState, (builder) =>
     builder
         .addCase(fetchTimelinedetails.fulfilled, (state, action) => {
             state.timelinedetails = action.payload.timelinedetails;
             state.count = action.payload.count;
         })
-        .addCase(clearTimelinedetails, (state, action) => { state = initialTimelinedetailsState; })
+        .addCase(clearTimelinedetails, (state, action) => { state = initialTimelinedetailState; })
     )

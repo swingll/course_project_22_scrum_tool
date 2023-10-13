@@ -116,12 +116,12 @@ exports.edit = (req, res) => {
     console.log("Timeline detail edit end.");      
 };
 
-// exports.delete = (req, res) => {
-//     const _id = req.params.id;
+exports.delete = (req, res) => {
+    const _id = req.params.id;
 
-//     User.findByIdAndRemove(_id).exec((err, ret) => {
-//         if (err) return res.status(500).send({ message: err });
+    Timelinedetail.findByIdAndRemove(_id).exec((err, ret) => {
+        if (err) return res.status(500).send({ message: err });
         
-//         return res.status(200).send({ message: `${ret.deletedCount} user have been deleted` });
-//     });
-// };
+        return res.status(200).send({ message: `${ret.deletedCount} Timeline detail have been deleted` });
+    });
+};

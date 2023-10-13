@@ -11,12 +11,12 @@ router.get('/find', [jwt.verifyToken, controller.timelinelink]);
 router.get('/find/:id', [jwt.verifyToken, controller.timelinelinks]);
 
 // create task (developer)
-// router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);
+router.post('/create', [jwt.verifyToken, controller.create]);
 
 // // edit task by id (developer)
-// router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);
+router.put('/edit/:id', [jwt.verifyToken,controller.edit]);
 
 // // delete task by id (developer)
-// router.delete('/delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
+router.delete('/delete/:id', [jwt.verifyToken, controller.delete]);
 
 module.exports = router;
