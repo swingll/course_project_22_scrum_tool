@@ -96,7 +96,7 @@ export function Timeline() {
         deleteTimelinedetail(tldetail?._id);
       }      
     }else if(type === 'link'){
-      const tllink = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
+      const tllink = timeline?.timelinelinks?.find((timelinelink: TimelineLink) => timelinelink.id === parseInt(id));
       console.log("tllink", tllink);
       const tmp = { _id: tllink?._id, id: id, source: parseInt(item.source), target: parseInt(item.target), type: parseInt(item.type), timeline: timeline?._id };
       if(action === 'create'){
@@ -188,7 +188,7 @@ export function Timeline() {
       </div>
       <div className="gantt-container">
         {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
-        {timelineDatas && timelineDatas.data?.length > 0 && <Gantt tasks={timelineDatas} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
+        {timelineDatas && <Gantt tasks={timelineDatas} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
       </div>
       <MessageArea messages={messages} />
       {/* <>{console.log({ messages })}</> */}

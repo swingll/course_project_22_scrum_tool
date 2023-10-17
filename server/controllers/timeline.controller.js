@@ -3,6 +3,7 @@ var bcrypt = require('bcryptjs');
 const db = require('../models');
 const User = db.user;
 const Timeline = db.timeline;
+const Story = db.story;
 
 exports.timeline = (req, res) => {
     const _id = req.params.id;
@@ -26,35 +27,45 @@ exports.timelines = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
-    if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
-
+    // if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
+    // if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
+    console.log("req.body.story",req.body.story);
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!user)
             return res.status(404).send({ message: 'User not found' });
 
-        Timeline.findById(req.body.story).exec((err, story) => {
-            if (err) return res.status(500).send({ message: err });
-
-            if (!story)
-                return res.status(404).send({ message: 'Story not found' });
-            
-            const timeline = new Timeline({
-                contributors: [user._id],
-                status: req.body.status || 1,
-                story: story._id,
-                timelinedetails: [],
-                timelinelinks: [],
-            });
-
-            timeline.save((err, timeline) => {
+            Story.findById(req.body.story).exec((err, story) => {
                 if (err) return res.status(500).send({ message: err });
-    
-                res.json(timeline);
-            });
 
+                if (!story)
+                    return res.status(404).send({ message: 'Story not found' });
+                
+                if(!story.timeline){
+                    const timeline = new Timeline({
+                        contributors: [user._id],
+                        status: req.body.status || 1,
+                        story: story._id,
+                        timelinedetails: [],
+                        timelinelinks: [],
+                    });
+    
+                    timeline.save((err, timeline) => {
+                        if (err) return res.status(500).send({ message: err });
+            
+                        res.json(timeline);
+                    });
+                    console.log("timeline._id", timeline._id);
+                    story.timeline=timeline._id;
+                    story.save((err, story) => {
+                        if (err) return res.status(500).send({ message: err });
+                    });
+                }else{
+                    console.log("timeline exist");
+                    res.json(story.timeline);
+                }
+               
         });
     });
 };

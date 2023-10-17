@@ -118,10 +118,10 @@ exports.edit = (req, res) => {
 exports.delete = (req, res) => {
     const _id = req.params.id;
 
-    Timelinedetail.findByIdAndRemove(_id).exec((err, ret) => {
+    Timelinelink.findByIdAndRemove(_id).exec((err, ret) => {
         if (err) return res.status(500).send({ message: err });
         
-        return res.status(200).send({ message: `${ret.deletedCount} Timeline detail have been deleted` });
+        return res.status(200).send({ message: `Timeline link have been deleted` });
     });
 };
 

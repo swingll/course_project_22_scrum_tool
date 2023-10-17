@@ -23,10 +23,11 @@ const StorySchema = new Schema({
     },
     
     // timeline
-    timelines: {
-        type: [Schema.Types.ObjectId],
+    timeline: {
+        type: Schema.Types.ObjectId,
         ref: 'timeline',
-        required: true
+        default: null
+        // required: true
     },
 
     // Created At
