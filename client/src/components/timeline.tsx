@@ -125,37 +125,14 @@ export function Timeline() {
       navigate('/notfound');
       return;
     } else {
-      const daa = fetchTimelines();
+      // const daa = fetchTimelines();
       // console.log(daa);
-      const da = fetchTimeline('652250087eb001c14029dfaa')
+      const da = fetchTimeline(id)
       da.then((res) => {
-        console.log(res.data);
-      });
-      console.log(da);
-    }
-    // setInterval(() => { }, 5000);
-  }, []);
-
-  React.useEffect(() => {
-    if (!timelines || count === 0) return;
-
-    if (id === '1') {//TODO
-      setTimeline(timelines[0]);
-    } else {
-      const tl = timelines.find((timeline: any) => timeline._id === id);
-      if (!tl) {
-        // navigate('/notfound');
-        return;
-      }
-
-      setTimeline(tl);
-      console.log(tl);
-
-    }
-
-    // var datatmp = timelines[0]['timelinedetails'];
-    var dataTmp: TimelineData[] = [];
-    timeline?.timelinedetails?.forEach(element => {
+        // console.log(res.data);
+        setTimeline(res.data);
+        var dataTmp: TimelineData[] = [];
+        res.data?.timelinedetails?.forEach(element => {
       var tmp: TimelineData = { _id: "", id: -1, text: '', start_date: "", duration: 3, progress: 0.6, contributors: [], parent: -1 };
       tmp['id'] = element['id'];
       tmp['start_date'] = Moment(new Date(element['start_date'])).format("YYYY-MM-DD hh:mm:ss");;
@@ -166,7 +143,7 @@ export function Timeline() {
       dataTmp.push(tmp);
     });
     var linkTmp: TimelineLink[] = [];
-    timeline?.timelinelinks?.forEach(element => {
+    res.data?.timelinelinks?.forEach(element => {
       var tmp: TimelineLink = { _id: "", id: -1, source: -1, target: -1, type: '0' };
       tmp['id'] = element['id'];
       tmp['source'] = element['source'];
@@ -174,9 +151,56 @@ export function Timeline() {
       tmp['type'] = element['type'];
       linkTmp.push(tmp);
     });
-    // console.log("here!!!! datatmp", datatmp);
+    console.log("here!!!! datatmp", da);
     setTimelineDatas({ ...timelineDatas, data: dataTmp, links: linkTmp })
-  }, [timelines])
+      });
+      // console.log(da);
+      
+    }
+    // setInterval(() => { }, 5000);
+  }, [id]);
+
+  // React.useEffect(() => {
+  //   // if (!timelines || count === 0) return;
+
+  //   // if (id === '1') {//TODO
+  //   //   setTimeline(timelines[0]);
+  //   // } else {
+  //   //   const tl = timelines.find((timeline: any) => timeline._id === id);
+  //   //   if (!tl) {
+  //   //     // navigate('/notfound');
+  //   //     return;
+  //   //   }
+
+  //   //   setTimeline(tl);
+  //   //   console.log(tl);
+
+  //   // }
+
+  //   // var datatmp = timelines[0]['timelinedetails'];
+  //   var dataTmp: TimelineData[] = [];
+  //   timeline?.timelinedetails?.forEach(element => {
+  //     var tmp: TimelineData = { _id: "", id: -1, text: '', start_date: "", duration: 3, progress: 0.6, contributors: [], parent: -1 };
+  //     tmp['id'] = element['id'];
+  //     tmp['start_date'] = Moment(new Date(element['start_date'])).format("YYYY-MM-DD hh:mm:ss");;
+  //     tmp['text'] = element['text'];
+  //     tmp['duration'] = element['duration'];
+  //     tmp['progress'] = element['progress'];
+  //     tmp['parent'] = element['parent'];
+  //     dataTmp.push(tmp);
+  //   });
+  //   var linkTmp: TimelineLink[] = [];
+  //   timeline?.timelinelinks?.forEach(element => {
+  //     var tmp: TimelineLink = { _id: "", id: -1, source: -1, target: -1, type: '0' };
+  //     tmp['id'] = element['id'];
+  //     tmp['source'] = element['source'];
+  //     tmp['target'] = element['target'];
+  //     tmp['type'] = element['type'];
+  //     linkTmp.push(tmp);
+  //   });
+  //   // console.log("here!!!! datatmp", datatmp);
+  //   setTimelineDatas({ ...timelineDatas, data: dataTmp, links: linkTmp })
+  // }, [timeline])
 
 
 
