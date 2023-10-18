@@ -80,10 +80,7 @@ export function Timeline() {
     console.log("action", action);
     console.log("item", item);
     console.log("id", id);
-    // console.log("timeline", timeline);
-   
-    // useCreateTimelinedetail
-    // setTimelineData(...);
+
     if(type === 'task'){
       const tldetail = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
       console.log("tldetail", tldetail);
@@ -120,16 +117,13 @@ export function Timeline() {
   };
 
   useEffect(() => {
-    // console.log("here!!!!");
     if (!id) {
       navigate('/notfound');
       return;
     } else {
       // const daa = fetchTimelines();
-      // console.log(daa);
       const da = fetchTimeline(id)
       da.then((res) => {
-        // console.log(res.data);
         setTimeline(res.data);
         var dataTmp: TimelineData[] = [];
         res.data?.timelinedetails?.forEach(element => {
