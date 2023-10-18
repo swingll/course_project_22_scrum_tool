@@ -7,7 +7,7 @@ const User = db.user;
 exports.story = (req, res) => {
     const _id = req.params.id;
 
-    Story.findById(_id).populate(['creator', 'tasks']).exec((err, story) => {
+    Story.findById(_id).populate(['creator', 'tasks', 'timeline']).exec((err, story) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!story)
@@ -18,7 +18,7 @@ exports.story = (req, res) => {
 };
 
 exports.stories = (req, res) => {
-    Story.find().populate(['creator', 'tasks']).exec((err, stories) => {
+    Story.find().populate(['creator', 'tasks', 'timeline']).exec((err, stories) => {
         if (err) return res.status(500).send({ message: err });
 
         res.json(stories);

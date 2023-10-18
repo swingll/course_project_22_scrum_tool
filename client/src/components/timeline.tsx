@@ -1,98 +1,221 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Story } from './story';
-import AddStory from './forms/addStory';
-import Loader from './loader';
-import Header from './common/header';
-import { useFetchStories, useStories } from "../states/story/hooks";
+import Moment from 'moment';
+import Gantt from './Gantt/Gantt';
+import { useFetchTimelines, useTimelines, useFetchTimeline } from "../states/timeline/hooks";
+import { useCreateTimelinedetail, useUpdateTimelinedetail, useDeleteTimelinedetail } from "../states/timelinedetail/hooks";
+import { useCreateTimelinelink, useUpdateTimelinelink, useDeleteTimelinelink } from "../states/timelinelink/hooks";
+
+import MessageArea from './MessageArea/MessageArea';
+import Toolbar from './Toolbar/Toolbar';
 
 export function Timeline() {
+
+  interface Timeline {
+    contributors: [{
+      roles: string,
+    }]
+    date: Date
+    status: number
+    _id: String
+    story: any
+    timelinedetails: [TimelineData,]
+    timelinelinks: [TimelineLink]
+  }
+
+  interface TimelineData {
+    _id: string
+    contributors: any[]
+    id: number
+    text: any
+    start_date: any
+    duration: any
+    progress: any
+    parent:number
+
+  }
+
+  interface TimelineLink {
+    _id: string
+    id: number
+    source: number
+    target: number
+    type: string
+
+  }
+
   const { id } = useParams();
-
   const navigate = useNavigate();
+  const [fetchTimelines] = useFetchTimelines();
+  const [fetchTimeline] = useFetchTimeline();
+  const [createTimelinedetail] = useCreateTimelinedetail();
+  const [updateTimelinedetail] = useUpdateTimelinedetail();
+  const [deleteTimelinedetail] = useDeleteTimelinedetail();
+  
+  const [createTimelinelink] = useCreateTimelinelink();
+  const [updateTimelinelink] = useUpdateTimelinelink();
+  const [deleteTimelinelink] = useDeleteTimelinelink();
+  const { timelines, count } = useTimelines();
+  const [timeline, setTimeline] = React.useState<Timeline>();
+  const [timelineData, setTimelineData] = useState<TimelineData>();
 
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [show, setShow] = React.useState<boolean>(false);
-  const [err, setErr] = React.useState<string>('');
-  const [err2, setErr2] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [timelineDatas, setTimelineDatas] = useState<{ data: any[]; links: any[] }>({
+    data: [],
+    links: [],
+  });
 
-  const [tasks, setTasks] = React.useState<any[]>([]);
-  const [story, setStory] = React.useState<any>();
+  const [currentZoom, setCurrentZoom] = useState('Days');
+  const [messages, setMessages] = useState<{ message: string }[]>([]);
 
-  const [fetchStories] = useFetchStories();
-  const { stories, count } = useStories();
+  const addMessage = (message: string): void => {
+    const maxLogLength = 5;
+    const newMessage = { message };
+    const updatedMessages = [newMessage, ...messages.slice(0, maxLogLength - 1)];
 
-  React.useEffect(() => {
+    setMessages(updatedMessages);
+  };
+
+  const logDataUpdate = (type: string, action: string, item: any, id: string): void => {
+    console.log("type", type);
+    console.log("action", action);
+    console.log("item", item);
+    console.log("id", id);
+
+    if(type === 'task'){
+      const tldetail = timeline?.timelinedetails?.find((timelinedetail: TimelineData) => timelinedetail.id === parseInt(id));
+      console.log("tldetail", tldetail);
+      const tmp = { _id: tldetail?._id, id: id, duration: item.duration, parent: item.parent, progress: item.progress, start_date: item.start_date, text: item.text, timeline: timeline?._id };
+      if(action === 'create'){
+        createTimelinedetail(tmp);
+      }else if(action === 'update'){
+        updateTimelinedetail(tmp);
+      }else if(action === 'delete' && tldetail?._id){
+        deleteTimelinedetail(tldetail?._id);
+      }      
+    }else if(type === 'link'){
+      const tllink = timeline?.timelinelinks?.find((timelinelink: TimelineLink) => timelinelink.id === parseInt(id));
+      console.log("tllink", tllink);
+      const tmp = { _id: tllink?._id, id: id, source: parseInt(item.source), target: parseInt(item.target), type: parseInt(item.type), timeline: timeline?._id };
+      if(action === 'create'){
+        createTimelinelink(tmp);
+      }else if(action === 'update'){
+        updateTimelinelink(tmp);
+      }else if(action === 'delete' && tllink?._id){
+        deleteTimelinelink(tllink?._id);
+      }   
+    } 
+
+    let text = item && item.text ? ` (${item.text})` : '';
+    let message = `${type} ${action}: ${id} ${text}`;
+    if (type === 'link' && action !== 'delete') {
+      message += ` ( source: ${item.source}, target: ${item.target} )`;
+    }
+    addMessage(message);
+  };
+  const handleZoomChange = (zoom: string): void => {
+    setCurrentZoom(zoom);
+  };
+
+  useEffect(() => {
     if (!id) {
       navigate('/notfound');
       return;
+    } else {
+      // const daa = fetchTimelines();
+      const da = fetchTimeline(id)
+      da.then((res) => {
+        setTimeline(res.data);
+        var dataTmp: TimelineData[] = [];
+        res.data?.timelinedetails?.forEach(element => {
+      var tmp: TimelineData = { _id: "", id: -1, text: '', start_date: "", duration: 3, progress: 0.6, contributors: [], parent: -1 };
+      tmp['id'] = element['id'];
+      tmp['start_date'] = Moment(new Date(element['start_date'])).format("YYYY-MM-DD hh:mm:ss");;
+      tmp['text'] = element['text'];
+      tmp['duration'] = element['duration'];
+      tmp['progress'] = element['progress'];
+      tmp['parent'] = element['parent'];
+      dataTmp.push(tmp);
+    });
+    var linkTmp: TimelineLink[] = [];
+    res.data?.timelinelinks?.forEach(element => {
+      var tmp: TimelineLink = { _id: "", id: -1, source: -1, target: -1, type: '0' };
+      tmp['id'] = element['id'];
+      tmp['source'] = element['source'];
+      tmp['target'] = element['target'];
+      tmp['type'] = element['type'];
+      linkTmp.push(tmp);
+    });
+    console.log("here!!!! datatmp", da);
+    setTimelineDatas({ ...timelineDatas, data: dataTmp, links: linkTmp })
+      });
+      // console.log(da);
+      
     }
-    fetchStories();
     // setInterval(() => { }, 5000);
-  }, []);
+  }, [id]);
 
-  React.useEffect(() => {
-    if (!stories || count === 0) return;
+  // React.useEffect(() => {
+  //   // if (!timelines || count === 0) return;
 
-    const s = stories.find((story: any) => story._id === id);
+  //   // if (id === '1') {//TODO
+  //   //   setTimeline(timelines[0]);
+  //   // } else {
+  //   //   const tl = timelines.find((timeline: any) => timeline._id === id);
+  //   //   if (!tl) {
+  //   //     // navigate('/notfound');
+  //   //     return;
+  //   //   }
 
-    if (!s) {
-      // navigate('/notfound');
-      return;
-    }
+  //   //   setTimeline(tl);
+  //   //   console.log(tl);
 
-    setStory(s);
+  //   // }
 
-    const { tasks: _tasks } = s;
+  //   // var datatmp = timelines[0]['timelinedetails'];
+  //   var dataTmp: TimelineData[] = [];
+  //   timeline?.timelinedetails?.forEach(element => {
+  //     var tmp: TimelineData = { _id: "", id: -1, text: '', start_date: "", duration: 3, progress: 0.6, contributors: [], parent: -1 };
+  //     tmp['id'] = element['id'];
+  //     tmp['start_date'] = Moment(new Date(element['start_date'])).format("YYYY-MM-DD hh:mm:ss");;
+  //     tmp['text'] = element['text'];
+  //     tmp['duration'] = element['duration'];
+  //     tmp['progress'] = element['progress'];
+  //     tmp['parent'] = element['parent'];
+  //     dataTmp.push(tmp);
+  //   });
+  //   var linkTmp: TimelineLink[] = [];
+  //   timeline?.timelinelinks?.forEach(element => {
+  //     var tmp: TimelineLink = { _id: "", id: -1, source: -1, target: -1, type: '0' };
+  //     tmp['id'] = element['id'];
+  //     tmp['source'] = element['source'];
+  //     tmp['target'] = element['target'];
+  //     tmp['type'] = element['type'];
+  //     linkTmp.push(tmp);
+  //   });
+  //   // console.log("here!!!! datatmp", datatmp);
+  //   setTimelineDatas({ ...timelineDatas, data: dataTmp, links: linkTmp })
+  // }, [timeline])
 
-    if (!_tasks) {
-      // navigate('/notfound');
-      return;
-    }
 
-    setTasks(_tasks);
-  }, [stories])
-
-  let storyTable;
-
-  if (!loading) {
-    storyTable = stories.map((story: any, index: number) => {
-      return (
-        <li key={index}>
-          <Link reloadDocument to={`/story/${story._id}`}>
-            <i className="fas fa-list-alt"></i>
-            <span className="menu-text">{story.title}</span>
-          </Link>
-        </li>
-      )
-    })
-  } else {
-    storyTable = <li>
-      <div className="loader">
-        <Loader />
-      </div>
-    </li>
-  }
 
   return (
+
     <div>
-      <div className="side">
-        <span className="logo">Scrum Beta</span>
-        <ul className="side-menu">
-          {storyTable}
-        </ul>
-        <div className="otherMenu">
-          <AddStory />
-        </div>
+      <div className="zoom-bar">
+        <Toolbar zoom={currentZoom} onZoomChange={handleZoomChange} />
       </div>
-      <div className="con">
-        <Header />
-        <aside>
-          {story && <Story story={story} tasks={tasks ?? []} loading={loading} />}
-        </aside>
+      <div className="gantt-container">
+        {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
+        {timelineDatas && <Gantt tasks={timelineDatas} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
       </div>
+      <MessageArea messages={messages} />
+      {/* <>{console.log({ messages })}</> */}
     </div>
+
+
+
   )
+
+
 }
 export default Timeline

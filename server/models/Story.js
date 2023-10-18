@@ -22,6 +22,14 @@ const StorySchema = new Schema({
         required: true
     },
     
+    // timeline
+    timeline: {
+        type: Schema.Types.ObjectId,
+        ref: 'timeline',
+        default: null
+        // required: true
+    },
+
     // Created At
     createdAt: {
         type: Date,
