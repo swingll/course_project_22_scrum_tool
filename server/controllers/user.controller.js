@@ -16,7 +16,7 @@ exports.user = (req, res) => {
     });
 };
 
-exports.users = (req, res) => {    
+exports.users = (req, res) => {
     User.find().exec((err, users) => {
         if (err) return res.status(500).send({ message: err });
 

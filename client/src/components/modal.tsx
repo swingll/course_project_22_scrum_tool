@@ -3,7 +3,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, L
 import moment from 'moment'
 import axios from 'axios'
 
-// class ModalExample extends React.Component {
 export function ModalExample(props: any) {
   const [modal, setModal] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>('');

@@ -5,10 +5,10 @@ const { jwt } = require('../helpers/auth');
 const controller = require('../controllers/user.controller');
 
 // get all users
-router.get('/find', [jwt.verifyToken, jwt.isAdmin, controller.users]);
+router.get('/find', [jwt.verifyToken, jwt.isDeveloper, controller.users]);
 
 // get user by id
-router.get('/find/:id', [jwt.verifyToken, controller.users]);
+router.get('/find/:id', [jwt.verifyToken, controller.user]);
 
 // edit user own password
 router.put('/edit', [jwt.verifyToken, controller.edit]);

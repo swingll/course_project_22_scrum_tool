@@ -1,6 +1,9 @@
 import * as React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Spinner, Alert} from 'reactstrap';
 import { useCreateStory, useFetchStories } from "../../states/story/hooks";
+import {useNavigate} from "react-router-dom";
+import {useRef} from "react";
+
 
 export function AddStory(props: any) {
   const [modal, setModal] = React.useState<boolean>(false);
@@ -10,24 +13,31 @@ export function AddStory(props: any) {
 
   const [fetchStories] = useFetchStories();
   const [createStories] = useCreateStory();
+  const navigateRef = useRef((_)=>{})
+  const navigate = useNavigate()
 
+  navigateRef.current = navigate
   const handleClick = (event: any) => {
     setErr('');
 
-    if (!title) return;
-
     setLoading(true);
-    
+    let _id = `999`
     createStories({ title })
-      .then(() => {
+      .then(({data}) => {
         setModal(false);
+        setTitle('');
+        _id = data._id
       }).catch((err) => {
-        setErr(err);
+        setErr(err.response.data.message);
       }).finally(() => {
-        setLoading(false);
-        fetchStories(); // refresh stories
+
+        fetchStories().finally(()=> {
+          props.setFutureId(_id)
+          setLoading(false)
+        }) // refresh stories
       })
   }
+  const errorMsg = err?<Alert variant={"warning"}>{err}</Alert>:<></>
 
   return (
     <div>
@@ -37,13 +47,14 @@ export function AddStory(props: any) {
           Add Story
         </ModalHeader>
         <ModalBody>
+          {errorMsg}
           <FormGroup>
             <Label for="title">Story Title(*):</Label>
             <Input type="text" name="title" disabled={loading} onChange={(e) => setTitle(e.target.value)} />
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" disabled={loading} onClick={(e) => handleClick(e)}><i className="fas fa-plus-circle"></i> Add</Button>
+          <Button color="primary" disabled={loading} onClick={(e) => handleClick(e)}><i className="fas fa-plus-circle"></i> {loading?<Spinner />:"Add"}</Button>
           <Button color="secondary" disabled={loading} onClick={() => setModal(!modal)}><i className="fas fa-times-circle"></i> Close</Button>
         </ModalFooter>
       </Modal>

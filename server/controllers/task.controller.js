@@ -67,10 +67,12 @@ exports.create = (req, res) => {
 };
 
 exports.edit = (req, res) => {
+    const _id = req.params.id;
+
     // if title is empty
     if (!req.body) return res.status(500).send({ message: 'Body cannot be empty' });
 
-    Task.findById(req.body.id).exec((err, task) => {
+    Task.findById(_id).exec((err, task) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!task)
@@ -85,7 +87,7 @@ exports.edit = (req, res) => {
         task.save((err) => {
             if (err) return res.status(500).send({ message: err });
 
-            res.status(200).send({ message: 'Title have been changed' });
+            res.status(200).send({ message: 'Task have been changed' });
         });
     });
 };

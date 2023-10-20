@@ -11,7 +11,6 @@ export function AddUser(props: any) {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const handleClick = (event: any) => {
-
     axios.post('/users', {
       username: username,
       name: name,

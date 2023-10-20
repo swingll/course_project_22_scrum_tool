@@ -17,6 +17,6 @@ router.post('/create', [jwt.verifyToken, jwt.isDeveloper, controller.create]);
 router.put('/edit/:id', [jwt.verifyToken, jwt.isDeveloper, controller.edit]);
 
 // delete story by id (developer)
-router.delete('delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
+router.delete('/delete/:id', [jwt.verifyToken, jwt.isDeveloper, controller.delete]);
 
 module.exports = router;

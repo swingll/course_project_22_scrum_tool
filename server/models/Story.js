@@ -15,6 +15,13 @@ const StorySchema = new Schema({
         required: true
     },
 
+    // Story members
+    members: {
+        type: [Schema.Types.ObjectId],
+        ref: 'user',
+        required: true
+    },
+
     // Creator
     tasks: {
         type: [Schema.Types.ObjectId],

@@ -3,11 +3,12 @@ var bcrypt = require('bcryptjs');
 const db = require('../models');
 const Story = db.story;
 const User = db.user;
+const Task = db.task;
 
 exports.story = (req, res) => {
     const _id = req.params.id;
 
-    Story.findById(_id).populate(['creator', 'tasks', 'timeline']).exec((err, story) => {
+    Story.findById(_id).populate('creator').populate('members').populate({ path: 'tasks', populate: { path: 'contributors' } }).exec((err, story) => {
         if (err) return res.status(500).send({ message: err });
 
         if (!story)
@@ -18,10 +19,14 @@ exports.story = (req, res) => {
 };
 
 exports.stories = (req, res) => {
-    Story.find().populate(['creator', 'tasks', 'timeline']).exec((err, stories) => {
+    Story.find().populate('creator').populate('members').populate({ path: 'tasks', populate: { path: 'contributors' } }).exec((err, stories) => {
         if (err) return res.status(500).send({ message: err });
 
-        res.json(stories);
+        // fetch stories if user is the creator or member of stories
+        // TODO: admin bypass
+        const _stories = stories.filter(s => (s.creator._id == req.userId || s.members.filter(m => m._id == req.userId).length > 0))
+
+        res.json(_stories);
     });
 };
 
@@ -48,16 +53,18 @@ exports.create = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    // if title is empty
-    if (!req.body.title) return res.status(500).send({ message: 'Title cannot be empty' });
+    const _id = req.params.id;
 
-    Story.findById(req.body.title).exec((err, story) => {
+    Story.findById(_id).exec((err, story) => {
         if (err) return res.status(500).send({ message: err });
 
-        if (!story)
-            return res.status(404).send({ message: 'Story not found' });
+        if (story.creator != req.userId)
+            return res.status(403).send({ message: 'Only creator can add edit story' });
 
-        story.title = req.body.title;
+        if (!story) return res.status(404).send({ message: 'Story not found' });
+
+        story.title = req.body.title ?? story.title;
+        story.members = req.body.members ?? story.members;
         story.updatedAt = Date.now();
 
         story.save((err) => {
@@ -80,13 +87,16 @@ exports.delete = (req, res) => {
         if (story.creator != req.userId)
             return res.status(500).send({ message: 'Only the creator can delete the story' });
 
-        // TODO: delete related tasks
-
-        Story.findByIdAndRemove(_id).exec((err, ret) => {
+        Task.deleteMany({_id:{$in:story.tasks}},err=>{
             if (err) return res.status(500).send({ message: err });
+            Story.findByIdAndRemove(_id).exec((err, ret) => {
+                if (err) return res.status(500).send({ message: err });
 
-            return res.status(200).send({ message: `${ret.deletedCount} story have been deleted` });
-        });
+                return res.status(200).send({ message: `${ret.deletedCount} story have been deleted` });
+            });
+        })
+
+
     });
 };
 
