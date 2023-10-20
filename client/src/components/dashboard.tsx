@@ -138,7 +138,7 @@ export function Dashboard() {
 
       </div>
       <div className="con">
-        <Header story= {story}/>
+        <Header />
         <aside>
           {story && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
         </aside>
