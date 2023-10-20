@@ -7,6 +7,9 @@ import user from './user/reducer';
 import story from './story/reducer';
 import task from './task/reducer';
 import permission from './permission/reducer'
+import timeline from './timeline/reducer';
+import timelinedetail from './timelinedetail/reducer';
+import timelinelink from './timelinelink/reducer';
 
 const PERSIST_WHITELIST: string[] = ['user']
 const PERSIST_BLACKLIST: string[] = []
@@ -25,7 +28,10 @@ const persistedReducer = persistReducer(
     user,
     story,
     task,
-    permission
+    permission,
+    timeline,
+    timelinedetail,
+    timelinelink,
   }),
 )
 
