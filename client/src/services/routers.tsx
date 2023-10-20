@@ -26,10 +26,9 @@ function Routers() {
     <BrowserRouter>
       <React.Suspense fallback={<Loader />}>
         <Routes>
-          <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />
-
-          <Route path='/timeline' element={logged ? <Timeline /> : <AuthPath />}/>
+          <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />          
           <Route path='/story/:id' element={logged ? <Dashboard /> : <AuthPath />} />
+          <Route path='/timeline/:id' element={logged ? <Timeline /> : <AuthPath />}/>
           <Route path='/about' element={<About />} />
 
           <Route path='*' element={<NotFoundPage />} />
