@@ -13,12 +13,12 @@ module.exports = () => {
 
     // connection open listener
     db.mongoose.connection.on('open', () => {
-        console.log('Connected to MongoDB');
+        // console.log('Connected to MongoDB');
     });
 
     // connection error listener
     db.mongoose.connection.on('error', (err) => {
-        console.log('Connection Fail', err);
+        // console.log('Connection Fail', err);
     });
 
 }
