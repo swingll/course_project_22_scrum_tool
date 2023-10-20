@@ -31,7 +31,7 @@ export function Dashboard() {
 
   const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
-  React.useEffect(() => {
+  React.useEffect(async () => {
     // if not do this the callback function may be called twice during first time rendering
     if (!init.current) {
       init.current = true;
@@ -41,8 +41,12 @@ export function Dashboard() {
       }
       setLoading(true)
       //
-      fetchStories().then(() => { setLoading(false) }).finally()
-      fetchUsers()
+      try {
+        await fetchStories();
+        await fetchUsers();
+      } finally {
+        setLoading(false);
+      }
     }
 
     // setInterval(() => { }, 5000);
