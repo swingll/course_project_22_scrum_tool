@@ -135,9 +135,9 @@ export function Dashboard() {
       <div className="side">
         <span className="logo">Scrum Beta</span>
         {addButton()}
-      {/*  <ul className="side-menu">*/}
-      {/*    {storyTable}*/}
-      {/*  </ul>*/}
+        <ul className="side-menu">
+          {storyTable}
+        </ul>
 
       </div>
       <div className="con">
