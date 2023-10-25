@@ -1,42 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
+const { jwt } = require('../helpers/auth');
+const controller = require('../controllers/user.controller');
 
-const User = require('../models/User');
+// get all users
+router.get('/find', [jwt.verifyToken, jwt.isDeveloper, controller.users]);
 
+// get user by id
+router.get('/find/:id', [jwt.verifyToken, controller.user]);
 
-router.post('/',(req,res,next)=>{
-  const user = new User(req.body)
-  user.save((err,data)=>{
-    if(err)
-    next({message:'User not found',code:'0'})
-    res.json(data)
-  })
-})
+// edit user own password
+router.put('/edit', [jwt.verifyToken, controller.edit]);
 
-router.get('/',(req,res,next)=>{
-  const promise = User.find({})
-  promise.then((data) => {
-    if(!data)
-    next({message:'no',code:5})
-		res.json(data);
-	}).catch((err) => {
-		res.json(err);
-	})
-})
-//User Update
+// edit any user password (admin)
+router.put('/edit/:id', [jwt.verifyToken, jwt.isAdmin, controller.users]);
 
-
-//User silme
-router.delete('/delete/:id',(req,res)=>{
-  const promise = User.findByIdAndRemove(req.params.id)
-  promise.then((count)=>{
-    if(count==null)
-      res.json({status:'0'})//zaten silinmiş ise 0
-    res.json({status:'1'})
-  }).catch((err)=>{
-    res.json(err)
-  })
-})
+// delete user by id (admin)
+router.delete('/delete/:id', [jwt.verifyToken, jwt.isAdmin, controller.delete]);
 
 module.exports = router;

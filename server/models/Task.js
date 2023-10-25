@@ -1,42 +1,68 @@
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const TaskSchema = new Schema({
-    title:{
-        type:String,
-        default:'No Title'
+    // task title
+    title: {
+        type: String,
+        default: 'No Title'
     },
-    content:{
-        type:String,
-        default:'No Content'
+
+    // task content
+    content: {
+        type: String,
+        default: 'No Content'
     },
-    date:{
-        type:Date,
-        default:Date.now
+
+    // the date of task
+    date: {
+        type: Date,
+        default: Date.now
     },
-    contributors:{
-        type:Schema.Types.ObjectId, //dont forget that!
-        required:true
+
+    // task contributors
+    contributors: {
+        type: [Schema.Types.ObjectId], //dont forget that!
+        ref: 'user',
+        required: true
     },
-    status:{
-        type:Number,
-        required:true
+
+    // task status
+    status: {
+        type: Number,
+        required: true,
+        default: 1
     },
-    createdBy:{
-        type:Schema.Types.ObjectId,
-        required:true
+
+    // due date
+    due: {
+        type: Date,
+        default: Date.now
     },
-	dueDate:{
-		type:Date,
-        default:Date.now
+
+    color: {
+        type: String,
+        default: "#2196f3"
     },
-    color:{
-        type:String,
-        default:"#2196f3"
+
+    // Story ID
+    story: {
+        type: Schema.Types.ObjectId,
+        ref: 'story',
+        required: true
     },
-    storyId:{
-        type:Number,
-        required:true
-    }
+
+    // Created At
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    // Updated At
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 })
 
-module.exports = mongoose.model('task',TaskSchema);
+module.exports = mongoose.model('task', TaskSchema);

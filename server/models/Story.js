@@ -1,22 +1,53 @@
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const StorySchema = new Schema({
-    title:{
-        type:String,
-        maxlength:30
+    // Story title
+    title: {
+        type: String,
+        maxlength: 30
     },
-    createdBy:{
-        type:Schema.Types.ObjectId,
-        
+
+    // Creator
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
     },
-    storyId:{
-        type:Number,
-        required:true
+
+    // Story members
+    members: {
+        type: [Schema.Types.ObjectId],
+        ref: 'user',
+        required: true
     },
-    createdDate:{
-        type:Date,
-        default:Date.now
-    }
+
+    // Creator
+    tasks: {
+        type: [Schema.Types.ObjectId],
+        ref: 'task',
+        required: true
+    },
+    
+    // timeline
+    timeline: {
+        type: Schema.Types.ObjectId,
+        ref: 'timeline',
+        default: null
+        // required: true
+    },
+
+    // Created At
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    // Updated At
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 })
 
-module.exports = mongoose.model('story',StorySchema);
+module.exports = mongoose.model('story', StorySchema);

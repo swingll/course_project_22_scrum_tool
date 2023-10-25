@@ -13,10 +13,42 @@ ul {
     list-style-type: none;
     
 }
+a{
+    -webkit-user-drag: none;
+}
 /*
 new style
 */
+#delete{
+    position: relative;
+    display: block;
+}
+#delete:hover::after{
+    border: 1px solid rgba(123,123,123,0.2);
+    color: rgba(123,123,123,0.5);
+    content: 'dblclick';
+    position: absolute;
+    text-align: center;
+    width: 56px;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    z-index: 999;
+    height: 25px;
+    margin-left: 5px;
+    line-height: 25px;
+    top: 0px;
+}
+.btn-close{
+    display:none;
+}
+.user-refresh{
+    margin-left: 10px;
 
+}
+.user-refresh:active{
+    color: blue;
+}
 span.menu-text {
     display: inline-block;
     vertical-align: top;
@@ -29,9 +61,13 @@ span.menu-text {
     position: relative;
     left: 184px;
     width: calc(100% - 184px);
+    height: 100vh;
+    overflow: auto;
 }
 .containerDashboard{
     padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 input::placeholder {
     color: #b8c9d3;
@@ -58,6 +94,7 @@ input[type=date], input[type=datetime-local], input[type=month], input[type=time
     background: #fff;
     min-width: 184px;
     box-shadow: -3px 0px 14px #535353;
+    overflow: auto;
 }
 .side-menu{
     list-style-type: none;
@@ -108,7 +145,6 @@ li .active:before {
     margin: -10px -15px!important;
 }
 .mainMenu {
-    width: 94%;
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
@@ -130,11 +166,12 @@ li .active:before {
     padding-bottom: 13px;
 }
 .profilewidget div {
-    display: inline-block;
+    display: flex;
 }
 .profilewidget {
-    display: inline-block;
-    width: 6%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
     text-align: right;
 }   
 .profilewidget div i {
@@ -167,7 +204,10 @@ li .active:before {
 }
 
 .space{
-    margin: 15px 0 20px
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 15px 0 20px;
 }
 .customAddTask {
     top: -22.5px;
@@ -242,7 +282,7 @@ li .active:before {
     display: grid;
 }
 .ui-draggable{
-    width: 308px;
+    width: 256px;
 }
 .ui-droppable-hover{
     background: #ebeff3;
