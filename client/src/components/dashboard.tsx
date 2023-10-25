@@ -31,7 +31,7 @@ export function Dashboard() {
 
   const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
-  React.useEffect(async () => {
+  React.useEffect(() => {
     // if not do this the callback function may be called twice during first time rendering
     if (!init.current) {
       init.current = true;
@@ -42,10 +42,10 @@ export function Dashboard() {
       setLoading(true)
       //
       try {
-        await fetchStories();
-        await fetchUsers();
+        fetchStories();
+        fetchUsers();
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     }
 
@@ -53,7 +53,10 @@ export function Dashboard() {
   }, []);
 
   React.useEffect(() => {
-    if (!stories || count === 0) return;
+    if (!stories || count === 0 || stories.length == 0){
+      setLoading(false)
+      return
+    }
     if (futureId !== id) {
       navigate(`/story/${futureId}`)
       setLoading(false)
@@ -80,7 +83,7 @@ export function Dashboard() {
     setLoading(false)
   }, [stories])
   React.useEffect(() => {
-    if (!stories || count === 0) return;
+    if (!stories || count === 0 || stories.length == 0) return;
 
     const s = stories.find((story: any) => story._id === id);
     if (!s) {
@@ -132,17 +135,19 @@ export function Dashboard() {
       <div className="side">
         <span className="logo">Scrum Beta</span>
         {addButton()}
-        <ul className="side-menu">
-          {storyTable}
-        </ul>
+      {/*  <ul className="side-menu">*/}
+      {/*    {storyTable}*/}
+      {/*  </ul>*/}
 
       </div>
       <div className="con">
         <Header story= {story}/>
-        <aside>
-          {story && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
-        </aside>
+        <aside className="stories">
+          {story && !(!stories || count === 0 || stories.length == 0) && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
+          {(!stories || count === 0 || stories.length == 0) && <div className="no_story">create a story first</div>}
+          </aside>
       </div>
+
     </div>
   )
 }
