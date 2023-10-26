@@ -144,7 +144,7 @@ export function Dashboard() {
         <Header story= {story}/>
         <aside className="stories">
           {story && !(!stories || count === 0 || stories.length == 0) && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
-          {(!stories || count === 0 || stories.length == 0) && <div className="no_story">create a story first</div>}
+          {(!stories || count === 0 || stories.length == 0) && <div className="no_story">{addButtonShow?<>create a story first</>:<>no story here</>}</div>}
           </aside>
       </div>
 
