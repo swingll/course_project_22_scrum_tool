@@ -1,17 +1,22 @@
 import * as React from 'react';
-import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { useSignin } from '../states/user/hooks';
 import { signin, signup } from '../states/user/service';
 
 function AuthPath() {
     const [info, setInfo] = React.useState<string>('');
-    const [username, serUsername] = React.useState<string>('');
+    const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const [setToken, setProfile] = useSignin();
     const [isRegister, setIsRegister] = React.useState<boolean>(false);
 
+    const [errMsg, setErrMsg] = React.useState<string>('');
+
     const csignin = async () => {
-        if (!info || !password) return;
+        setErrMsg('');
+
+        if (!info) return setErrMsg('Username or email cannot be empty');
+        if (!password) return setErrMsg('Password cannot be empty');
 
         const body = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info) ? { email: info, password } : { username: info, password };
 
@@ -22,15 +27,19 @@ function AuthPath() {
                 setProfile(info);
             }
         }).catch((err) => {
-            const { response } = err
-            console.log(response)
+            if (typeof err === 'string') setErrMsg(err)
+            else setErrMsg('Unknown Error')
         })
     }
 
     const csignup = async () => {
-        if (!info || !username || !password) return;
+        setErrMsg('');
 
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info)) return;
+        if (!info) return setErrMsg('Email cannot be empty');
+        if (!username) return setErrMsg('Username cannot be empty');
+        if (!password) return setErrMsg('Password cannot be empty');
+
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info)) return setErrMsg('Invalid email format');
 
         const body = {
             username,
@@ -46,8 +55,8 @@ function AuthPath() {
                 setProfile(info);
             }
         }).catch((err) => {
-            const { response } = err
-            console.log(response)
+            if (typeof err === 'string') setErrMsg(err)
+            else setErrMsg('Unknown Error')
         })
     }
 
@@ -61,7 +70,7 @@ function AuthPath() {
                 {isRegister &&
                     <FormGroup>
                         <Label for='username'>Username</Label>
-                        <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => serUsername(e.target.value)} />
+                        <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
                     </FormGroup>
                 }
                 <FormGroup>
@@ -73,6 +82,8 @@ function AuthPath() {
                     <Input type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)} />
                 </FormGroup>
                 <Button onClick={() => onAuth()}>{isRegister ? 'Sign up' : 'Sign In'}</Button>
+                <br /><br />
+                {errMsg && <Alert color="warning">{errMsg}</Alert>}
             </Form>
             <br /><br /><br /><br />
             <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
