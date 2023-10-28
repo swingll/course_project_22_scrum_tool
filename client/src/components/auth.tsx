@@ -18,7 +18,9 @@ function AuthPath() {
         if (!info) return setErrMsg('Username or email cannot be empty');
         if (!password) return setErrMsg('Password cannot be empty');
 
-        const body = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info) ? { email: info, password } : { username: info, password };
+        const isEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
+        const body = isEmail.test(info) ? { email: info, password } : { username: info, password };
 
         signin(body).then((res) => {
             if (res.status === 200) {
@@ -50,9 +52,16 @@ function AuthPath() {
         signup(body).then((res) => {
             console.log(res)
             if (res.status === 200) {
-                const { info, token } = res.data;
-                setToken(token);
-                setProfile(info);
+                signin(body).then((res) => {
+                    if (res.status === 200) {
+                        const { info, token } = res.data;
+                        setToken(token);
+                        setProfile(info);
+                    }
+                }).catch((err) => {
+                    if (typeof err === 'string') setErrMsg(err)
+                    else setErrMsg('Unknown Error')
+                })
             }
         }).catch((err) => {
             if (typeof err === 'string') setErrMsg(err)
