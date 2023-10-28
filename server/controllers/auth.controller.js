@@ -31,10 +31,12 @@ exports.signup = (req, res) => {
             return;
         }
 
-        Role.findOne({ name: "user" }, (err, role) => {
+        Role.find({ $or: [ { name: "user" }, { name: "developer" } ] }, (err, roles) => {
             if (err) return res.status(500).send({ message: err });
 
-            user.roles = [role._id];
+            if (!roles || roles.length == 0) return res.status(404).send({ message: 'Cannot find roles' });
+
+            user.roles = roles.map(x => x._id);
             user.save((err) => {
                 if (err) return res.status(500).send({ message: err });
 
