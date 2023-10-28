@@ -34,6 +34,8 @@ exports.signup = (req, res) => {
         Role.findOne({ name: "user" }, (err, role) => {
             if (err) return res.status(500).send({ message: err });
 
+            if (!role) return res.status(404).send({ message: 'Cannot find role User' });
+
             user.roles = [role._id];
             user.save((err) => {
                 if (err) return res.status(500).send({ message: err });
