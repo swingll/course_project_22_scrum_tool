@@ -10,6 +10,7 @@ import permission from './permission/reducer'
 import timeline from './timeline/reducer';
 import timelinedetail from './timelinedetail/reducer';
 import timelinelink from './timelinelink/reducer';
+import voting from './voting/reducer';
 
 const PERSIST_WHITELIST: string[] = ['user']
 const PERSIST_BLACKLIST: string[] = []
@@ -32,6 +33,7 @@ const persistedReducer = persistReducer(
     timeline,
     timelinedetail,
     timelinelink,
+    voting
   }),
 )
 
