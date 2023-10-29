@@ -1,17 +1,36 @@
 import * as React from 'react';
-import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {Container, Form, FormGroup, Label, Input, Button, Alert} from 'reactstrap';
 import { useSignin } from '../states/user/hooks';
 import { signin } from '../states/user/service';
+import {useEffect} from "react";
 
 function AuthPath() {
     const [info, setInfo] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const [setToken, setProfile] = useSignin();
+    const [errMsg, setErrMsg] = React.useState<string>('');
+    const [errClass,setErrClass] = React.useState<string>('alertContent')
+    const [errSubClass,setErrSubClass] = React.useState<string>('alertText')
 
-    const csignin = async () => {
-        if (!info || !password) return;
+    useEffect(()=>{
+        console.log(errMsg)
+        if(errMsg === ''){
+            setErrClass('alertContent')
+            setErrSubClass('alertText')
+        }else{
+            setErrClass('alertContent alertShow')
+            setErrSubClass('alertText alertTextShow')
+        }
+    },[errMsg])
+    const csignin =async () => {
+        setErrMsg('');
 
-        const body = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info) ? { email: info, password } : { username: info, password };
+        if (!info) return setErrMsg('Username or email cannot be empty');
+        if (!password) return setErrMsg('Password cannot be empty');
+
+        const isEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
+        const body = isEmail.test(info) ? { email: info, password } : { username: info, password };
 
         signin(body).then((res) => {
             if (res.status === 200) {
@@ -20,21 +39,29 @@ function AuthPath() {
                 setProfile(info);
             }
         }).catch((err) => {
-            const { response } = err
-            console.log(response)
+            if (typeof err === 'string') setErrMsg(err)
+            else setErrMsg('Unknown Error')
         })
     }
 
     return (
         <div className="bgcw">
+            <div className={errClass}>
+                <div className={errSubClass}>
+                    <div className="Err">ERR!</div>
+                    <div className="ErrMsg">{errMsg}</div>
+                    <div className="ErrButton"><Button onClick={()=>{setErrMsg('')}} color="info">Oh,I see.</Button></div>
+                </div>
+            </div>
             <div className="logining">
                 <div className="headImg">
-                    <img className="img" src="/left.png" />
+                    {/*<img className="img" src="/left.png" />*/}
                 </div>
                 <div className="content1">
                     <div className="banner">
-                        Jira System
+                        Jira
                     </div>
+                    {/*<Alert>haha</Alert>*/}
                     <div className="item">
                         <i className="fas fa-user-tie user icon" style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
                         <Input className="inputing" type='email' name='email' id='email' placeholder='Enter email or username' onChange={(e) => setInfo(e.target.value)}></Input>
@@ -48,7 +75,7 @@ function AuthPath() {
                 <br/>
             </div>
             <div className="headImg">
-                <img className="img" src="/right.png" />
+                {/*<img className="img" src="/right.png" />*/}
             </div>
         </div>
             {/*        // <Container>*/}
