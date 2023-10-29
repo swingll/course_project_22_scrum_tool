@@ -1,16 +1,19 @@
 import * as React from 'react';
-import {Container, Form, FormGroup, Label, Input, Button, Alert} from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { useSignin } from '../states/user/hooks';
-import { signin } from '../states/user/service';
 import {useEffect} from "react";
+import { signin, signup } from '../states/user/service';
 
 function AuthPath() {
     const [info, setInfo] = React.useState<string>('');
+    const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const [setToken, setProfile] = useSignin();
-    const [errMsg, setErrMsg] = React.useState<string>('');
     const [errClass,setErrClass] = React.useState<string>('alertContent')
     const [errSubClass,setErrSubClass] = React.useState<string>('alertText')
+    const [isRegister, setIsRegister] = React.useState<boolean>(false);
+
+    const [errMsg, setErrMsg] = React.useState<string>('');
 
     useEffect(()=>{
         console.log(errMsg)
@@ -22,7 +25,7 @@ function AuthPath() {
             setErrSubClass('alertText alertTextShow')
         }
     },[errMsg])
-    const csignin =async () => {
+    const csignin = async () => {
         setErrMsg('');
 
         if (!info) return setErrMsg('Username or email cannot be empty');
@@ -43,9 +46,53 @@ function AuthPath() {
             else setErrMsg('Unknown Error')
         })
     }
+    const csignup = async () => {
+        setErrMsg('');
+
+        if (!info) return setErrMsg('Email cannot be empty');
+        if (!username) return setErrMsg('Username cannot be empty');
+        if (!password) return setErrMsg('Password cannot be empty');
+
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info)) return setErrMsg('Invalid email format');
+
+        const body = {
+            username,
+            email: info,
+            password
+        }
+
+        signup(body).then((res) => {
+            console.log(res)
+            if (res.status === 200) {
+                signin(body).then((res) => {
+                    if (res.status === 200) {
+                        const { info, token } = res.data;
+                        setToken(token);
+                        setProfile(info);
+                    }
+                }).catch((err) => {
+                    if (typeof err === 'string') setErrMsg(err)
+                    else setErrMsg('Unknown Error')
+                })
+            }
+        }).catch((err) => {
+            if (typeof err === 'string') setErrMsg(err)
+            else setErrMsg('Unknown Error')
+        })
+    }
+
+    const onAuth = () => {
+        isRegister ? csignup() : csignin();
+    }
 
     return (
         <div className="bgcw">
+            {isRegister &&
+                <FormGroup>
+                  <Label for='username'>Username</Label>
+                  <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
+                </FormGroup>
+            }
             <div className={errClass}>
                 <div className={errSubClass}>
                     <div className="Err">ERR!</div>
@@ -73,6 +120,7 @@ function AuthPath() {
                     </div>
                     <Button className="btn1" onClick={() => csignin()}>login</Button>
                 <br/>
+                    <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
             </div>
             <div className="headImg">
                 {/*<img className="img" src="/right.png" />*/}
