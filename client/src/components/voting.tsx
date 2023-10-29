@@ -19,15 +19,24 @@ export function Voting() {
   };
 
   interface Voting {
+    contributors: [{
+      roles: string
+      public: boolean
+      profilePhoto: string
+      _id: string
+      username: string
+      email: string
+      createdAt: string
+      updatedAt: string
+      __v: 0
+    }]
     story: any
     task: any
     data: VotingDetails[]
-    // contributors: [{
-    //   roles: string,
-    // }]
-    // date: Date
-    // status: number
-    // _id: String
+    date: Date
+    status: number
+    _id: String
+    __v:number
 
   }
 
@@ -37,25 +46,24 @@ export function Voting() {
     votes: number
   }
 
-  let Voting: Voting = {
-    story: -1,
-    task: -1,
-    data: [{
-      id: -1,
-      name: "",
-      votes: 0
-    }]
-    // contributors: [{
-    //   roles: string,
-    // }]
-    // date: Date
-    // status: number
-    // _id: String
-  }
   const { id } = useParams();
   const navigate = useNavigate();
   const [fetchVoting] = useFetchVoting();
   const [voting, setVoting] = useState<Voting>({
+    contributors: [{
+    roles: "-1",
+    public: false,
+    profilePhoto: "default.jpg",
+    _id: "6521729009fed13b2898d2c7",
+    username: "admin",
+    email: "amind@dev.com",
+    createdAt: "2023-10-07T15:00:32.670Z",
+    updatedAt: "2023-10-07T15:00:32.670Z",
+    __v: 0}],
+    _id: "653e07aa429062e9010042e7",
+    status: 1,
+    date: new Date(),
+    __v: 11,
     story: '',
     task: '',
     data: [{
@@ -76,9 +84,15 @@ export function Voting() {
       navigate('/notfound');
       return;
     } else {
-      setVoting(dummyData);
-      const da = fetchVoting("653e07aa429062e9010042e7")
-      console.log(id);
+      // setVoting(dummyData);
+      const data = fetchVoting("653e07aa429062e9010042e7");
+      console.log(data);
+
+      data.then((res) => {
+        console.log(res.data);
+        setVoting(res.data);
+      });
+      
     }
     // setInterval(() => { }, 5000);
   }, [id]);
