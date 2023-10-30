@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Container, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { useSignin } from '../states/user/hooks';
+import {useEffect} from "react";
 import { signin, signup } from '../states/user/service';
 
 function AuthPath() {
@@ -8,10 +9,28 @@ function AuthPath() {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const [setToken, setProfile] = useSignin();
+    const [errClass,setErrClass] = React.useState<string>('alertContent')
+    const [contentClass,setContentClass] = React.useState<string>('content1')
     const [isRegister, setIsRegister] = React.useState<boolean>(false);
 
     const [errMsg, setErrMsg] = React.useState<string>('');
-
+    useEffect(()=>{
+        if(isRegister){
+            setContentClass('content1 content2')
+        }else{
+            setContentClass('content1')
+        }
+    },[isRegister])
+    useEffect(()=>{
+        console.log(errMsg)
+        if(errMsg === ''){
+            setErrClass('alertContent')
+            // setErrSubClass('alertText')
+        }else{
+            setErrClass('alertContent alertShow')
+            // setErrSubClass('alertText alertTextShow')
+        }
+    },[errMsg])
     const csignin = async () => {
         setErrMsg('');
 
@@ -33,7 +52,6 @@ function AuthPath() {
             else setErrMsg('Unknown Error')
         })
     }
-
     const csignup = async () => {
         setErrMsg('');
 
@@ -74,62 +92,55 @@ function AuthPath() {
     }
 
     return (
-
-        //  <Container>
-        //     <Form>
-        //         {isRegister &&
-        //             <FormGroup>
-        //                 <Label for='username'>Username</Label>
-        //                 <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
-        //             </FormGroup>
-        //         }
-        //         <FormGroup>
-        //             <Label for='email'>{isRegister ? 'Email' : 'Email or Username'}</Label>
-        //             <Input type='email' name='email' id='email' placeholder={isRegister ? 'Enter email' : 'Enter email or username'} onChange={(e) => setInfo(e.target.value)} />
-        //         </FormGroup>
-        //         <FormGroup>
-        //             <Label for='password'>Password</Label>
-        //             <Input type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)} />
-        //         </FormGroup>
-        //         <Button onClick={() => onAuth()}>{isRegister ? 'Sign up' : 'Sign In'}</Button>
-        //         <br /><br />
-        //         {errMsg && <Alert color="warning">{errMsg}</Alert>}
-        //     </Form>
-        //     <br /><br /><br /><br />
-        //     <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
-        // </Container> 
-
         <div className="bgcw">
-            <div className="logining">
-                <div className="headImg">
-                    <img className="img" src="/left.png" />
+            {/*{isRegister &&*/}
+            {/*    <FormGroup>*/}
+            {/*      <Label for='username'>Username</Label>*/}
+            {/*      <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />*/}
+            {/*    </FormGroup>*/}
+            {/*}*/}
+            <div className={errClass}>{
+                errMsg &&
+                <div className={"alertText"}>
+                    <div className="Err">ERR!</div>
+                    <div className="ErrMsg">{errMsg}</div>
+                    <div className="ErrButton"><Button onClick={()=>{setErrMsg('')}} color="info">Oh,I see.</Button></div>
                 </div>
-                <div className="content1">
+            }
+
+            </div>
+            <div className="logining">
+
+                <div className="headImg">
+                    {/*<img className="img" src="/left.png" />*/}
+                </div>
+                <div className={contentClass}>
+
                     <div className="banner">
-                        Jira System
+                        Jira
                     </div>
-                   {isRegister &&
-                    <div className="item">
+                    {/*<Alert>haha</Alert>*/}
+
+                    {isRegister?<div className="item fading">
                         <i className="fas fa-user-tie user icon" style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
-                        <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
-                    </div>
-                    }
+                        <Input className="inputing" type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)}></Input>
+                    </div>: <div className="item fadingOut"></div>}
                     <div className="item">
-                        <i className={isRegister ? 'fas fa-envelope icon' : 'fas fa-user-tie user icon'}  style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
-                        <Input className="inputing" type='email' name='email' id='email' placeholder={isRegister ? 'Enter email' : 'Enter email or username'} onChange={(e) => setInfo(e.target.value)}></Input>
+                        <i className="fas fa-envelope icon" style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
+                        <Input className="inputing" type='email' name='email' id='email' placeholder={isRegister? 'Enter email':'Enter email or username'} onChange={(e) => setInfo(e.target.value)}></Input>
                     </div>
                     <div className="item">
                         <i className="fas fa-unlock-alt icon" style={{"color":"#3A95E0",fontSize:"30px"}}></i>
                         {/*<LockOutlined />*/}
                         <Input className="inputing" type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)}></Input>
                     </div>
-                    <Button className="btn1" onClick={() => onAuth()}>{isRegister ? 'Sign up' : 'Sign In'}</Button>
-                  {errMsg && <Alert color="warning">{errMsg}</Alert>}
-                   <br /><br /><br /><br />
-            <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
+                    {!isRegister?<Button className="btn1" onClick={() => csignin()}>{"login"}</Button>:<Button className="btn1" onClick={() => csignup()}>{"sign up"}</Button>}
+                    <a className="registering" onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</a>
+
+                    <br/>
             </div>
             <div className="headImg">
-                <img className="img" src="/right.png" />
+                {/*<img className="img" src="/right.png" />*/}
             </div>
         </div>
             {/*        // <Container>*/}
@@ -146,7 +157,6 @@ function AuthPath() {
             {/*        //     </Form>*/}
             {/*        // </Container>*/}
 </div>
-
 
     )
 }
