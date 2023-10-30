@@ -10,7 +10,9 @@ isUserExisted = (req, res, next) => {
         return res.status(500).send({ message: 'Username and email cannot be empty' });
 
     // check the email format
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)) 
+    const isEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
+    if (!isEmail.test(req.body.email)) 
         return res.status(500).send({ message: 'Invalid email format' });
 
     // search username in db
