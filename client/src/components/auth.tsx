@@ -75,29 +75,29 @@ function AuthPath() {
 
     return (
 
-<!--         <Container>
-            <Form>
-                {isRegister &&
-                    <FormGroup>
-                        <Label for='username'>Username</Label>
-                        <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
-                    </FormGroup>
-                }
-                <FormGroup>
-                    <Label for='email'>{isRegister ? 'Email' : 'Email or Username'}</Label>
-                    <Input type='email' name='email' id='email' placeholder={isRegister ? 'Enter email' : 'Enter email or username'} onChange={(e) => setInfo(e.target.value)} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for='password'>Password</Label>
-                    <Input type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)} />
-                </FormGroup>
-                <Button onClick={() => onAuth()}>{isRegister ? 'Sign up' : 'Sign In'}</Button>
-                <br /><br />
-                {errMsg && <Alert color="warning">{errMsg}</Alert>}
-            </Form>
-            <br /><br /><br /><br />
-            <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
-        </Container> -->
+        //  <Container>
+        //     <Form>
+        //         {isRegister &&
+        //             <FormGroup>
+        //                 <Label for='username'>Username</Label>
+        //                 <Input type='text' name='username' id='username' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
+        //             </FormGroup>
+        //         }
+        //         <FormGroup>
+        //             <Label for='email'>{isRegister ? 'Email' : 'Email or Username'}</Label>
+        //             <Input type='email' name='email' id='email' placeholder={isRegister ? 'Enter email' : 'Enter email or username'} onChange={(e) => setInfo(e.target.value)} />
+        //         </FormGroup>
+        //         <FormGroup>
+        //             <Label for='password'>Password</Label>
+        //             <Input type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)} />
+        //         </FormGroup>
+        //         <Button onClick={() => onAuth()}>{isRegister ? 'Sign up' : 'Sign In'}</Button>
+        //         <br /><br />
+        //         {errMsg && <Alert color="warning">{errMsg}</Alert>}
+        //     </Form>
+        //     <br /><br /><br /><br />
+        //     <Button onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</Button>
+        // </Container> 
 
         <div className="bgcw">
             <div className="logining">
@@ -115,7 +115,7 @@ function AuthPath() {
                     </div>
                     }
                     <div className="item">
-                        <i className="fas fa-user-tie user icon" style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
+                        <i className={isRegister ? 'fas fa-envelope icon' : 'fas fa-user-tie user icon'}  style={{"color":"#3A95E0","fontSize":"30px"}} aria-hidden="true"></i>
                         <Input className="inputing" type='email' name='email' id='email' placeholder={isRegister ? 'Enter email' : 'Enter email or username'} onChange={(e) => setInfo(e.target.value)}></Input>
                     </div>
                     <div className="item">
