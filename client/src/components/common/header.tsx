@@ -5,11 +5,15 @@ import { signout } from '../../states/user/service';
 import { useSignout } from '../../states/user/hooks';
 import { setStory } from '../../states/story/service';
 import { useCreateTimeline } from '../../states/timeline/hooks';
+import { useFetchStory } from "../../states/story/hooks";
 
 function Header({story}:any) {
+  const [err, setErr] = React.useState<string>('');
   const [createTimeline] = useCreateTimeline();
   const [setLogout] = useSignout();
   const [timelineId, setTimelineId] = useState<string>();
+  const [fetchStory] = useFetchStory();
+
   const csignout = () => {
     signout().then((res) => {
       if (res.status === 200) { 
@@ -22,16 +26,31 @@ function Header({story}:any) {
   }
 
   useEffect(() => {
-    if(!story?.timeline?._id && story?._id){
-      setTimelineId('999');
-      const timeline = {story:story?._id}
-      createTimeline(timeline);
+    if(!story?.timeline && story?._id){
+        console.log("timeline is null.");
+        fetchStory(story?._id).then((res) => {
+          if(res.data?.timeline){
+            setTimelineId(res.data?.timeline);
+          }else{
+            console.log("timeline is null.....");
+            const timeline = {story:story?._id}
+            createTimeline(timeline).then((res)=>{
+              setTimelineId(res.data?._id);
+            });
+          }
+          
+        }).catch((err) => {
+          setErr(err.response.data.message);
+        })
     }else{
       setTimelineId(story?.timeline?._id ?? -1);
     }
     
   }, [story]);
 
+  useEffect(() => {
+
+  })
   return (
     <header>
       <div className="container containerDashboard">

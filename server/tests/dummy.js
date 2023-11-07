@@ -17,4 +17,6 @@ const story = { title: 'Dummy Story' }
 
 const task = { title: 'Dummy Task', content: 'Dummy Task Content' }
 
-module.exports = { user, story, task, gen }
+const timeline = { story: '6537de2359d29500e04e0e88' }
+
+module.exports = { user, story, task, timeline, gen }

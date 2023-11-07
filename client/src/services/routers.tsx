@@ -8,6 +8,8 @@ import Voting from '../components/voting';
 import { useAxios } from './api';
 import { useSignedIn } from '../states/user/hooks';
 import Loader from '../components/loader';
+import Home from '../components/home';
+import NotFound from '../components/not-found';
 
 function Routers() {
   // initial api
@@ -16,11 +18,11 @@ function Routers() {
   const logged = useSignedIn();
 
   const IndexPage = () => {
-    return <div>Welcome to Scrum Master<br /><a href="/story/1">Homepage</a></div>
+    return <Home />
   }
 
   const NotFoundPage = () => {
-    return <div><h2>Not Found</h2><br /><a href="/">Homepage</a></div>
+    return <NotFound />
   }
 
   return (
