@@ -75,16 +75,12 @@ exports.edit = (req, res) => {
     const _id = req.params.id;
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
-        console.log("timeline 1");
         if (!user)
             return res.status(404).send({ message: 'User not found' });
-            console.log("timeline 2");
             Timeline.findById(_id).exec((err, timeline) => {
                 if (err) return res.status(500).send({ message: err });
-                console.log("timeline 3");
                 if (!timeline)
                     return res.status(404).send({ message: 'Story not found' });                
-                console.log("timeline 14");
                 
                 timeline.status = req.body.status ?? timeline.status;
                 timeline.contributors.push(user._id);
