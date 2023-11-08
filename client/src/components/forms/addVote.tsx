@@ -39,7 +39,7 @@ export function AddVote({ story, className }: any) {
   }
 
   const optionFields = React.useMemo(() => 
-    options.map((opt, i) => <FormGroup>
+    options.map((opt, i) => <FormGroup key={`option_group_${i}`}>
       <i className="fas fa-minus-circle input-icon-right" key={`option_label_${i}`} onClick={() => onDeleteOption(i)}></i>
       <Input type="text" name="option" key={`option_${i}`} value={opt} onChange={(e) => onInputOptions(i, e.target.value)} />
     </FormGroup>)
