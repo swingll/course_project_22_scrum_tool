@@ -1,16 +1,16 @@
 const mongoose =require('mongoose');
 const Schema = mongoose.Schema;
 const VotingSchema = new Schema({   
-    contributors:{
+    contributors: {
         type:[Schema.Types.ObjectId], //dont forget that!
         ref: 'user',
         // required:true
     },
-    status:{
-        type:Number,
+    status: {
+        type: Number,
         // required:true
     },
-    id:{
+    id: {
         type:Number,
         // required:true
     },
@@ -29,11 +29,11 @@ const VotingSchema = new Schema({
         maxlength: 100
     },
     votes: {
-        type:Number
+        type: Number
     },
-    date:{
-        type:Date,
-        default:Date.now
+    date: {
+        type: Date,
+        default: Date.now
     }
 })
 
