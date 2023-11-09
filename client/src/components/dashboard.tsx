@@ -28,7 +28,6 @@ export function Dashboard() {
   const [fetchStories] = useFetchStories();
   const [fetchUsers] = useFetchUsers();
   const { stories, count } = useStories();
-
   const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
   React.useEffect(() => {
@@ -53,22 +52,24 @@ export function Dashboard() {
   }, []);
 
   React.useEffect(() => {
+
     if (!stories || count === 0 || stories.length == 0){
       setLoading(false)
       return
     }
     if (futureId !== id) {
+      // console.log("?")
       navigate(`/story/${futureId}`)
       setLoading(false)
       return
     }
     const s = stories.find((story: any) => story._id === id);
+
     if (!s) {
       navigate(`/story/${stories[0]._id}`);
       setLoading(false)
       return;
     }
-
     setStory(s);
 
     const { tasks: _tasks } = s;
@@ -147,7 +148,6 @@ export function Dashboard() {
           {(!stories || count === 0 || stories.length == 0) && <div className="no_story">{addButtonShow?<>create a story first</>:<>no story here</>}</div>}
           </aside>
       </div>
-
     </div>
   )
 }

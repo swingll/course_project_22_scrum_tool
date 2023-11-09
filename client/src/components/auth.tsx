@@ -12,7 +12,8 @@ function AuthPath() {
     const [errClass,setErrClass] = React.useState<string>('alertContent')
     const [contentClass,setContentClass] = React.useState<string>('content1')
     const [isRegister, setIsRegister] = React.useState<boolean>(false);
-
+    const [loading,setLoading] = React.useState<boolean>(false)
+    const [typename,setTypename] = React.useState<string>("Err!")
     const [errMsg, setErrMsg] = React.useState<string>('');
     useEffect(()=>{
         if(isRegister){
@@ -32,6 +33,9 @@ function AuthPath() {
         }
     },[errMsg])
     const csignin = async () => {
+        if(loading){
+            return;
+        }
         setErrMsg('');
 
         if (!info) return setErrMsg('Username or email cannot be empty');
@@ -40,19 +44,32 @@ function AuthPath() {
         const isEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
 
         const body = isEmail.test(info) ? { email: info, password } : { username: info, password };
-
+        setLoading(true)
         signin(body).then((res) => {
             if (res.status === 200) {
                 const { info, token } = res.data;
-                setToken(token);
-                setProfile(info);
+                setTypename("Ok!")
+                setErrMsg("jump to...")
+                setTimeout(()=>{
+                    setToken(token);
+                    setProfile(info);
+                },1000)
             }
         }).catch((err) => {
+            setTypename("Err!")
             if (typeof err === 'string') setErrMsg(err)
-            else setErrMsg('Unknown Error')
+            else {
+
+                setErrMsg('Unknown Error')
+            }
+        }).finally(()=>{
+            setLoading(false)
         })
     }
     const csignup = async () => {
+        if(loading){
+            return;
+        }
         setErrMsg('');
 
         if (!info) return setErrMsg('Email cannot be empty');
@@ -66,7 +83,7 @@ function AuthPath() {
             email: info,
             password
         }
-
+        setLoading(true)
         signup(body).then((res) => {
             console.log(res)
             if (res.status === 200) {
@@ -77,13 +94,22 @@ function AuthPath() {
                         setProfile(info);
                     }
                 }).catch((err) => {
+                    setTypename("Err!")
                     if (typeof err === 'string') setErrMsg(err)
-                    else setErrMsg('Unknown Error')
+                    else {
+
+                        setErrMsg('Unknown Error')
+                    }
                 })
             }
         }).catch((err) => {
+            setTypename("Err!")
             if (typeof err === 'string') setErrMsg(err)
-            else setErrMsg('Unknown Error')
+            else {
+                setErrMsg('Unknown Error')
+            }
+        }).finally(()=>{
+            setLoading(false)
         })
     }
 
@@ -102,9 +128,9 @@ function AuthPath() {
             <div className={errClass}>{
                 errMsg &&
                 <div className={"alertText"}>
-                    <div className="Err">ERR!</div>
+                    <div className="Err">{typename}</div>
                     <div className="ErrMsg">{errMsg}</div>
-                    <div className="ErrButton"><Button onClick={()=>{setErrMsg('')}} color="info">Oh,I see.</Button></div>
+                    <div className="ErrButton">{typename === "Err!" && <Button onClick={()=>{setErrMsg('')}} color="info">Oh,I see.</Button>}</div>
                 </div>
             }
 
@@ -134,7 +160,10 @@ function AuthPath() {
                         {/*<LockOutlined />*/}
                         <Input className="inputing" type='password' name='password' id='password' placeholder='Enter password' onChange={(e) => setPassword(e.target.value)}></Input>
                     </div>
-                    {!isRegister?<Button className="btn1" onClick={() => csignin()}>{"login"}</Button>:<Button className="btn1" onClick={() => csignup()}>{"sign up"}</Button>}
+                    {
+                        loading?<Button className="btn1" style={{color: "#abcabc"}}>{"..."}</Button> :(!isRegister?<Button className="btn1" onClick={() => csignin()}>{"login"}</Button>:<Button className="btn1" onClick={() => csignup()}>{"sign up"}</Button>)
+                    }
+                    {}
                     <a className="registering" onClick={() => setIsRegister(!isRegister)}>{isRegister ? 'I already have an account' : 'I want to sign up'}</a>
 
                     <br/>

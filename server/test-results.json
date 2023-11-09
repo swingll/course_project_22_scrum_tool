@@ -1,0 +1,555 @@
+{
+    "numFailedTestSuites": 4,
+    "numFailedTests": 13,
+    "numPassedTestSuites": 1,
+    "numPassedTests": 8,
+    "numPendingTestSuites": 0,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0,
+    "numTodoTests": 0,
+    "numTotalTestSuites": 5,
+    "numTotalTests": 21,
+    "openHandles": [],
+    "snapshot": {
+        "added": 0,
+        "didUpdate": false,
+        "failure": false,
+        "filesAdded": 0,
+        "filesRemoved": 0,
+        "filesRemovedList": [],
+        "filesUnmatched": 0,
+        "filesUpdated": 0,
+        "matched": 0,
+        "total": 0,
+        "unchecked": 0,
+        "uncheckedKeysByFile": [],
+        "unmatched": 0,
+        "updated": 0
+    },
+    "startTime": 1699368654045,
+    "success": false,
+    "testResults": [
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "Ping test"
+                    ],
+                    "duration": 176,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "Ping test should GET /",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 1,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "should GET /"
+                }
+            ],
+            "endTime": 1699368655854,
+            "message": "",
+            "name": "D:\\codes\\jiraaaa\\server\\tests\\app.test.js",
+            "startTime": 1699368654305,
+            "status": "passed",
+            "summary": ""
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "User Signin"
+                    ],
+                    "duration": 1674,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "User Signin Signin successfully",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Signin successfully"
+                },
+                {
+                    "ancestorTitles": [
+                        "User Signin"
+                    ],
+                    "duration": 189,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "User Signin Signin failed",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 1,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Signin failed"
+                },
+                {
+                    "ancestorTitles": [
+                        "User Signup"
+                    ],
+                    "duration": 4,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 500,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\auth.test.js:42:37)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "User Signup Signup successfully",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Signup successfully"
+                },
+                {
+                    "ancestorTitles": [
+                        "User Signup"
+                    ],
+                    "duration": 191,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "User Signup Signup failed",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 1,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Signup failed"
+                }
+            ],
+            "endTime": 1699368657748,
+            "message": "  ● User Signup › Signup successfully\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 500\n\n      40 |             .send(dummy);\n      41 |\n    > 42 |         expect(response.statusCode).toBe(200);\n         |                                     ^\n      43 |         expect(response.body).not.toBeNull();\n      44 |         expect(response.body.token).not.toBeNull();\n      45 |     });\n\n      at Object.toBe (tests/auth.test.js:42:37)\n",
+            "name": "D:\\codes\\jiraaaa\\server\\tests\\auth.test.js",
+            "startTime": 1699368654306,
+            "status": "failed",
+            "summary": ""
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "Story"
+                    ],
+                    "duration": 411,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "Story Fetch All Story",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Fetch All Story"
+                },
+                {
+                    "ancestorTitles": [
+                        "Story"
+                    ],
+                    "duration": 581,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\story.test.js:33:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Story Create Story",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Create Story"
+                },
+                {
+                    "ancestorTitles": [
+                        "Story"
+                    ],
+                    "duration": 188,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 500,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\story.test.js:45:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Story Fetch Story By ID",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Fetch Story By ID"
+                },
+                {
+                    "ancestorTitles": [
+                        "Story"
+                    ],
+                    "duration": 558,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\story.test.js:56:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Story Edit Story",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Edit Story"
+                },
+                {
+                    "ancestorTitles": [
+                        "Story"
+                    ],
+                    "duration": 613,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\story.test.js:66:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Story Delete Story",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Delete Story"
+                }
+            ],
+            "endTime": 1699368659711,
+            "message": "  ● Story › Create Story\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      31 |       .set('Authorization', `Bearer ${token}`);\n      32 |\n    > 33 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      34 |     expect(response.body).not.toBeNull();\n      35 |\n      36 |     storyId = response.body._id;\n\n      at Object.toBe (tests/story.test.js:33:33)\n\n  ● Story › Fetch Story By ID\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 500\n\n      43 |       .set('Authorization', `Bearer ${token}`);\n      44 |\n    > 45 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      46 |     expect(response.body).not.toBeNull();\n      47 |   });\n      48 |\n\n      at Object.toBe (tests/story.test.js:45:33)\n\n  ● Story › Edit Story\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      54 |       .set('Authorization', `Bearer ${token}`);\n      55 |\n    > 56 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      57 |     expect(response.body).not.toBeNull();\n      58 |   });\n      59 |\n\n      at Object.toBe (tests/story.test.js:56:33)\n\n  ● Story › Delete Story\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      64 |       .set('Authorization', `Bearer ${token}`);\n      65 |\n    > 66 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      67 |     expect(response.body).not.toBeNull();\n      68 |\n      69 |     const afterDelete = await request(app)\n\n      at Object.toBe (tests/story.test.js:66:33)\n",
+            "name": "D:\\codes\\jiraaaa\\server\\tests\\story.test.js",
+            "startTime": 1699368654299,
+            "status": "failed",
+            "summary": ""
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "Timeline"
+                    ],
+                    "duration": 391,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "Timeline Fetch All Timeline",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Fetch All Timeline"
+                },
+                {
+                    "ancestorTitles": [
+                        "Timeline"
+                    ],
+                    "duration": 594,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\timeline.test.js:48:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Timeline Create Timeline",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Create Timeline"
+                },
+                {
+                    "ancestorTitles": [
+                        "Timeline"
+                    ],
+                    "duration": 191,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 500,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\timeline.test.js:60:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Timeline Fetch Timeline By ID",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Fetch Timeline By ID"
+                },
+                {
+                    "ancestorTitles": [
+                        "Timeline"
+                    ],
+                    "duration": 591,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\timeline.test.js:71:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Timeline Edit Timeline",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Edit Timeline"
+                },
+                {
+                    "ancestorTitles": [
+                        "Timeline"
+                    ],
+                    "duration": 587,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\timeline.test.js:81:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Timeline Delete Timeline",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Delete Timeline"
+                }
+            ],
+            "endTime": 1699368659896,
+            "message": "  ● Timeline › Create Timeline\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      46 |       .set('Authorization', `Bearer ${token}`);\n      47 |\n    > 48 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      49 |     expect(response.body).not.toBeNull();\n      50 |\n      51 |     timelineId = response.body._id;\n\n      at Object.toBe (tests/timeline.test.js:48:33)\n\n  ● Timeline › Fetch Timeline By ID\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 500\n\n      58 |       .set('Authorization', `Bearer ${token}`);\n      59 |\n    > 60 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      61 |     expect(response.body).not.toBeNull();\n      62 |   });\n      63 |\n\n      at Object.toBe (tests/timeline.test.js:60:33)\n\n  ● Timeline › Edit Timeline\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      69 |       .set('Authorization', `Bearer ${token}`);\n      70 |\n    > 71 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      72 |     expect(response.body).not.toBeNull();\n      73 |   });\n      74 |\n\n      at Object.toBe (tests/timeline.test.js:71:33)\n\n  ● Timeline › Delete Timeline\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      79 |       .set('Authorization', `Bearer ${token}`);\n      80 |\n    > 81 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      82 |     expect(response.body).not.toBeNull();\n      83 |\n      84 |     const afterDelete = await request(app)\n\n      at Object.toBe (tests/timeline.test.js:81:33)\n",
+            "name": "D:\\codes\\jiraaaa\\server\\tests\\timeline.test.js",
+            "startTime": 1699368654307,
+            "status": "failed",
+            "summary": ""
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 387,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "Task Fetch All Task",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Fetch All Task"
+                },
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 593,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "Task Create Story",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "Create Story"
+                },
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 862,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\task.test.js:45:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Task Create Task",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Create Task"
+                },
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 210,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 500,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 500\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\task.test.js:57:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Task Fetch Task By ID",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Fetch Task By ID"
+                },
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 612,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\task.test.js:68:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Task Edit Task",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Edit Task"
+                },
+                {
+                    "ancestorTitles": [
+                        "Task"
+                    ],
+                    "duration": 630,
+                    "failureDetails": [
+                        {
+                            "matcherResult": {
+                                "actual": 403,
+                                "expected": 200,
+                                "message": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403",
+                                "name": "toBe",
+                                "pass": false
+                            }
+                        }
+                    ],
+                    "failureMessages": [
+                        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 200\nReceived: 403\n    at Object.toBe (D:\\codes\\jiraaaa\\server\\tests\\task.test.js:78:33)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+                    ],
+                    "fullName": "Task Delete Task",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 0,
+                    "retryReasons": [],
+                    "status": "failed",
+                    "title": "Delete Task"
+                }
+            ],
+            "endTime": 1699368660657,
+            "message": "  ● Task › Create Task\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      43 |       .set('Authorization', `Bearer ${token}`);\n      44 |\n    > 45 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      46 |     expect(response.body).not.toBeNull();\n      47 |\n      48 |     taskId = response.body._id;\n\n      at Object.toBe (tests/task.test.js:45:33)\n\n  ● Task › Fetch Task By ID\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 500\n\n      55 |       .set('Authorization', `Bearer ${token}`);\n      56 |\n    > 57 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      58 |     expect(response.body).not.toBeNull();\n      59 |   });\n      60 |\n\n      at Object.toBe (tests/task.test.js:57:33)\n\n  ● Task › Edit Task\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      66 |       .set('Authorization', `Bearer ${token}`);\n      67 |\n    > 68 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      69 |     expect(response.body).not.toBeNull();\n      70 |   });\n      71 |\n\n      at Object.toBe (tests/task.test.js:68:33)\n\n  ● Task › Delete Task\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 403\n\n      76 |       .set('Authorization', `Bearer ${token}`);\n      77 |\n    > 78 |     expect(response.statusCode).toBe(200);\n         |                                 ^\n      79 |     expect(response.body).not.toBeNull();\n      80 |\n      81 |     const afterDelete = await request(app)\n\n      at Object.toBe (tests/task.test.js:78:33)\n",
+            "name": "D:\\codes\\jiraaaa\\server\\tests\\task.test.js",
+            "startTime": 1699368654304,
+            "status": "failed",
+            "summary": ""
+        }
+    ],
+    "wasInterrupted": false
+}
