@@ -28,6 +28,7 @@ export function Dashboard() {
   const [fetchStories] = useFetchStories();
   const [fetchUsers] = useFetchUsers();
   const { stories, count } = useStories();
+  const prevStoriesRef = useRef(stories)
   const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
   React.useEffect(() => {
@@ -52,36 +53,46 @@ export function Dashboard() {
   }, []);
 
   React.useEffect(() => {
+    if (prevStoriesRef.current && JSON.stringify(prevStoriesRef.current) !== JSON.stringify(stories)) {
+      // console.log(prevStoriesRef.current === stories)
+      if (!stories || count === 0 || stories.length == 0) {
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return
+      }
+      if (futureId !== id) {
+        // console.log("?")
+        navigate(`/story/${futureId}`)
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return
+      }
+      const s = stories.find((story: any) => story._id === id);
 
-    if (!stories || count === 0 || stories.length == 0){
+      if (!s) {
+        navigate(`/story/${stories[0]._id}`);
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return;
+      }
+      setStory(s);
+
+      const {tasks: _tasks} = s;
+
+      if (!_tasks) {
+        // navigate('/notfound');
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return;
+      }
+
+      setTasks(_tasks);
       setLoading(false)
-      return
-    }
-    if (futureId !== id) {
-      // console.log("?")
-      navigate(`/story/${futureId}`)
+      prevStoriesRef.current = stories
+    }else{
       setLoading(false)
-      return
-    }
-    const s = stories.find((story: any) => story._id === id);
-
-    if (!s) {
-      navigate(`/story/${stories[0]._id}`);
-      setLoading(false)
-      return;
-    }
-    setStory(s);
-
-    const { tasks: _tasks } = s;
-
-    if (!_tasks) {
-      // navigate('/notfound');
-      setLoading(false)
-      return;
     }
 
-    setTasks(_tasks);
-    setLoading(false)
   }, [stories])
   React.useEffect(() => {
     if (!stories || count === 0 || stories.length == 0) return;

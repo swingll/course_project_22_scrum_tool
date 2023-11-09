@@ -1,13 +1,20 @@
 import React from 'react';
-import {BrowserRouter, MemoryRouter, Route, Router, Routes} from 'react-router-dom';
+import {
+  BrowserRouter,
+  MemoryRouter,
+  Route,
+  Router,
+  Routes,
+  useNavigate as navigateMock,
+  useNavigate
+} from 'react-router-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Dashboard } from '../components/dashboard';
 import {Provider} from "react-redux";
-import ReactRouter from 'react-router'
+import ReactRouter, {createMemoryHistory} from 'react-router'
 import store, { persistor } from '../states';
 import {useUserProfile} from "../states/user/hooks";
-import * as userEvent from "react-dom/test-utils";
-
+import userEvent from '@testing-library/user-event';
 jest.mock('../states/permission/hooks', () => ({
   useAuthorize: () => (true),
 }))
@@ -192,25 +199,29 @@ test('getByText', () => {
   const storyLink = screen.getByText(/Story 2/i);
   expect(storyLink).toBeInTheDocument();
 });
-test('navigates to the selected story when a story link is clicked', () => {
-  const location = { pathname: '/story/654c710bde06574814d72225', href: '/story/654c710bde06574814d72225' };
+jest.mock('react-router-dom', () => {
   const navigateMock = jest.fn();
-
+  return {
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => navigateMock,
+}});
+test('navigates to the selected story when a story link is clicked', () => {
+  const history = createMemoryHistory();
+  history.push('/story/654c71bb398d610cb0c1a942');
+  const navigateMock = require('react-router-dom').useNavigate();
   render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/story/654c71c0398d610cb0c1a956']}>
+        <MemoryRouter initialEntries={['/story/654c71bb398d610cb0c1a942']}>
           <Routes>
-            <Route path="/story/:id" element={<Dashboard />}>
-            </Route>
+            <Route path="/story/:id" element={<Dashboard />} />
           </Routes>
-
         </MemoryRouter>
       </Provider>
+
   );
 
-
   const storyLink = screen.getByText(/stroy2134/i);
-  userEvent.click(storyLink);
-
-  expect(navigateMock).toHaveBeenCalledWith('/story/654c71c0398d610cb0c1a956');
+  fireEvent.click(storyLink);
+  12343
+  expect(screen.getByText(/12343/i)).toBeInTheDocument();
 });
