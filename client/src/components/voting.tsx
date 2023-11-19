@@ -3,20 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Loader from './loader';
 import Moment from 'moment';
 import './Voting/voting.css';
-import { useFetchVoting} from "../states/voting/hooks";
-
-
+import { useFetchVotingByTask, useUpdateVoting} from "../states/voting/hooks";
 
 export function Voting() {
-
-  const dummyData = {
-    data: [
-      { id: 1, name: 'Task #1', votes: 0 },
-      { id: 2, name: 'Task #2', votes: 0 }
-    ],
-    story: 1,
-    task: -1
-  };
 
   interface Voting {
     contributors: [{
@@ -41,64 +30,64 @@ export function Voting() {
   }
 
   interface VotingDetails {
-    id: number
+    _id: String
     name: string
     votes: number
   }
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const [fetchVoting] = useFetchVoting();
+  const [fetchVotingByTask] = useFetchVotingByTask();
+  const [updateVoting] = useUpdateVoting();
+  const [isUpdate, setIsUpdate] = useState<number>(0);
   const [voting, setVoting] = useState<Voting>({
     contributors: [{
-    roles: "-1",
+    roles: "",
     public: false,
-    profilePhoto: "default.jpg",
-    _id: "6521729009fed13b2898d2c7",
-    username: "admin",
-    email: "amind@dev.com",
-    createdAt: "2023-10-07T15:00:32.670Z",
-    updatedAt: "2023-10-07T15:00:32.670Z",
+    profilePhoto: "",
+    _id: "",
+    username: "",
+    email: "",
+    createdAt: "",
+    updatedAt: "",
     __v: 0}],
-    _id: "653e07aa429062e9010042e7",
+    _id: "",
     status: 1,
-    date: new Date(),
-    __v: 11,
+    date: new Date(),    
     story: '',
     task: '',
     data: [{
-      id: -1,
+      _id: "",
       name: "",
       votes: 0
-    }]
+    }],
+    __v: 0
   });
   const [loading, setLoading] = React.useState<boolean>(false);
-  // const [timelineDatas, setTimelineDatas] = useState<{ data: any[]; links: any[] }>({
-  //   data: [],
-  //   links: [],
-  // });
-
 
   useEffect(() => {
+    console.log("id:::" + id)
     if (!id) {
       navigate('/notfound');
       return;
     } else {
-      // setVoting(dummyData);
-      const data = fetchVoting("653e07aa429062e9010042e7");
-      console.log(data);
-
+      const data = fetchVotingByTask(id);
       data.then((res) => {
-        console.log(res.data);
-        setVoting(res.data);
-      });
-      
+        console.log(res.data[0]);
+        setVoting(res.data[0]);
+        setIsUpdate(1);
+      });      
     }
     // setInterval(() => { }, 5000);
   }, [id]);
 
   useEffect(() => {
     console.log("Updated voting state:", voting);
+    console.log("isUpdate", isUpdate);
+    if(isUpdate > 0){
+      updateVoting(voting);
+    }
+    
   }, [voting]);
 
   function handleVoting(index: number): void {
@@ -106,7 +95,6 @@ export function Voting() {
     newData[index].votes += 1; // Update the votes for the selected index
     setVoting({...voting, data: newData }); // Return the updated state object
   }
-
 
   return (
     <div>
@@ -125,11 +113,7 @@ export function Voting() {
           ))
         }
       </div>
-
     </div>
-
   )
-
-
 }
 export default Voting

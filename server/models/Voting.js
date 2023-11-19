@@ -10,10 +10,6 @@ const VotingSchema = new Schema({
         type: Number,
         // required:true
     },
-    id: {
-        type:Number,
-        // required:true
-    },
     story: {
         type: Schema.Types.ObjectId,
         ref: 'story',
@@ -24,13 +20,10 @@ const VotingSchema = new Schema({
         ref: 'task',
         // required: true
     },
-    name: {
-        type: String,
-        maxlength: 100
-    },
-    votes: {
-        type: Number
-    },
+    data: [{        
+        name: String,
+        votes:Number
+    }],
     date: {
         type: Date,
         default: Date.now

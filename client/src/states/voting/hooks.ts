@@ -5,7 +5,7 @@ import { AppState, useAppDispatch } from "..";
 import { useSignedIn } from "../user/hooks";
 import { fetchVotings } from "./actions";
 import { VotingsState } from "./reducer";
-import { deleteVoting, getVoting, newVoting, setVoting } from "./service";
+import { deleteVoting, getVoting, getVotingByTask, newVoting, setVoting } from "./service";
 
 export function useVotings(): VotingsState {
   return useSelector<AppState, AppState['voting']>((state) => state.voting);
@@ -33,6 +33,14 @@ export function useFetchVotings(init?: boolean) {
 export function useFetchVoting(): [(id: string) => Promise<any>] {
   const fetchVoting = useCallback((id: string) => {
     return getVoting(id);
+  }, []);
+
+  return [fetchVoting];
+}
+
+export function useFetchVotingByTask(): [(id: string) => Promise<any>] {
+  const fetchVoting = useCallback((id: string) => {
+    return getVotingByTask(id);
   }, []);
 
   return [fetchVoting];

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Alert } from 'reactstrap';
+import { useCreateVoting } from '../../states/voting/hooks';
 
 export function AddVote({ story, className }: any) {
   const [modal, setModal] = React.useState<boolean>(false);
@@ -8,6 +9,7 @@ export function AddVote({ story, className }: any) {
   const [tasks, setTasks] = React.useState<any[]>(story?.tasks ?? []);
   const [selectedTask, setSelectedTask] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [createVoting] = useCreateVoting();
 
   const onAddOptions = () => {
     setErr('');
@@ -55,17 +57,19 @@ export function AddVote({ story, className }: any) {
     if (!options || options.length == 0 || options.filter(x => x === '').length > 0) { setErr('Options cannot be empty'); return; }
 
     if (options.length < 2) { setErr('You cannot vote with one option.'); return; }
-
-    // TODO({ story: story._id, task: selectedTask, options })
-    //   .then((res) => {
-    //     setModal(false);
-    //     setLoading(true)
-    //   }).catch((err) => {
+    console.log("options", options);
+    let votes = options.map((item,index) => ({name: item, votes: 0}));
+    console.log(votes);
+    createVoting({ story: story._id, task: selectedTask, "data": votes })
+      .then((res) => {
+        setModal(false);
+        setLoading(true)
+      }).catch((err) => {
 
     //   }).finally(() => {
     //     fetchStories();
     //     setLoading(false);
-    //   })
+      })
   }
 
   return (

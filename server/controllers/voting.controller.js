@@ -19,6 +19,20 @@ exports.voting = (req, res) => {
     });
 };
 
+exports.votingByTask = (req, res) => {
+    console.log("do this votingByTask");
+    const id = req.params.id;
+
+    Voting.find({task:id}).exec(function (err, voting) {
+        if (err) return next(err);
+        if (!voting)
+            return res.status(404).send({ message: 'voting not found' });
+
+        console.log("voting",voting);
+        res.json(voting);
+    });  
+};
+
 exports.votings = (req, res) => {
     Voting.find().populate(['contributors', 'story', 'task']).exec((err, votings) => {
         if (err) return res.status(500).send({ message: err });
@@ -31,6 +45,8 @@ exports.create = (req, res) => {
     // if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
     // if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
     console.log("req.body.story",req.body.story);
+    console.log("req.body.task",req.body.task);
+    console.log("req.body.data",req.body.data);
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
 
@@ -43,28 +59,28 @@ exports.create = (req, res) => {
                 if (!story)
                     return res.status(404).send({ message: 'Story not found' });
                 
-                if(!story.timeline){
-                    const timeline = new Timeline({
+                if(!story.voting){
+                    const voting = new Voting({
                         contributors: [user._id],
                         status: req.body.status || 1,
                         story: story._id,
-                        timelinedetails: [],
-                        timelinelinks: [],
+                        task: req.body.task,
+                        data: req.body.data,                       
                     });
     
-                    timeline.save((err, timeline) => {
+                    voting.save((err, voting) => {
                         if (err) return res.status(500).send({ message: err });
             
-                        res.json(timeline);
+                        res.json(voting);
                     });
-                    console.log("timeline._id", timeline._id);
-                    story.timeline=timeline._id;
-                    story.save((err, story) => {
-                        if (err) return res.status(500).send({ message: err });
-                    });
+                    console.log("voting._id", voting._id);
+                    // story.voting=voting._id;
+                    // story.save((err, story) => {
+                    //     if (err) return res.status(500).send({ message: err });
+                    // });
                 }else{
-                    console.log("timeline exist");
-                    res.json(story.timeline);
+                    console.log("voting exist");
+                    res.json(story.voting);
                 }
                
         });
@@ -73,24 +89,34 @@ exports.create = (req, res) => {
 
 exports.edit = (req, res) => {
 
-    // if password is empty
-    if (!req.body.password) return res.status(500).send({ message: 'Password cannot be empty' });
-
-    Timeline.findById(req.userId).exec((err, user) => {
+    console.log("voting edit");
+    console.log("req.body", req.body);
+    const _id = req.params.id;
+    User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
-
         if (!user)
             return res.status(404).send({ message: 'User not found' });
-
-        user.password = bcrypt.hashSync(req.body.password, 8);
-        user.updatedAt = Date.now();
-
-        user.save((err) => {
-            if (err) return res.status(500).send({ message: err });
-
-            res.status(200).send({ message: 'Password have been changed' });
+            Voting.findById(_id).exec((err, voting) => {
+                if (err) return res.status(500).send({ message: err });
+                if (!voting)
+                    return res.status(404).send({ message: 'Voting not found' });                
+                
+                voting.status = req.body.status ?? voting.status;
+                voting.contributors.push(user._id);                 
+                voting.date = Date.now();
+                voting.data = req.body.data ?? voting.data;
+                console.log(voting);
+                voting.save((err, voting) => {
+                    if (err) return res.status(500).send({ message: err });
+        
+                    res.json(voting);
+                });
+                  
+                
+               
         });
     });
+
 };
 
 exports.delete = (req, res) => {

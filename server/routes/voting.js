@@ -4,19 +4,22 @@ const router = express.Router();
 const { jwt } = require('../helpers/auth');
 const controller = require('../controllers/voting.controller');
 
-// get all tasks
+// get all votings
 router.get('/find', [jwt.verifyToken, controller.votings]);
 
-// get task by id
+// get voting by id
 router.get('/find/:id', [jwt.verifyToken, controller.voting]);
 
-// create task (developer)
+// get voting by id
+router.get('/findByTask/:id', [jwt.verifyToken, controller.votingByTask]);
+
+// create voting (developer)
 router.post('/create', [jwt.verifyToken,  controller.create]);
 
-// edit task by id (developer)
+// edit voting by id (developer)
 router.put('/edit/:id', [jwt.verifyToken, controller.edit]);
 
-// delete task by id (developer)
+// delete voting by id (developer)
 router.delete('/delete/:id', [jwt.verifyToken, controller.delete]);
 
 module.exports = router;

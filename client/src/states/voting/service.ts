@@ -4,6 +4,10 @@ export const getVoting = (id: string): Promise<any> => {
     return api.get(`/votings/find/${id}`)
 }
 
+export const getVotingByTask = (id: string): Promise<any> => {
+    return api.get(`/votings/findByTask/${id}`)
+}
+
 export const getVotings = (): Promise<any> => {
     return api.get('/votings/find')
 }
@@ -13,7 +17,7 @@ export const newVoting = (data): Promise<any> => {
 }
 
 export const setVoting = (data): Promise<any> => {
-    return api.put(`/votings/edit/${data.id}`, data)
+    return api.put(`/votings/edit/${data._id}`, data)
 }
 
 export const deleteVoting = (id: string): Promise<any> => {
