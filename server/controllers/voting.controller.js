@@ -4,6 +4,7 @@ const db = require('../models');
 const User = db.user;
 const Voting = db.voting;
 const Story = db.story;
+const Task = db.task;
 
 exports.voting = (req, res) => {
     console.log("do this");
@@ -59,29 +60,39 @@ exports.create = (req, res) => {
                 if (!story)
                     return res.status(404).send({ message: 'Story not found' });
                 
-                if(!story.voting){
-                    const voting = new Voting({
-                        contributors: [user._id],
-                        status: req.body.status || 1,
-                        story: story._id,
-                        task: req.body.task,
-                        data: req.body.data,                       
-                    });
-    
-                    voting.save((err, voting) => {
-                        if (err) return res.status(500).send({ message: err });
-            
-                        res.json(voting);
-                    });
-                    console.log("voting._id", voting._id);
-                    // story.voting=voting._id;
-                    // story.save((err, story) => {
-                    //     if (err) return res.status(500).send({ message: err });
-                    // });
-                }else{
-                    console.log("voting exist");
-                    res.json(story.voting);
-                }
+                Task.findById(req.body.task).exec((err, task) => {
+                    if (err) return res.status(500).send({ message: err });
+
+                    if (!task)
+                        return res.status(404).send({ message: 'Task not found' });
+                    console.log(task)
+                    if(!task.voting || task.voting.length <= 0){
+                        const voting = new Voting({
+                            contributors: [user._id],
+                            status: req.body.status || 1,
+                            story: story._id,
+                            task: req.body.task,
+                            data: req.body.data,                       
+                        });
+        
+                        voting.save((err, voting) => {
+                            if (err) return res.status(500).send({ message: err });
+                
+                            res.json(voting);
+                        });
+                        console.log("voting._id", voting._id);
+                        task.voting.push(voting._id)
+
+                        task.save((err, voting) => {
+                            if (err) return res.status(500).send({ message: err });
+                        });
+                        
+                    }else{
+                        console.log("voting exist");
+                        res.json(story.voting);
+                    }
+                });
+                
                
         });
     });
