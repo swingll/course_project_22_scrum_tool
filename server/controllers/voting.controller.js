@@ -101,7 +101,7 @@ exports.create = (req, res) => {
 exports.edit = (req, res) => {
 
     console.log("voting edit");
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     const _id = req.params.id;
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
@@ -111,7 +111,13 @@ exports.edit = (req, res) => {
                 if (err) return res.status(500).send({ message: err });
                 if (!voting)
                     return res.status(404).send({ message: 'Voting not found' });                
-                
+                let contributors = voting.contributors.slice(1);
+                console.log(contributors, voting.contributors);
+                console.log(contributors.includes(user._id.toString()));
+                if(contributors.length > 0 && contributors.includes(user._id.toString())){
+                    return res.status(200).send({ message: 'You already voted.' });      
+                }
+                // let voting.contributors.filter((item,idx)=> i)
                 voting.status = req.body.status ?? voting.status;
                 voting.contributors.push(user._id);                 
                 voting.date = Date.now();

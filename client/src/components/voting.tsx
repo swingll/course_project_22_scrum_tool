@@ -4,6 +4,7 @@ import Loader from './loader';
 import Moment from 'moment';
 import './Voting/voting.css';
 import { useFetchVotingByTask, useUpdateVoting} from "../states/voting/hooks";
+import {useUser} from "../states/user/hooks";
 
 export function Voting() {
 
@@ -40,6 +41,8 @@ export function Voting() {
   const [fetchVotingByTask] = useFetchVotingByTask();
   const [updateVoting] = useUpdateVoting();
   const [isUpdate, setIsUpdate] = useState<number>(0);
+  const [isVoting, setIsVoting] = useState<boolean>(true);
+  const { profile: { id: userId } } = useUser() // TODO: fetch users
   const [voting, setVoting] = useState<Voting>({
     contributors: [{
     roles: "",
@@ -75,7 +78,7 @@ export function Voting() {
       data.then((res) => {
         console.log(res.data[0]);
         setVoting(res.data[0]);
-        setIsUpdate(1);
+        
       });      
     }
     // setInterval(() => { }, 5000);
@@ -84,8 +87,19 @@ export function Voting() {
   useEffect(() => {
     console.log("Updated voting state:", voting);
     console.log("isUpdate", isUpdate);
+    console.log("users",userId);
     if(isUpdate > 0){
       updateVoting(voting);
+      setIsVoting(false); 
+    }else{
+      let contributors = voting.contributors.slice(1);
+      console.log(contributors, voting.contributors);
+      console.log(contributors.includes(userId.toString()));
+      if(contributors.length > 0 && contributors.includes(userId.toString())){
+          // return res.status(200).send({ message: 'You already voted.' });    
+          console.log('You already voted.'); 
+          setIsVoting(false); 
+      }
     }
     
   }, [voting]);
@@ -94,6 +108,7 @@ export function Voting() {
     const newData = [...voting.data];// Create a copy of the data array
     newData[index].votes += 1; // Update the votes for the selected index
     setVoting({...voting, data: newData }); // Return the updated state object
+    setIsUpdate(1);
   }
 
   return (
@@ -108,7 +123,8 @@ export function Voting() {
             <div className="languageName">
               {v.name}
             </div>
-            <button onClick={() => handleVoting(index)}>Click Here</button>
+            {isVoting &&<button onClick={() => handleVoting(index) }>Click Here</button>}
+            {!isVoting &&<button disabled >Voted</button>}
           </div>
           ))
         }
