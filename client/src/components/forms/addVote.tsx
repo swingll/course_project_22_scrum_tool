@@ -1,16 +1,19 @@
 import * as React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Alert } from 'reactstrap';
 import { useCreateVoting } from '../../states/voting/hooks';
+import { useFetchStories, useStories } from "../../states/story/hooks";
 
 export function AddVote({ story, className }: any) {
   const [modal, setModal] = React.useState<boolean>(false);
-  const [options, setOptions] = React.useState<string[]>(['abc', 'efg']);
+  const [options, setOptions] = React.useState<string[]>(['', '']);
+  const [title, setTitle] = React.useState<string>('');
   const [err, setErr] = React.useState<string>('');
   const [tasks, setTasks] = React.useState<any[]>(story?.tasks ?? []);
   const [selectedTask, setSelectedTask] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [createVoting] = useCreateVoting();
-
+  const [fetchStories] = useFetchStories();
+  
   const onAddOptions = () => {
     setErr('');
     let x = [...options, '']
@@ -29,6 +32,11 @@ export function AddVote({ story, className }: any) {
     let x = [...options]
     x[i] = value
     setOptions(x)
+  }
+
+  const onInputTitle = (value) => {
+    setErr('');
+    setTitle(value)
   }
 
   let taskContent;
@@ -54,6 +62,8 @@ export function AddVote({ story, className }: any) {
 
     if (!selectedTask) { setErr('Task cannot be empty'); return; }
 
+    if (!title) { setErr('Title cannot be empty'); return; }
+
     if (!options || options.length == 0 || options.filter(x => x === '').length > 0) { setErr('Options cannot be empty'); return; }
 
     if (options.length < 2) { setErr('You cannot vote with one option.'); return; }
@@ -63,12 +73,12 @@ export function AddVote({ story, className }: any) {
     createVoting({ story: story._id, task: selectedTask, "data": votes })
       .then((res) => {
         setModal(false);
-        setLoading(true)
+        // setLoading(true)
       }).catch((err) => {
 
-    //   }).finally(() => {
-    //     fetchStories();
-    //     setLoading(false);
+      }).finally(() => {
+        fetchStories();
+        setLoading(false);
       })
   }
 
@@ -88,6 +98,11 @@ export function AddVote({ story, className }: any) {
               {(tasks && tasks && tasks.length) ? <option value="">Choose</option> : <></>}
               {taskContent}
             </Input>
+          </FormGroup>
+
+          <FormGroup>
+            <Label for="title">Titles(*):</Label>
+            <Input type="text" name="title" onChange={(e) => onInputTitle(e.target.value)} />
           </FormGroup>
 
           <FormGroup>

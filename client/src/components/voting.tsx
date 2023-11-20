@@ -22,6 +22,7 @@ export function Voting() {
     }]
     story: any
     task: any
+    title: string
     data: VotingDetails[]
     date: Date
     status: number
@@ -57,6 +58,7 @@ export function Voting() {
     _id: "",
     status: 1,
     date: new Date(),    
+    title:"",
     story: '',
     task: '',
     data: [{
@@ -113,7 +115,7 @@ export function Voting() {
 
   return (
     <div>
-      <h1>Vote Your like!</h1>
+      <h1>{voting.title}</h1>
       <div className="languages">
         {
           voting && voting?.data?.map((v, index) => (<div key={index} className="language">
