@@ -20,6 +20,7 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "kill-port": "^2.0.1"
   }
 }

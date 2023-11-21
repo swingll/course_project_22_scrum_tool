@@ -30,7 +30,7 @@ export function AddStory(props: any) {
         const timeline = {story:_id}
         createTimeline(timeline);
       }).catch((err) => {
-        setErr(err.response.data.message);
+        setErr(err);
       }).finally(() => {
 
         fetchStories().finally(()=> {
