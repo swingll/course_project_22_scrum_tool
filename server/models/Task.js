@@ -52,6 +52,13 @@ const TaskSchema = new Schema({
         required: true
     },
 
+    // voting ID
+    voting: {
+        type: [Schema.Types.ObjectId],
+        ref: 'voting',
+        required: false
+    },
+
     // Created At
     createdAt: {
         type: Date,

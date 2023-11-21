@@ -39,7 +39,7 @@ export function AddStory(props: any) {
         }) // refresh stories
       })
   }
-  const errorMsg = err?<Alert variant={"warning"}>{err}</Alert>:<></>
+  const errorMsg = err?<Alert color="warning">{err}</Alert>:<></>
 
   return (
     <div>

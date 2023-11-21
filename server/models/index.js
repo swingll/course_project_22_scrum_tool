@@ -13,5 +13,6 @@ db.user = require('./User');
 db.timeline = require('./Timeline');
 db.timelinedetail = require('./Timelinedetail');
 db.timelinelink = require('./Timelinelink');
+db.voting = require('./Voting');
 
 module.exports = db;

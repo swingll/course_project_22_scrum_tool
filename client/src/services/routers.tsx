@@ -4,6 +4,7 @@ import About from '../components/about';
 import Dashboard from '../components/dashboard';
 import AuthPath from '../components/auth';
 import Timeline from '../components/timeline';
+import Voting from '../components/voting';
 import { useAxios } from './api';
 import { useSignedIn } from '../states/user/hooks';
 import Loader from '../components/loader';
@@ -31,6 +32,7 @@ function Routers() {
           <Route path='/' element={logged ? <IndexPage /> : <AuthPath />} />          
           <Route path='/story/:id' element={logged ? <Dashboard /> : <AuthPath />} />
           <Route path='/timeline/:id' element={logged ? <Timeline /> : <AuthPath />}/>
+          <Route path='/voting/:id' element={logged ? <Voting /> : <AuthPath />}/>
           <Route path='/about' element={<About />} />
 
           <Route path='*' element={<NotFoundPage />} />

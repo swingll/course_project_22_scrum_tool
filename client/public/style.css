@@ -578,6 +578,11 @@ li .active:before {
     }
 }
 
+.input-icon-right {
+    position: absolute;
+    top: auto;
+    right: 5%;
+}
 
 /*Loader*/
 .loader {

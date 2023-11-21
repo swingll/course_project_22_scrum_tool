@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { TaskInfo } from "./taskInfo";
 import { StoryMember } from './forms/StoryMember';
+import { AddVote } from './forms/addVote';
 
 import { Simulate } from "react-dom/test-utils";
 import load = Simulate.load;
@@ -38,6 +39,7 @@ export function Story({ story, tasks, loading, setLoading }: any) {
     }
 
     let membersButton = <StoryMember story={story} /> // TODO: permission control
+    let votingButton = <AddVote story={story} /> // TODO: permission control
     let deleteButton = deletePermission ? (<Button variant={"secondary"} onClick={confirmDelete}>Delete Story</Button>) : <></>;
     let errMsg = err ? <Alert>{err}</Alert> : <></>
     return (
@@ -60,6 +62,7 @@ export function Story({ story, tasks, loading, setLoading }: any) {
                 <div className='space'>
                     <h2 className='story'>{story ? story.title : 'Loading...'}</h2>
                     <div className='space'>
+                        {votingButton}
                         {membersButton}
                         {deleteButton}
                     </div>
