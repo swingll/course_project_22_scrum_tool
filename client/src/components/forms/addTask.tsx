@@ -109,7 +109,7 @@ export function AddTask({ storyId, members, status, className, loading, setLoadi
     userContent = <option value=''>Loading...</option>
   else {
     userContent = members.map((user: any, index: number) => (
-      <option key={index} value={user._id}>{user.username}</option>
+      user && <option key={index} value={user._id}>{user.username}</option>
     ))
   }
 

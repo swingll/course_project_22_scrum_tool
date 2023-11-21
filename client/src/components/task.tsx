@@ -94,6 +94,9 @@ export function Task({ tasks, filter, loading: loadingOver, setLoading: setLoadi
                 </span>
               </div>
               <div className={task.color} />
+              {task.voting && task.voting.length > 0 && <span className="task-details"> <a rel="noopener noreferrer" target="_blank" href={"/voting/" + task._id}><li><i className="fas fa-code-branch" /><span className="mainMenuText">Voting</span></li></a></span>}
+              
+             
               <ModalExampleDimmer propContent={task} classType="btnDashboard" />
             </li>
           )

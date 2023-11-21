@@ -28,7 +28,7 @@ export function Dashboard() {
   const [fetchStories] = useFetchStories();
   const [fetchUsers] = useFetchUsers();
   const { stories, count } = useStories();
-
+  const prevStoriesRef = useRef(stories)
   const addButtonShow = useAuthorize("story", "C")
   const init = useRef(false)
   React.useEffect(() => {
@@ -45,7 +45,7 @@ export function Dashboard() {
         fetchStories();
         fetchUsers();
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     }
 
@@ -53,34 +53,49 @@ export function Dashboard() {
   }, []);
 
   React.useEffect(() => {
-    if (!stories || count === 0) return;
-    if (futureId !== id) {
-      navigate(`/story/${futureId}`)
+    if (prevStoriesRef.current && JSON.stringify(prevStoriesRef.current) !== JSON.stringify(stories)) {
+      // console.log(prevStoriesRef.current === stories)
+      if (!stories || count === 0 || stories.length == 0) {
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return
+      }
+      if (futureId !== id) {
+        // console.log("?")
+        navigate(`/story/${futureId}`)
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return
+      }
+      const s = stories.find((story: any) => story._id === id);
+
+      if (!s) {
+        navigate(`/story/${stories[0]._id}`);
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return;
+      }
+      setStory(s);
+
+      const {tasks: _tasks} = s;
+
+      if (!_tasks) {
+        // navigate('/notfound');
+        setLoading(false)
+        prevStoriesRef.current = stories
+        return;
+      }
+
+      setTasks(_tasks);
       setLoading(false)
-      return
-    }
-    const s = stories.find((story: any) => story._id === id);
-    if (!s) {
-      navigate(`/story/${stories[0]._id}`);
+      prevStoriesRef.current = stories
+    }else{
       setLoading(false)
-      return;
     }
 
-    setStory(s);
-
-    const { tasks: _tasks } = s;
-
-    if (!_tasks) {
-      // navigate('/notfound');
-      setLoading(false)
-      return;
-    }
-
-    setTasks(_tasks);
-    setLoading(false)
   }, [stories])
   React.useEffect(() => {
-    if (!stories || count === 0) return;
+    if (!stories || count === 0 || stories.length == 0) return;
 
     const s = stories.find((story: any) => story._id === id);
     if (!s) {
@@ -139,9 +154,10 @@ export function Dashboard() {
       </div>
       <div className="con">
         <Header story= {story}/>
-        <aside>
-          {story && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
-        </aside>
+        <aside className="stories">
+          {story && !(!stories || count === 0 || stories.length == 0) && <Story story={story} tasks={tasks ?? []} setLoading={setLoading} loading={loading} />}
+          {(!stories || count === 0 || stories.length == 0) && <div className="no_story">{addButtonShow?<>create a story first</>:<>no story here</>}</div>}
+          </aside>
       </div>
     </div>
   )

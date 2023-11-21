@@ -39,6 +39,7 @@ const authRouter = require('./routes/auth');
 const timelinesRouter = require('./routes/timeline');
 const timelinedetailsRouter = require('./routes/timelinedetail');
 const timelinelinksRouter = require('./routes/timelinelink');
+const votingRouter = require('./routes/voting');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -48,6 +49,7 @@ app.use('/auth', authRouter);
 app.use('/timelines', timelinesRouter);
 app.use('/timelinedetails', timelinedetailsRouter);
 app.use('/timelinelinks', timelinelinksRouter);
+app.use('/votings', votingRouter);
 
 // db
 const db = require('./helpers/db')();

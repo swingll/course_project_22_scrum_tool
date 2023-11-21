@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --outputFile test-results.json --json --no-colors",
     "start": "nodemon ./bin/www",
     "swagger-autogen": "node ./swagger.js"
   },

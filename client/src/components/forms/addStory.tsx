@@ -3,14 +3,14 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, La
 import { useCreateStory, useFetchStories } from "../../states/story/hooks";
 import {useNavigate} from "react-router-dom";
 import {useRef} from "react";
-
+import { useCreateTimeline } from '../../states/timeline/hooks';
 
 export function AddStory(props: any) {
   const [modal, setModal] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>('');
   const [err, setErr] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const [createTimeline] = useCreateTimeline();
   const [fetchStories] = useFetchStories();
   const [createStories] = useCreateStory();
   const navigateRef = useRef((_)=>{})
@@ -27,8 +27,10 @@ export function AddStory(props: any) {
         setModal(false);
         setTitle('');
         _id = data._id
+        const timeline = {story:_id}
+        createTimeline(timeline);
       }).catch((err) => {
-        setErr(err.response.data.message);
+        setErr(err);
       }).finally(() => {
 
         fetchStories().finally(()=> {
@@ -37,7 +39,7 @@ export function AddStory(props: any) {
         }) // refresh stories
       })
   }
-  const errorMsg = err?<Alert variant={"warning"}>{err}</Alert>:<></>
+  const errorMsg = err?<Alert color="warning">{err}</Alert>:<></>
 
   return (
     <div>
