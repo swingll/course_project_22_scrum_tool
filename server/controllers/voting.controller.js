@@ -7,7 +7,6 @@ const Story = db.story;
 const Task = db.task;
 
 exports.voting = (req, res) => {
-    console.log("do this");
     const _id = req.params.id;
 
     Voting.findById(_id).populate(['contributors', 'story', 'task']).exec((err, voting) => {
@@ -21,7 +20,6 @@ exports.voting = (req, res) => {
 };
 
 exports.votingByTask = (req, res) => {
-    console.log("do this votingByTask");
     const id = req.params.id;
 
     Voting.find({task:id}).exec(function (err, voting) {
@@ -29,7 +27,6 @@ exports.votingByTask = (req, res) => {
         if (!voting)
             return res.status(404).send({ message: 'voting not found' });
 
-        console.log("voting",voting);
         res.json(voting);
     });  
 };
@@ -45,9 +42,6 @@ exports.votings = (req, res) => {
 exports.create = (req, res) => {
     // if (!req.body.text) return res.status(500).send({ message: 'Text cannot be empty' });
     // if (!req.body.duration) return res.status(500).send({ message: 'Duratoin cannot be empty' });
-    console.log("req.body.story",req.body.story);
-    console.log("req.body.task",req.body.task);
-    console.log("req.body.data",req.body.data);
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
 
@@ -65,7 +59,6 @@ exports.create = (req, res) => {
 
                     if (!task)
                         return res.status(404).send({ message: 'Task not found' });
-                    console.log(task)
                     if(!task.voting || task.voting.length <= 0){
                         const voting = new Voting({
                             contributors: [user._id],
@@ -80,7 +73,6 @@ exports.create = (req, res) => {
                 
                             res.json(voting);
                         });
-                        console.log("voting._id", voting._id);
                         task.voting.push(voting._id)
 
                         task.save((err, voting) => {
@@ -88,7 +80,6 @@ exports.create = (req, res) => {
                         });
                         
                     }else{
-                        console.log("voting exist");
                         res.json(story.voting);
                     }
                 });
@@ -100,8 +91,6 @@ exports.create = (req, res) => {
 
 exports.edit = (req, res) => {
 
-    console.log("voting edit");
-    // console.log("req.body", req.body);
     const _id = req.params.id;
     User.findById(req.userId).exec((err, user) => {
         if (err) return res.status(500).send({ message: err });
@@ -112,8 +101,6 @@ exports.edit = (req, res) => {
                 if (!voting)
                     return res.status(404).send({ message: 'Voting not found' });                
                 let contributors = voting.contributors.slice(1);
-                console.log(contributors, voting.contributors);
-                console.log(contributors.includes(user._id.toString()));
                 if(contributors.length > 0 && contributors.includes(user._id.toString())){
                     return res.status(200).send({ message: 'You already voted.' });      
                 }
@@ -122,7 +109,6 @@ exports.edit = (req, res) => {
                 voting.contributors.push(user._id);                 
                 voting.date = Date.now();
                 voting.data = req.body.data ?? voting.data;
-                console.log(voting);
                 voting.save((err, voting) => {
                     if (err) return res.status(500).send({ message: err });
         

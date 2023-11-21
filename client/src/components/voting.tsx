@@ -71,14 +71,12 @@ export function Voting() {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
-    console.log("id:::" + id)
     if (!id) {
       navigate('/notfound');
       return;
     } else {
       const data = fetchVotingByTask(id);
       data.then((res) => {
-        console.log(res.data[0]);
         setVoting(res.data[0]);
         
       });      
@@ -87,19 +85,12 @@ export function Voting() {
   }, [id]);
 
   useEffect(() => {
-    console.log("Updated voting state:", voting);
-    console.log("isUpdate", isUpdate);
-    console.log("users",userId);
     if(isUpdate > 0){
       updateVoting(voting);
       setIsVoting(false); 
     }else{
       let contributors = voting.contributors.slice(1);
-      console.log(contributors, voting.contributors);
-      console.log(contributors.includes(userId.toString()));
       if(contributors.length > 0 && contributors.includes(userId.toString())){
-          // return res.status(200).send({ message: 'You already voted.' });    
-          console.log('You already voted.'); 
           setIsVoting(false); 
       }
     }
