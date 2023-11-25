@@ -143,7 +143,7 @@ function AuthPath() {
                 <div className={contentClass}>
 
                     <div className="banner">
-                        Jira
+                    Scrum Tool
                     </div>
                     {/*<Alert>haha</Alert>*/}
 
