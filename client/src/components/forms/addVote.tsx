@@ -14,6 +14,10 @@ export function AddVote({ story, className }: any) {
   const [createVoting] = useCreateVoting();
   const [fetchStories] = useFetchStories();
   
+  React.useEffect(() => {
+    setTasks(story?.tasks);
+  }, [])
+
   const onAddOptions = () => {
     setErr('');
     let x = [...options, '']
@@ -87,7 +91,7 @@ export function AddVote({ story, className }: any) {
       <Button variant={"secondary"} onClick={() => setModal(!modal)}>Add Vote</Button>
       <Modal isOpen={modal} toggle={() => setModal(!modal)} className={className}>
         <ModalHeader toggle={() => setModal(!modal)}>
-          <i className="fas fa-check-to-slot"></i><span>{`Vote of ${story?.name}`}</span>
+          <i className="fas fa-check-to-slot"></i><span>{`Vote of ${story?.title}`}</span>
         </ModalHeader>
         <ModalBody>
           <Label>Story:&nbsp;{story?.title}</Label>

@@ -201,15 +201,12 @@ export function Timeline() {
   return (
 
     <div>
-      <div className="zoom-bar">
-        <Toolbar zoom={currentZoom} onZoomChange={handleZoomChange} />
-      </div>
+      
       <div className="gantt-container">
         {/* <Gantt tasks={data} zoom={currentZoom} onDataUpdated={logDataUpdate} /> */}
         {timelineDatas && <Gantt tasks={timelineDatas} zoom={currentZoom} onDataUpdated={logDataUpdate} />}
       </div>
-      <MessageArea messages={messages} />
-      {/* <>{console.log({ messages })}</> */}
+    
     </div>
 
 
