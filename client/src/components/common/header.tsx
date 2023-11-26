@@ -26,6 +26,7 @@ function Header({story}:any) {
   }
 
   useEffect(() => {
+    console.log("story",story);
     if(!story?.timeline && story?._id){
         console.log("timeline is null.");
         fetchStory(story?._id).then((res) => {
@@ -43,14 +44,13 @@ function Header({story}:any) {
           setErr(err.response.data.message);
         })
     }else{
-      setTimelineId(story?.timeline?._id ?? -1);
+      console.log("timeline is not null.");
+      setTimelineId(story?.timeline ?? -1);
+      
     }
     
   }, [story]);
 
-  useEffect(() => {
-
-  })
   return (
     <header>
       <div className="container containerDashboard">
